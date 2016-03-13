@@ -234,3 +234,10 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+
+# rider ide
+*.log
+node_modules/
+.DS_Store
+.idea/
+
