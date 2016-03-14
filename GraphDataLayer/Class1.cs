@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 namespace GraphDataLayer
 {
     public class Class1
-    {
+    {//куку
     }
 }
