@@ -6,10 +6,12 @@ namespace GraphDataLayer
     class GraphTests
     {
         [Test]
-        public void SomeTest()
+        public void TestOneVerticeGraph()
         {
-            var graph = new GraphMock();
-            graph.HasArrow(1, 5);
+            var graph = new AdjacencyListGraph();
+            
+            graph.AddVertice();
+            Assert.That(graph.VerticesCount == 1);
         }
     }
 }
