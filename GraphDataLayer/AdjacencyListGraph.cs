@@ -2,7 +2,7 @@
 
 namespace GraphDataLayer
 {
-    public class AdjacencyListGraph : IGraph
+    public class AdjacencyListGraph
     {
         public AdjacencyListGraph() : this(2)
         {
