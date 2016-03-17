@@ -1,9 +1,10 @@
-﻿using NUnit.Framework;
+﻿using GraphDataLayer;
+using NUnit.Framework;
 
-namespace GraphDataLayer
+namespace Tests.DataLayerTests
 {
     [TestFixture]
-    class GraphTests
+    internal class GraphTests
     {
         [Test]
         public void TestOneVerticeGraph()
