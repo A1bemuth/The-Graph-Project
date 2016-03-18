@@ -48,6 +48,8 @@
     <Compile Include="AdjacencyListGraph.cs" />
     <Compile Include="ArrayExtensions.cs" />
     <Compile Include="GraphMock.cs" />
+    <Compile Include="GraphProperties.cs" />
+    <Compile Include="GraphStructure.cs" />
     <Compile Include="IGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

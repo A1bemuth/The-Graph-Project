@@ -12,7 +12,7 @@ namespace GraphDataLayer
 
         List<int> GetNeighbours(int vertice);
 
-        byte[][] GetIncidenceMatrix();
+        short[][] GetIncidenceMatrix();
 
         bool HasArrow(int from, int to);
 

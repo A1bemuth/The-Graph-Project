@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GraphDataLayer
 {
-    class GraphMock : IGraph
+    class GraphMock 
     {
         public void AddArrow(int @from, int to)
         {
