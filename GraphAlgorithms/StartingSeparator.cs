@@ -7,7 +7,7 @@ namespace GraphAlgorithms
     {
         private readonly int[][] incedenceMatrix;
         private readonly bool[] visitedVertex;
-        private readonly List<int> currentPath;
+        private List<int> currentPath;
 
         internal List<int[]> Paths { get; }
         internal List<int[]> Segments { get; }
@@ -23,7 +23,10 @@ namespace GraphAlgorithms
 
         internal void Separate()
         {
-            InspectVertex(0);
+            while (visitedVertex.Any(v => !v))
+            {
+                InspectVertex(visitedVertex.IndexesOf(v => !v).First());
+            }
         }
 
         private void InspectVertex(int vertexIndex)
@@ -31,7 +34,18 @@ namespace GraphAlgorithms
             currentPath.Add(vertexIndex);
             if (visitedVertex[vertexIndex])
             {
-                Paths.Add(currentPath.ToArray());
+                var startPathIndex = currentPath
+                    .IndexOf((v, index) => v == vertexIndex && index < currentPath.Count - 1);
+                if (startPathIndex == -1)
+                {
+                    Segments.Add(currentPath.ToArray());
+                }
+                else
+                {
+                    var cycle = currentPath.Skip(startPathIndex);
+                    Paths.Add(cycle.ToArray());
+                }
+                currentPath = new List<int>();
             }
             else
             {

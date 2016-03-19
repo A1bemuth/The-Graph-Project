@@ -14,7 +14,7 @@ namespace GraphAlgorithms.Tests
             cyclesFinder = new CyclesFinder();
         }
 
-        // 1 → 2
+        // 0 → 1
         [Test]
         public void TwoVertexGraphWithoutCyclesTest()
         {
@@ -29,7 +29,7 @@ namespace GraphAlgorithms.Tests
             Assert.That(result.Count(), Is.EqualTo(0));
         }
 
-        // 1 → 2 → 3
+        // 0 → 1 → 2
         [Test]
         public void ThreeVertexGraphWithoutCyclesTest()
         {
@@ -45,9 +45,9 @@ namespace GraphAlgorithms.Tests
             Assert.That(result.Count(), Is.EqualTo(0));
         }
 
-        // 1 → 2
+        // 0 → 1
         // ↑   ↓
-        //  ---3
+        //  ---2
         [Test]
         public void ThreeVertexGraphWithCycleTest()
         {
@@ -64,7 +64,7 @@ namespace GraphAlgorithms.Tests
             CollectionAssert.AreEqual(new[] {3, 2, 1}, result[0]);
         }
 
-        // 1 ↔ 2
+        // 0 ↔ 1
         [Test]
         public void TwoVertexGraphWithCycleTest()
         {
@@ -80,9 +80,9 @@ namespace GraphAlgorithms.Tests
             CollectionAssert.AreEqual(new[] {2, 1}, result[0]);
         }
 
-        // 1 → 2
+        // 0 → 1
         //     ↕
-        //     3
+        //     2
         [Test]
         public void ThreeVertexGraphWithCycleBetweenSecondAndThirdTest()
         {
@@ -99,9 +99,9 @@ namespace GraphAlgorithms.Tests
             CollectionAssert.AreEqual(new[] {3, 2}, result[0]);
         }
 
-        // 1 ↔ 2
+        // 0 ↔ 1
         //     ↓
-        //     3
+        //     2
         [Test]
         public void ThreeVertexGraphWithCycleBetweenFirstAndSecondTest()
         {
