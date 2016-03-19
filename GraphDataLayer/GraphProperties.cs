@@ -17,7 +17,7 @@ namespace GraphDataLayer
         /// <summary>
         ///     Возвращает плотность графа
         /// </summary>
-        public static double GetDensity(this GraphStructure graph)
+        public static double GetDensity(this IGraph graph)
         {
             double density = (double)graph.EdgesCount / (graph.VerticesCount * (graph.VerticesCount - 1));
             if (!graph.IsDirected())

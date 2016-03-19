@@ -4,6 +4,10 @@ namespace GraphDataLayer
 {
     public interface IGraph
     {
+        int VerticesCount { get; }
+
+        int EdgesCount { get; }
+
         void AddArrow(int from, int to);
 
         void AddVertice();
