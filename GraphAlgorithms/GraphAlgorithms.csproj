@@ -45,8 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CyclesFinder.cs" />
+    <Compile Include="StartingSeparator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\CyclesFinderTester.cs" />
+    <Compile Include="Tests\StartingSeparatorTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
