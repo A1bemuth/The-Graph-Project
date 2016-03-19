@@ -8,7 +8,6 @@ namespace GraphAlgorithms.Tests
     public class LinqExtensionTester
     {
         [Test]
-
         public void IndexesForColumnThrowArgumentNullTest()
         {
             string[][] matrix = null;
@@ -97,6 +96,37 @@ namespace GraphAlgorithms.Tests
             var result = matrix.IndexesForColumn(1, v => v == 1).ToArray();
 
             Assert.That(result.Length, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void IndexesOfThrowArgumentNullTest()
+        {
+            int[] firstItems = null;
+            var secondItems = new int[2];
+
+            Assert.Throws<ArgumentNullException>(() => firstItems.IndexesOf(v => true).ToArray());
+            Assert.Throws<ArgumentNullException>(() => secondItems.IndexesOf(null).ToArray());
+        }
+
+        [Test]
+        public void IndexOfReturnEmptyCollectionTest()
+        {
+            var items = new[] {1, 1, 1, 1};
+
+            var result = items.IndexesOf(v => v == 2).ToArray();
+
+            Assert.That(result.Length, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void IndexOfReturnSomeValuesTest()
+        {
+            var items = new[] {1, 2, 3, 4};
+
+            var result = items.IndexesOf(v => (v & 1) == 0).ToArray();
+
+            Assert.That(result.Length, Is.EqualTo(2));
+            CollectionAssert.AreEqual(new[] {1, 3}, result);
         }
     }
 }
