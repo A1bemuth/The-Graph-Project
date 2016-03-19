@@ -6,8 +6,9 @@ namespace GraphAlgorithms
     internal class StartingSeparator
     {
         private readonly int[][] incedenceMatrix;
-        private readonly bool[] visitedVertex;
+        private readonly bool[] visitedVertices;
         private readonly List<int> currentSequence;
+        private int currentVertex;
 
         internal List<int[]> Cycles { get; }
         internal List<int[]> Segments { get; }
@@ -15,7 +16,7 @@ namespace GraphAlgorithms
         internal StartingSeparator(int[][] incedenceMatrix)
         {
             this.incedenceMatrix = incedenceMatrix;
-            visitedVertex = new bool[incedenceMatrix.Length];
+            visitedVertices = new bool[incedenceMatrix.Length];
             Cycles = new List<int[]>();
             Segments = new List<int[]>();
             currentSequence = new List<int>();
@@ -23,42 +24,92 @@ namespace GraphAlgorithms
 
         internal void Separate()
         {
-            while (visitedVertex.Any(v => !v))
+            while (ThereAreNotVisitedVertices())
             {
-                InspectVertex(visitedVertex.IndexesOf(v => !v).First());
+                currentVertex = visitedVertices.IndexesOf(v => !v).First();
+                InspectVertex();
             }
         }
 
-        private void InspectVertex(int vertexIndex)
+        private bool ThereAreNotVisitedVertices()
         {
-            if (visitedVertex[vertexIndex])
+            return visitedVertices.Any(v => !v);
+        }
+
+        private void InspectVertex()
+        {
+            if (IsCurrentVertexVisited())
             {
-                var startPathIndex = currentSequence
-                    .IndexOf((v, index) => v == vertexIndex && index < currentSequence.Count - 1);
-                if (startPathIndex == -1)
-                {
-                    var segment = new List<int>(currentSequence) {vertexIndex};
-                    Segments.Add(segment.ToArray());
-                }
-                else
-                {
-                    var cycle = currentSequence.Skip(startPathIndex);
-                    Cycles.Add(cycle.ToArray());
-                }
+                DefineCycleOrSegment();
             }
             else
             {
-                visitedVertex[vertexIndex] = true;
-                currentSequence.Add(vertexIndex);
-                var outgoingArcs = incedenceMatrix[vertexIndex].IndexesOf(v => v == 1);
-                foreach (var outgoingArc in outgoingArcs)
-                {
-                    var nextVertex = incedenceMatrix.IndexInColumnOf(outgoingArc, v => v == -1);
-                    InspectVertex(nextVertex);
-                }
-                currentSequence.RemoveAt(currentSequence.Count - 1);
+                JumpToNextVertex();
             }
+        }
 
+        private void DefineCycleOrSegment()
+        {
+            var previousVertexIndex = FindPreviousIndexOf();
+            if (IsCycle(previousVertexIndex))
+            {
+                var cycle = currentSequence.Skip(previousVertexIndex);
+                Cycles.Add(cycle.ToArray());
+            }
+            else
+            {
+                var segment = new List<int>(currentSequence) { currentVertex };
+                Segments.Add(segment.ToArray());
+            }
+        }
+
+        private void JumpToNextVertex()
+        {
+            IncludeInSequence();
+            foreach (var arcIndex in FindOutgoingArcIndexes())
+            {
+                currentVertex = FindeNextVertex(arcIndex);
+                InspectVertex();
+            }
+            ExcludeLastVertexFromSequence();
+
+        }
+
+        private bool IsCurrentVertexVisited()
+        {
+            return visitedVertices[currentVertex];
+        }
+
+        private int FindPreviousIndexOf()
+        {
+            return currentSequence
+                .IndexOf((v, index) => v == currentVertex && index < currentSequence.Count - 1);
+        }
+
+        private bool IsCycle(int previousVertexIndex)
+        {
+            return previousVertexIndex != -1;
+        }
+
+        private void IncludeInSequence()
+        {
+            visitedVertices[currentVertex] = true;
+            currentSequence.Add(currentVertex);
+        }
+
+        private IEnumerable<int> FindOutgoingArcIndexes()
+        {
+            return incedenceMatrix[currentVertex].IndexesOf(v => v == 1);
+        }
+
+        private int FindeNextVertex(int outgoingArcIndex)
+        {
+            return incedenceMatrix.IndexInColumnOf(outgoingArcIndex, v => v == -1);
+        }
+
+        private void ExcludeLastVertexFromSequence()
+        {
+            currentSequence.RemoveAt(currentSequence.Count - 1);
         }
     }
 }
