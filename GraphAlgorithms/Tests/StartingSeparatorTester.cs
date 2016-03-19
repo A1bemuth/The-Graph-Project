@@ -23,5 +23,22 @@ namespace GraphAlgorithms.Tests
             Assert.That(separator.Paths.Count(), Is.EqualTo(0));
             Assert.That(separator.Segments.Count(), Is.EqualTo(0));
         }
+
+        [Test]
+        public void SeparateTwoVertexGraphWithCycles()
+        {
+            var incedenceMatrix = new[]
+            {
+                new[] {1, -1},
+                new[] {-1, 1}
+            };
+            var separator = new StartingSeparator(incedenceMatrix);
+
+            separator.Separate();
+
+            Assert.That(separator.Segments.Count(), Is.EqualTo(0));
+            Assert.That(separator.Paths.Count(), Is.EqualTo(1));
+            CollectionAssert.AreEqual(new[] {0, 1, 0}, separator.Paths.ToList());
+        }
     }
 }

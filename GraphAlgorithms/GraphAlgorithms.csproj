@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CyclesFinder.cs" />
+    <Compile Include="LinqExtension.cs" />
+    <Compile Include="Tests\LinqExtensionTester.cs" />
     <Compile Include="StartingSeparator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\CyclesFinderTester.cs" />
