@@ -44,13 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CyclesFinder.cs" />
+    <Compile Include="CyclesSearcher.cs" />
     <Compile Include="LinqExtension.cs" />
     <Compile Include="Tests\LinqExtensionTester.cs" />
-    <Compile Include="StartingSeparator.cs" />
+    <Compile Include="SearchCyclesIterator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\CyclesFinderTester.cs" />
-    <Compile Include="Tests\StartingSeparatorTester.cs" />
+    <Compile Include="Tests\CyclesSearcherTester.cs" />
+    <Compile Include="Tests\SearchCyclesIteratorTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace GraphAlgorithms
 {
-    internal class StartingSeparator
+    internal class SearchCyclesIterator
     {
-        private readonly int[][] incedenceMatrix;
+        private readonly short[][] incedenceMatrix;
         private readonly bool[] visitedVertices;
         private readonly List<int> currentSequence;
         private int currentVertex;
@@ -13,7 +13,7 @@ namespace GraphAlgorithms
         internal List<int[]> Cycles { get; }
         internal List<int[]> Segments { get; }
 
-        internal StartingSeparator(int[][] incedenceMatrix)
+        internal SearchCyclesIterator(short[][] incedenceMatrix)
         {
             this.incedenceMatrix = incedenceMatrix;
             visitedVertices = new bool[incedenceMatrix.Length];
@@ -22,7 +22,7 @@ namespace GraphAlgorithms
             currentSequence = new List<int>();
         }
 
-        internal void Separate()
+        internal void Iterate()
         {
             while (ThereAreNotVisitedVertices())
             {
@@ -46,6 +46,11 @@ namespace GraphAlgorithms
             {
                 JumpToNextVertex();
             }
+        }
+
+        private bool IsCurrentVertexVisited()
+        {
+            return visitedVertices[currentVertex];
         }
 
         private void DefineCycleOrSegment()
@@ -73,11 +78,6 @@ namespace GraphAlgorithms
             }
             ExcludeLastVertexFromSequence();
 
-        }
-
-        private bool IsCurrentVertexVisited()
-        {
-            return visitedVertices[currentVertex];
         }
 
         private int FindPreviousIndexOf()
