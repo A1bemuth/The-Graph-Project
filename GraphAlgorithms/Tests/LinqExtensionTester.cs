@@ -8,25 +8,25 @@ namespace GraphAlgorithms.Tests
     public class LinqExtensionTester
     {
         [Test]
-        public void IndexesForColumnThrowArgumentNullTest()
+        public void IndexesInColumnThrowArgumentNullTest()
         {
             string[][] matrix = null;
-            Assert.Throws<ArgumentNullException>(() => matrix.IndexesForColumn(0, v => true).ToArray());
+            Assert.Throws<ArgumentNullException>(() => matrix.IndexesInColumn(0, v => true).ToArray());
         }
 
         [Test]
-        public void IndexesForColumnThrowDimensionExeptionTest()
+        public void IndexesInColumnThrowDimensionExeptionTest()
         {
             var emptyMatrix = new[]
             {
                 new int[0]
             };
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => emptyMatrix.IndexesForColumn(0, v => true).ToArray());
+            Assert.Throws<ArgumentOutOfRangeException>(() => emptyMatrix.IndexesInColumn(0, v => true).ToArray());
         }
 
         [Test]
-        public void IndexesForColumnThrowIndexExeptionForMatrixTest()
+        public void IndexesInColumnThrowIndexExeptionForMatrixTest()
         {
             var matrix = new[]
             {
@@ -34,25 +34,25 @@ namespace GraphAlgorithms.Tests
                 new[] {2, 3}
             };
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.IndexesForColumn(2, v => true).ToArray());
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.IndexesInColumn(2, v => true).ToArray());
         }
 
         [Test]
-        public void IndexesForColumnReturnAllIndexesTest()
+        public void IndexesInColumnReturnAllIndexesTest()
         {
             var matrix = new[]
             {
                 new[] {1, 2}
             };
 
-            var result = matrix.IndexesForColumn(0, v => true).ToArray();
+            var result = matrix.IndexesInColumn(0, v => true).ToArray();
 
             Assert.That(result.Length, Is.EqualTo(1));
             CollectionAssert.AreEqual(matrix.Select((v, i) => i), result);
         }
 
         [Test]
-        public void IndexesForColumnReturnSomeValuesFromSecondColumnTest()
+        public void IndexesInColumnReturnSomeValuesFromSecondColumnTest()
         {
             var matrix = new[]
             {
@@ -62,14 +62,14 @@ namespace GraphAlgorithms.Tests
                 new[] {1, 2, 3}
             };
 
-            var result = matrix.IndexesForColumn(2, v => v == 3).ToArray();
+            var result = matrix.IndexesInColumn(2, v => v == 3).ToArray();
 
             Assert.That(result.Length, Is.EqualTo(2));
             CollectionAssert.AreEqual(new[] {0, 3}, result);
         }
 
         [Test]
-        public void IndexesForColumnRealSituationTest()
+        public void IndexesInColumnRealSituationTest()
         {
             var matrix = new[]
             {
@@ -78,14 +78,14 @@ namespace GraphAlgorithms.Tests
                 new[] {0, -1}
             };
 
-            var result = matrix.IndexesForColumn(1, v => v == -1).ToArray();
+            var result = matrix.IndexesInColumn(1, v => v == -1).ToArray();
 
             Assert.That(result.Length, Is.EqualTo(1));
             CollectionAssert.AreEqual(new[] {2}, result);
         }
 
         [Test]
-        public void IndexesForColumnEmptyResult()
+        public void IndexesInColumnEmptyResult()
         {
             var matrix = new[]
             {
@@ -93,7 +93,7 @@ namespace GraphAlgorithms.Tests
                 new[] {1, 2, 3}
             };
 
-            var result = matrix.IndexesForColumn(1, v => v == 1).ToArray();
+            var result = matrix.IndexesInColumn(1, v => v == 1).ToArray();
 
             Assert.That(result.Length, Is.EqualTo(0));
         }

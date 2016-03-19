@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace GraphAlgorithms
@@ -8,10 +7,10 @@ namespace GraphAlgorithms
     {
         private readonly int[][] incedenceMatrix;
         private readonly bool[] visitedVertex;
-        private readonly Stack<int> vertexSquence;
+        private readonly List<int> currentPath;
 
-        internal IEnumerable<int[]> Paths { get; }
-        internal IEnumerable<int[]> Segments { get; }
+        internal List<int[]> Paths { get; }
+        internal List<int[]> Segments { get; }
 
         internal StartingSeparator(int[][] incedenceMatrix)
         {
@@ -19,29 +18,31 @@ namespace GraphAlgorithms
             visitedVertex = new bool[incedenceMatrix.Length];
             Paths = new List<int[]>();
             Segments = new List<int[]>();
-            vertexSquence = new Stack<int>();
+            currentPath = new List<int>();
         }
 
         internal void Separate()
         {
-            vertexSquence.Push(0);
-            while (vertexSquence.Count != 0)
-            {
-                InspectVertex(vertexSquence.Peek());
-            }
+            InspectVertex(0);
         }
 
         private void InspectVertex(int vertexIndex)
         {
-            visitedVertex[vertexIndex] = true;
-            var outgoingArcs = incedenceMatrix[vertexIndex].IndexesOf(v => v == 1);
-            foreach (var outgoingArc in outgoingArcs)
+            currentPath.Add(vertexIndex);
+            if (visitedVertex[vertexIndex])
             {
-                var vartexNeighbors  = incedenceMatrix
-                    .IndexesForColumn(outgoingArc, v => v == -1)
-                    .Reverse();
+                Paths.Add(currentPath.ToArray());
             }
-
+            else
+            {
+                visitedVertex[vertexIndex] = true;
+                var outgoingArcs = incedenceMatrix[vertexIndex].IndexesOf(v => v == 1).Reverse();
+                foreach (var outgoingArc in outgoingArcs)
+                {
+                    var nextVertex = incedenceMatrix.IndexInColumnOf(outgoingArc, v => v == -1);
+                    InspectVertex(nextVertex);
+                }
+            }
         }
     }
 }

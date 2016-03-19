@@ -20,8 +20,8 @@ namespace GraphAlgorithms.Tests
 
             separator.Separate();
 
-            Assert.That(separator.Paths.Count(), Is.EqualTo(0));
-            Assert.That(separator.Segments.Count(), Is.EqualTo(0));
+            Assert.That(separator.Paths.Count, Is.EqualTo(0));
+            Assert.That(separator.Segments.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -36,9 +36,9 @@ namespace GraphAlgorithms.Tests
 
             separator.Separate();
 
-            Assert.That(separator.Segments.Count(), Is.EqualTo(0));
-            Assert.That(separator.Paths.Count(), Is.EqualTo(1));
-            CollectionAssert.AreEqual(new[] {0, 1, 0}, separator.Paths.ToList());
+            Assert.That(separator.Segments.Count, Is.EqualTo(0));
+            Assert.That(separator.Paths.Count, Is.EqualTo(1));
+            CollectionAssert.AreEqual(new[] {0, 1, 0}, separator.Paths[0]);
         }
     }
 }
