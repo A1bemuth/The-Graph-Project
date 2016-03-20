@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CyclesSearcher.cs" />
+    <Compile Include="GraphIterator.cs" />
+    <Compile Include="GraphIteratorEventArgs.cs" />
     <Compile Include="LinqExtension.cs" />
     <Compile Include="SegmentAnalyzer.cs" />
     <Compile Include="Tests\LinqExtensionTester.cs" />

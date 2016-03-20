@@ -1,86 +1,53 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GraphAlgorithms
 {
     public class SegmentAnalyzer
     {
-        private readonly short[][] incedenceMatrix;
-        private readonly bool[] visitedVertices;
-        private List<int> currentSequence;
+        private readonly GraphIterator iterator;
         private readonly List<int[]> Cycles;
-        private int currentVertex;
+        public bool iterationComplete;
 
         internal SegmentAnalyzer(short[][] incedenceMatrix)
         {
-            this.incedenceMatrix = incedenceMatrix;
-            visitedVertices = new bool[incedenceMatrix.Length];
+            iterator = new GraphIterator(incedenceMatrix);
+            iterator.VisitVisitedVertex += DefineCycle;
+            iterator.SequenceEnded += arg => iterationComplete = true;
             Cycles = new List<int[]>();
+        }
+
+        private void DefineCycle(GraphIteratorEventArgs args)
+        {
+            var previousVertexIndex = FindPreviousIndex(args.CurrentSequence, args.CurrentVertex);
+            if (IsCycle(previousVertexIndex))
+            {
+                var cycle = args.CurrentSequence.Skip(previousVertexIndex);
+                Cycles.Add(cycle.ToArray());
+            }
         }
 
         internal IEnumerable<int[]> CheckSegment(int[] segment)
         {
-            currentSequence = new List<int>(segment.Take(segment.Length - 1));
-            foreach (var i in currentSequence)
+            iterator.Iterate(segment);
+            while (!iterationComplete)
             {
-                visitedVertices[i] = true;
+                Task.Delay(TimeSpan.FromSeconds(1)).Wait();
             }
-            currentVertex = segment.Last();
-
-            InspectVertex();
-
             return Cycles;
         }
 
-        private void InspectVertex()
+        private int FindPreviousIndex(List<int> currentSequence, int currentVertex)
         {
-            if (visitedVertices[currentVertex])
-            {
-                var previousVertexIndex = currentSequence
-                    .IndexOf((v, index) => v == currentVertex && index < currentSequence.Count - 1);
-                if (previousVertexIndex != -1)
-                {
-                    var cycle = currentSequence.Skip(previousVertexIndex);
-                    Cycles.Add(cycle.ToArray());
-                }
-            }
-            else
-            {
-                JumpToNextVertex();
-            }
+            return currentSequence
+                .IndexOf((v, index) => v == currentVertex && index < currentSequence.Count - 1);
         }
 
-        private void JumpToNextVertex()
+        private bool IsCycle(int previousVertexIndex)
         {
-            IncludeInSequence();
-            foreach (var arcIndex in FindOutgoingArcIndexes())
-            {
-                currentVertex = FindeNextVertex(arcIndex);
-                InspectVertex();
-            }
-            ExcludeLastVertexFromSequence();
-
-        }
-
-        private void IncludeInSequence()
-        {
-            visitedVertices[currentVertex] = true;
-            currentSequence.Add(currentVertex);
-        }
-
-        private IEnumerable<int> FindOutgoingArcIndexes()
-        {
-            return incedenceMatrix[currentVertex].IndexesOf(v => v == 1);
-        }
-
-        private int FindeNextVertex(int outgoingArcIndex)
-        {
-            return incedenceMatrix.IndexInColumnOf(outgoingArcIndex, v => v == -1);
-        }
-
-        private void ExcludeLastVertexFromSequence()
-        {
-            currentSequence.RemoveAt(currentSequence.Count - 1);
+            return previousVertexIndex != -1;
         }
     }
 }
