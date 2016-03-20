@@ -29,14 +29,9 @@ namespace GraphAlgorithms
             }
         }
 
-        internal IEnumerable<int[]> CheckSegment(int[] segment)
+        private bool IsCycle(int previousVertexIndex)
         {
-            iterator.Iterate(segment);
-            while (!iterationComplete)
-            {
-                Task.Delay(TimeSpan.FromSeconds(1)).Wait();
-            }
-            return Cycles;
+            return previousVertexIndex != -1;
         }
 
         private int FindPreviousIndex(List<int> currentSequence, int currentVertex)
@@ -45,9 +40,11 @@ namespace GraphAlgorithms
                 .IndexOf((v, index) => v == currentVertex && index < currentSequence.Count - 1);
         }
 
-        private bool IsCycle(int previousVertexIndex)
+        internal IEnumerable<int[]> CheckSegment(int[] segment)
         {
-            return previousVertexIndex != -1;
+            iterator.IterateAsync(segment).Wait();
+            return Cycles;
         }
+
     }
 }

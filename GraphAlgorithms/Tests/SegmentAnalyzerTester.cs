@@ -99,11 +99,9 @@ namespace GraphAlgorithms.Tests
                 new short[] {1, 0, 0, 0, 0, -1, 1},
                 new short[] {0, 0, 0, 0, -1, 1, 0}
             };
-            var iterator = new SearchCyclesIterator(incedenceMatrix);
             var analyzer = new SegmentAnalyzer(incedenceMatrix);
-            iterator.Iterate();
 
-            var result = analyzer.CheckSegment(iterator.Segments[0]).ToArray();
+            var result = analyzer.CheckSegment(new[] { 0, 4, 3, 1 }).ToArray();
 
             Assert.That(result.Length, Is.EqualTo(2));
             CollectionAssert.AreEqual(new[] {1, 2}, result[0]);

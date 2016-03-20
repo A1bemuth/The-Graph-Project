@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GraphAlgorithms
 {
@@ -22,14 +23,18 @@ namespace GraphAlgorithms
             currentSequence = new List<int>();
         }
 
-        internal void Iterate(int startVertex)
+        internal Task<bool[]> IterateAsync(int startVertex)
         {
             currentVertex = startVertex;
-            InspectVertex();
-            OnSequenceEnded();
+            return Task.Factory.StartNew(() =>
+            {
+                InspectVertex();
+                OnSequenceEnded();
+                return visitedVertices;
+            });
         }
 
-        internal void Iterate(int[] startSequence)
+        internal Task<bool[]> IterateAsync(int[] startSequence)
         {
             currentSequence.AddRange(startSequence.Take(startSequence.Length - 1));
             foreach (var i in currentSequence)
@@ -38,8 +43,12 @@ namespace GraphAlgorithms
             }
             currentVertex = startSequence.Last();
 
-            InspectVertex();
-            OnSequenceEnded();
+            return Task.Factory.StartNew(() =>
+            {
+                InspectVertex();
+                OnSequenceEnded();
+                return visitedVertices;
+            });
         }
 
         private void InspectVertex()
@@ -69,7 +78,6 @@ namespace GraphAlgorithms
                 InspectVertex();
             }
             ExcludeLastVertexFromSequence();
-
         }
 
         private void IncludeInSequence()
