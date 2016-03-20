@@ -60,19 +60,9 @@ namespace GraphAlgorithms
                 .IndexOf((v, index) => v == currentVertex && index < currentSequence.Count - 1);
         }
 
-        private bool ThereAreNotVisitedVertices(bool[] visitedVertices)
-        {
-            return visitedVertices.Any(v => !v);
-        }
-
         public void FindCycles()
         {
-            var visitedVertices = new[] {false};
-            while (ThereAreNotVisitedVertices(visitedVertices))
-            {
-                var startIndex = visitedVertices.IndexesOf(v => !v).First();
-                visitedVertices = iterator.IterateAsync(startIndex).Result;
-            }
+            iterator.IterateAllGraph();
         }
 
     }

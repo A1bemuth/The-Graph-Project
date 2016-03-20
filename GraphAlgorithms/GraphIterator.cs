@@ -23,32 +23,19 @@ namespace GraphAlgorithms
             currentSequence = new List<int>();
         }
 
-        internal Task<bool[]> IterateAsync(int startVertex)
+        internal void IterateAllGraph()
         {
-            currentVertex = startVertex;
-            return Task.Factory.StartNew(() =>
+            while (ThereAreNotVisitedVertices())
             {
+                currentVertex = visitedVertices.IndexesOf(v => !v).First();
                 InspectVertex();
-                OnSequenceEnded();
-                return visitedVertices;
-            });
+            }
+            OnSequenceEnded();
         }
 
-        internal Task<bool[]> IterateAsync(int[] startSequence)
+        private bool ThereAreNotVisitedVertices()
         {
-            currentSequence.AddRange(startSequence.Take(startSequence.Length - 1));
-            foreach (var i in currentSequence)
-            {
-                visitedVertices[i] = true;
-            }
-            currentVertex = startSequence.Last();
-
-            return Task.Factory.StartNew(() =>
-            {
-                InspectVertex();
-                OnSequenceEnded();
-                return visitedVertices;
-            });
+            return visitedVertices.Any(v => !v);
         }
 
         private void InspectVertex()
@@ -99,6 +86,20 @@ namespace GraphAlgorithms
         private void ExcludeLastVertexFromSequence()
         {
             currentSequence.RemoveAt(currentSequence.Count - 1);
+        }
+
+        internal void IterateSegment(int[] startSequence)
+        {
+            currentSequence.AddRange(startSequence.Take(startSequence.Length - 1));
+            foreach (var i in currentSequence)
+            {
+                visitedVertices[i] = true;
+            }
+            currentVertex = startSequence.Last();
+
+            InspectVertex();
+            OnSequenceEnded();
+
         }
 
         private void OnVisitVisitedVertex()

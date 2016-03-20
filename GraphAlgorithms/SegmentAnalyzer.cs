@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace GraphAlgorithms
 {
@@ -9,13 +7,11 @@ namespace GraphAlgorithms
     {
         private readonly GraphIterator iterator;
         private readonly List<int[]> Cycles;
-        public bool iterationComplete;
 
         internal SegmentAnalyzer(short[][] incedenceMatrix)
         {
             iterator = new GraphIterator(incedenceMatrix);
             iterator.VisitVisitedVertex += DefineCycle;
-            iterator.SequenceEnded += arg => iterationComplete = true;
             Cycles = new List<int[]>();
         }
 
@@ -42,7 +38,7 @@ namespace GraphAlgorithms
 
         internal IEnumerable<int[]> CheckSegment(int[] segment)
         {
-            iterator.IterateAsync(segment).Wait();
+            iterator.IterateSegment(segment);
             return Cycles;
         }
 
