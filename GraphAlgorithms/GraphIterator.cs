@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace GraphAlgorithms
 {
@@ -14,7 +13,6 @@ namespace GraphAlgorithms
 
         //WTF O_o ??
         internal event Action<GraphIteratorEventArgs> VisitVisitedVertex;
-        internal event Action<GraphIteratorEventArgs> SequenceEnded;
 
         internal GraphIterator(short[][] incedenceMatrix)
         {
@@ -30,7 +28,6 @@ namespace GraphAlgorithms
                 currentVertex = visitedVertices.IndexesOf(v => !v).First();
                 InspectVertex();
             }
-            OnSequenceEnded();
         }
 
         private bool ThereAreNotVisitedVertices()
@@ -55,7 +52,6 @@ namespace GraphAlgorithms
             return visitedVertices[currentVertex];
         }
 
-        
         private void JumpToNextVertex()
         {
             IncludeInSequence();
@@ -98,20 +94,12 @@ namespace GraphAlgorithms
             currentVertex = startSequence.Last();
 
             InspectVertex();
-            OnSequenceEnded();
-
         }
 
         private void OnVisitVisitedVertex()
         {
             var eventArgs = new GraphIteratorEventArgs(visitedVertices, currentSequence, currentVertex);
             VisitVisitedVertex?.Invoke(eventArgs);
-        }
-
-        private void OnSequenceEnded()
-        {
-            var eventArgs = new GraphIteratorEventArgs(visitedVertices, currentSequence, currentVertex);
-            SequenceEnded?.Invoke(eventArgs);
         }
     }
 }

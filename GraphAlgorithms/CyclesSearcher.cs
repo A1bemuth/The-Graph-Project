@@ -64,6 +64,5 @@ namespace GraphAlgorithms
         {
             iterator.IterateAllGraph();
         }
-
     }
 }
