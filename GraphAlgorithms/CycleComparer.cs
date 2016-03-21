@@ -3,12 +3,12 @@ using System.Linq;
 
 namespace GraphAlgorithms
 {
-    public class CycleComparer : IEqualityComparer<IEnumerable<int>>
+    public class CycleComparer
     {
         private int[] firstCycle;
         private int[] secondCycle;
 
-        public bool Equals(IEnumerable<int> first, IEnumerable<int> second)
+        public bool Equals(int[] first, int[] second)
         {
             if (ThereAreNullCollection(first, second))
                 return false;
@@ -49,18 +49,6 @@ namespace GraphAlgorithms
                 j = j == cyclesLength - 1 ? 0 : j + 1;
             }
             return true;
-        }
-
-        public int GetHashCode(IEnumerable<int> obj)
-        {
-            var index = 1;
-            var hash = 0;
-            foreach (var source in obj.OrderBy(x=>x))
-            {
-                hash += source ^ index;
-                index++;
-            }
-            return hash;
         }
     }
 }
