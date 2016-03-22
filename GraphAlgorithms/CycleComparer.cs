@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace GraphAlgorithms
 {
@@ -16,8 +15,8 @@ namespace GraphAlgorithms
             if (ReferenceEquals(first, second))
                 return true;
 
-            firstCycle = first as int[] ?? first.ToArray();
-            secondCycle = second as int[] ?? second.ToArray();
+            firstCycle = first;
+            secondCycle = second;
 
             if (firstCycle.Length != secondCycle.Length)
                 return false;

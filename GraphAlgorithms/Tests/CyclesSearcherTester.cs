@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using NUnit.Framework;
 
 namespace GraphAlgorithms.Tests
 {
@@ -17,11 +18,10 @@ namespace GraphAlgorithms.Tests
                 new short[] {-1, 1},
                 new short[] {0, -1}
             };
-            searcher.IncedenceMatrix = incedenceMatrix;
 
-            searcher.FindCycles();
+            var result = searcher.FindCycles(incedenceMatrix).ToList();
 
-            Assert.That(searcher.Cycles.Count, Is.EqualTo(0));
+            Assert.That(result.Count, Is.EqualTo(0));
         }
 
         // 0 ↔ 1
@@ -33,12 +33,10 @@ namespace GraphAlgorithms.Tests
                 new short[] {1, -1},
                 new short[] {-1, 1}
             };
-            searcher.IncedenceMatrix = incedenceMatrix;
+            var result = searcher.FindCycles(incedenceMatrix).ToList();
 
-            searcher.FindCycles();
-
-            Assert.That(searcher.Cycles.Count, Is.EqualTo(1));
-            CollectionAssert.AreEqual(new[] {0, 1}, searcher.Cycles[0]);
+            Assert.That(result.Count, Is.EqualTo(1));
+            CollectionAssert.AreEqual(new[] {0, 1}, result[0]);
         }
 
         // 0 → 1 ↔ 2
@@ -51,12 +49,11 @@ namespace GraphAlgorithms.Tests
                 new short[] {-1, 1, -1},
                 new short[] {0, -1, 1}
             };
-            searcher.IncedenceMatrix = incedenceMatrix;
 
-            searcher.FindCycles();
+            var result = searcher.FindCycles(incedenceMatrix).ToList();
 
-            Assert.That(searcher.Cycles.Count, Is.EqualTo(1));
-            CollectionAssert.AreEqual(new[] {1, 2}, searcher.Cycles[0]);
+            Assert.That(result.Count, Is.EqualTo(1));
+            CollectionAssert.AreEqual(new[] {1, 2}, result[0]);
         }
 
         // 0 ↔ 1 ← 2
@@ -69,12 +66,10 @@ namespace GraphAlgorithms.Tests
                 new short[] {-1, 1, -1},
                 new short[] {0, 0, 1}
             };
-            searcher.IncedenceMatrix = incedenceMatrix;
+            var result = searcher.FindCycles(incedenceMatrix).ToList();
 
-            searcher.FindCycles();
-
-            Assert.That(searcher.Cycles.Count, Is.EqualTo(1));
-            CollectionAssert.AreEqual(new[] {0, 1}, searcher.Cycles[0]);
+            Assert.That(result.Count, Is.EqualTo(1));
+            CollectionAssert.AreEqual(new[] {0, 1}, result[0]);
         }
 
         // 0 ← 3 ↔ 2
@@ -90,13 +85,12 @@ namespace GraphAlgorithms.Tests
                 new short[] {-1, 0, 1, -1, 0},
                 new short[] {0, 1, -1, 1, 0}
             };
-            searcher.IncedenceMatrix = incedenceMatrix;
 
-            searcher.FindCycles();
+            var result = searcher.FindCycles(incedenceMatrix).ToList();
 
-            Assert.That(searcher.Cycles.Count, Is.EqualTo(2));
-            CollectionAssert.AreEqual(new[] {0, 1, 2, 3}, searcher.Cycles[0]);
-            CollectionAssert.AreEqual(new[] {2, 3}, searcher.Cycles[1]);
+            Assert.That(result.Count, Is.EqualTo(2));
+            CollectionAssert.AreEqual(new[] {0, 1, 2, 3}, result[0]);
+            CollectionAssert.AreEqual(new[] {2, 3}, result[1]);
         }
 
         // 3 ← 0 → 1
@@ -112,12 +106,11 @@ namespace GraphAlgorithms.Tests
                 new short[] {0, -1, 0, 1},
                 new short[] {-1, 0, 0, 0}
             };
-            searcher.IncedenceMatrix = incedenceMatrix;
 
-            searcher.FindCycles();
+            var result = searcher.FindCycles(incedenceMatrix).ToList();
 
-            Assert.That(searcher.Cycles.Count, Is.EqualTo(1));
-            CollectionAssert.AreEqual(new[] {0, 1, 2}, searcher.Cycles[0]);
+            Assert.That(result.Count, Is.EqualTo(1));
+            CollectionAssert.AreEqual(new[] {0, 1, 2}, result[0]);
         }
 
         // 0 ← 1 ↔ 2
@@ -134,14 +127,13 @@ namespace GraphAlgorithms.Tests
                 new short[] {1,   0,  0,  0,  0, -1,  1},
                 new short[] {0,   0,  0,  0, -1,  1,  0}
             };
-            searcher.IncedenceMatrix = incedenceMatrix;
 
-            searcher.FindCycles();
+            var result = searcher.FindCycles(incedenceMatrix).ToList();
 
-            Assert.That(searcher.Cycles.Count, Is.EqualTo(3));
-            CollectionAssert.AreEqual(new[] {2, 1}, searcher.Cycles[0]);
-            CollectionAssert.AreEqual(new[] {0, 4, 3, 2, 1}, searcher.Cycles[1]);
-            CollectionAssert.AreEqual(new[] {0, 4, 3, 1}, searcher.Cycles[2]);
+            Assert.That(result.Count, Is.EqualTo(3));
+            CollectionAssert.AreEqual(new[] {2, 1}, result[0]);
+            CollectionAssert.AreEqual(new[] {0, 4, 3, 2, 1}, result[1]);
+            CollectionAssert.AreEqual(new[] {0, 4, 3, 1}, result[2]);
         }
 
         [Test]
@@ -164,19 +156,18 @@ namespace GraphAlgorithms.Tests
                 new short[] { 0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  1,  0,  0,  0, -1,  0,  0,  0,  0,  0},//11
                 new short[] { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  1,  0, -1,  0,  0,  0,  0,  0,  0},//12
             };
-            searcher.IncedenceMatrix = incedenceMatrix;
 
-            searcher.FindCycles();
+            var result = searcher.FindCycles(incedenceMatrix).ToList();
 
-            Assert.That(searcher.Cycles.Count, Is.EqualTo(8));
-            CollectionAssert.AreEqual(new[] {0, 5, 4, 2}, searcher.Cycles[0]);
-            CollectionAssert.AreEqual(new[] {2, 3}, searcher.Cycles[1]);
-            CollectionAssert.AreEqual(new[] { 5, 4, 2, 3 }, searcher.Cycles[2]);
-            CollectionAssert.AreEqual(new[] { 0, 5, 4, 3, 2 }, searcher.Cycles[3]);
-            CollectionAssert.AreEqual(new[] { 5, 4, 3 }, searcher.Cycles[4]);
-            CollectionAssert.AreEqual(new[] {12, 9, 10}, searcher.Cycles[5]);
-            CollectionAssert.AreEqual(new[] {11, 12, 9}, searcher.Cycles[6]);
-            CollectionAssert.AreEqual(new[] {7, 8}, searcher.Cycles[7]);
+            Assert.That(result.Count, Is.EqualTo(8));
+            CollectionAssert.AreEqual(new[] {0, 5, 4, 2}, result[0]);
+            CollectionAssert.AreEqual(new[] {2, 3}, result[1]);
+            CollectionAssert.AreEqual(new[] { 5, 4, 2, 3 }, result[2]);
+            CollectionAssert.AreEqual(new[] { 0, 5, 4, 3, 2 }, result[3]);
+            CollectionAssert.AreEqual(new[] { 5, 4, 3 }, result[4]);
+            CollectionAssert.AreEqual(new[] {12, 9, 10}, result[5]);
+            CollectionAssert.AreEqual(new[] {11, 12, 9}, result[6]);
+            CollectionAssert.AreEqual(new[] {7, 8}, result[7]);
         }
     }
 }
