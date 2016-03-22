@@ -11,8 +11,7 @@ namespace GraphAlgorithms
         private readonly List<int> currentSequence;
         private int currentVertex;
 
-        //WTF O_o ??
-        internal event Action<GraphIteratorEventArgs> VisitVisitedVertex;
+        internal event Action<GraphIteratorEventArgs> PreviouslyHitVerticeVisited;
 
         internal GraphIterator(short[][] incedenceMatrix)
         {
@@ -99,7 +98,7 @@ namespace GraphAlgorithms
         private void OnVisitVisitedVertex()
         {
             var eventArgs = new GraphIteratorEventArgs(visitedVertices, currentSequence, currentVertex);
-            VisitVisitedVertex?.Invoke(eventArgs);
+            PreviouslyHitVerticeVisited?.Invoke(eventArgs);
         }
     }
 }
