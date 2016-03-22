@@ -49,12 +49,10 @@
     <Compile Include="GraphIterator.cs" />
     <Compile Include="GraphIteratorEventArgs.cs" />
     <Compile Include="LinqExtension.cs" />
-    <Compile Include="SegmentAnalyzer.cs" />
     <Compile Include="Tests\CycleComparerTester.cs" />
     <Compile Include="Tests\LinqExtensionTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\CyclesSearcherTester.cs" />
-    <Compile Include="Tests\SegmentAnalyzerTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

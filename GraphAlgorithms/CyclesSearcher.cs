@@ -6,8 +6,6 @@ namespace GraphAlgorithms
     public class CyclesSearcher
     {
         private short[][] incedenceMatrix;
-        private GraphIterator iterator;
-        private SegmentAnalyzer analyzer;
 
         internal List<int[]> Cycles { get; private set; }
         internal List<int[]> Segments { get; private set; }
@@ -19,8 +17,6 @@ namespace GraphAlgorithms
             set
             {
                 incedenceMatrix = value;
-                iterator = new GraphIterator(value);
-                iterator.VisitVisitedVertex += DefineCycleOrSegment;
                 Cycles = new List<int[]>();
                 Segments = new List<int[]>();
                 NewCycles = new List<int[]>();
@@ -37,11 +33,18 @@ namespace GraphAlgorithms
 
         public CyclesSearcher(short[][] incedenceMatrix) : this()
         {
-            iterator = new GraphIterator(incedenceMatrix);
-            iterator.VisitVisitedVertex += DefineCycleOrSegment;
+            IncedenceMatrix = incedenceMatrix;
         }
 
-        private void DefineCycleOrSegment(GraphIteratorEventArgs args)
+        public void FindCycles()
+        {
+            var startingIterator = new GraphIterator(IncedenceMatrix);
+            startingIterator.VisitVisitedVertex += DefineCycleOrSegmentOnFirstIteration;
+            startingIterator.IterateAllGraph();
+        }
+
+
+        private void DefineCycleOrSegmentOnFirstIteration(GraphIteratorEventArgs args)
         {
             var previousVertexIndex = FindPreviousIndex(args.CurrentSequence, args.CurrentVertex);
             if (IsCycle(previousVertexIndex))
@@ -53,13 +56,9 @@ namespace GraphAlgorithms
             {
                 var segment = new List<int>(args.CurrentSequence) { args.CurrentVertex };
                 Segments.Add(segment.ToArray());
-                analyzer = new SegmentAnalyzer(IncedenceMatrix);
-                var cycles = analyzer.CheckSegment(segment.ToArray());
-                foreach (var cycle in cycles)
-                {
-                    if(IsNewCycle(cycle))
-                        NewCycles.Add(cycle);
-                }
+                var segmentIterator = new GraphIterator(IncedenceMatrix);
+                segmentIterator.VisitVisitedVertex += DefineCycleOnTwoIteration;
+                segmentIterator.IterateSegment(segment.ToArray());
             }
         }
 
@@ -74,15 +73,21 @@ namespace GraphAlgorithms
                 .IndexOf((v, index) => v == currentVertex && index < currentSequence.Count - 1);
         }
 
+        private void DefineCycleOnTwoIteration(GraphIteratorEventArgs args)
+        {
+            var previousVertexIndex = FindPreviousIndex(args.CurrentSequence, args.CurrentVertex);
+            if (IsCycle(previousVertexIndex))
+            {
+                var cycle = args.CurrentSequence.Skip(previousVertexIndex).ToArray();
+                if (IsNewCycle(cycle))
+                    NewCycles.Add(cycle);
+            }
+        }
+
         private bool IsNewCycle(int[] cycle)
         {
             var comparer = new CycleComparer();
             return Cycles.All(intse => !comparer.Equals(cycle, intse));
-        }
-
-        public void FindCycles()
-        {
-            iterator.IterateAllGraph();
         }
     }
 }
