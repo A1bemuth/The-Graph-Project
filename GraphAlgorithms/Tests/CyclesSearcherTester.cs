@@ -59,7 +59,6 @@ namespace GraphAlgorithms.Tests
 
             Assert.That(searcher.Segments.Count, Is.EqualTo(0));
             Assert.That(searcher.Cycles.Count, Is.EqualTo(1));
-            Assert.That(searcher.NewCycles.Count, Is.EqualTo(0));
             CollectionAssert.AreEqual(new[] {1, 2}, searcher.Cycles[0]);
         }
 
@@ -79,7 +78,6 @@ namespace GraphAlgorithms.Tests
 
             Assert.That(searcher.Cycles.Count, Is.EqualTo(1));
             Assert.That(searcher.Segments.Count, Is.EqualTo(1));
-            Assert.That(searcher.NewCycles.Count, Is.EqualTo(0));
             CollectionAssert.AreEqual(new[] {0, 1}, searcher.Cycles[0]);
             CollectionAssert.AreEqual(new[] {2, 1}, searcher.Segments[0]);
         }
@@ -103,7 +101,6 @@ namespace GraphAlgorithms.Tests
 
             Assert.That(searcher.Cycles.Count, Is.EqualTo(2));
             Assert.That(searcher.Segments.Count, Is.EqualTo(0));
-            Assert.That(searcher.NewCycles.Count, Is.EqualTo(0));
             CollectionAssert.AreEqual(new[] {0, 1, 2, 3}, searcher.Cycles[0]);
             CollectionAssert.AreEqual(new[] {2, 3}, searcher.Cycles[1]);
         }
@@ -127,7 +124,6 @@ namespace GraphAlgorithms.Tests
 
             Assert.That(searcher.Cycles.Count, Is.EqualTo(1));
             Assert.That(searcher.Segments.Count, Is.EqualTo(0));
-            Assert.That(searcher.NewCycles.Count, Is.EqualTo(0));
             CollectionAssert.AreEqual(new[] {0, 1, 2}, searcher.Cycles[0]);
         }
 
@@ -149,13 +145,12 @@ namespace GraphAlgorithms.Tests
 
             searcher.FindCycles();
 
-            Assert.That(searcher.Cycles.Count, Is.EqualTo(2));
+            Assert.That(searcher.Cycles.Count, Is.EqualTo(3));
             Assert.That(searcher.Segments.Count, Is.EqualTo(1));
-            Assert.That(searcher.NewCycles.Count, Is.EqualTo(1));
             CollectionAssert.AreEqual(new[] {2, 1}, searcher.Cycles[0]);
             CollectionAssert.AreEqual(new[] {0, 4, 3, 2, 1}, searcher.Cycles[1]);
+            CollectionAssert.AreEqual(new[] {0, 4, 3, 1}, searcher.Cycles[2]);
             CollectionAssert.AreEqual(new[] {0, 4, 3, 1}, searcher.Segments[0]);
-            CollectionAssert.AreEqual(new[] { 0, 4, 3, 1 }, searcher.NewCycles[0]);
         }
 
         [Test]
@@ -182,20 +177,19 @@ namespace GraphAlgorithms.Tests
 
             searcher.FindCycles();
 
-            Assert.That(searcher.Cycles.Count, Is.EqualTo(6));
+            Assert.That(searcher.Cycles.Count, Is.EqualTo(8));
             Assert.That(searcher.Segments.Count, Is.EqualTo(3));
-            Assert.That(searcher.NewCycles.Count, Is.EqualTo(2));
             CollectionAssert.AreEqual(new[] {0, 5, 4, 2}, searcher.Cycles[0]);
             CollectionAssert.AreEqual(new[] {2, 3}, searcher.Cycles[1]);
             CollectionAssert.AreEqual(new[] { 5, 4, 2, 3 }, searcher.Cycles[2]);
-            CollectionAssert.AreEqual(new[] {12, 9, 10}, searcher.Cycles[3]);
-            CollectionAssert.AreEqual(new[] {11, 12, 9}, searcher.Cycles[4]);
-            CollectionAssert.AreEqual(new[] {7, 8}, searcher.Cycles[5]);
+            CollectionAssert.AreEqual(new[] { 0, 5, 4, 3, 2 }, searcher.Cycles[3]);
+            CollectionAssert.AreEqual(new[] { 5, 4, 3 }, searcher.Cycles[4]);
+            CollectionAssert.AreEqual(new[] {12, 9, 10}, searcher.Cycles[5]);
+            CollectionAssert.AreEqual(new[] {11, 12, 9}, searcher.Cycles[6]);
+            CollectionAssert.AreEqual(new[] {7, 8}, searcher.Cycles[7]);
             CollectionAssert.AreEqual(new[] {0, 5, 4, 3}, searcher.Segments[0]);
             CollectionAssert.AreEqual(new[] {0, 6, 9}, searcher.Segments[1]);
             CollectionAssert.AreEqual(new[] {7, 6}, searcher.Segments[2]);
-            CollectionAssert.AreEqual(new[] {0, 5, 4, 3, 2}, searcher.NewCycles[0]);
-            CollectionAssert.AreEqual(new[] { 5, 4, 3 }, searcher.NewCycles[1]);
         }
     }
 }

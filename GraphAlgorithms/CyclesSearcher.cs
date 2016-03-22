@@ -9,7 +9,6 @@ namespace GraphAlgorithms
 
         internal List<int[]> Cycles { get; private set; }
         internal List<int[]> Segments { get; private set; }
-        internal List<int[]> NewCycles { get; private set; }
 
         public short[][] IncedenceMatrix
         {
@@ -19,7 +18,6 @@ namespace GraphAlgorithms
                 incedenceMatrix = value;
                 Cycles = new List<int[]>();
                 Segments = new List<int[]>();
-                NewCycles = new List<int[]>();
             }
         }
 
@@ -27,8 +25,6 @@ namespace GraphAlgorithms
         {
             Cycles = new List<int[]>();
             Segments = new List<int[]>();
-            NewCycles = new List<int[]>();
-            
         }
 
         public CyclesSearcher(short[][] incedenceMatrix) : this()
@@ -80,7 +76,7 @@ namespace GraphAlgorithms
             {
                 var cycle = args.CurrentSequence.Skip(previousVertexIndex).ToArray();
                 if (IsNewCycle(cycle))
-                    NewCycles.Add(cycle);
+                    Cycles.Add(cycle);
             }
         }
 
