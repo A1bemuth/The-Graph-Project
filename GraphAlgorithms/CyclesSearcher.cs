@@ -8,7 +8,6 @@ namespace GraphAlgorithms
         private short[][] incedenceMatrix;
 
         internal List<int[]> Cycles { get; private set; }
-        internal List<int[]> Segments { get; private set; }
 
         public short[][] IncedenceMatrix
         {
@@ -17,14 +16,12 @@ namespace GraphAlgorithms
             {
                 incedenceMatrix = value;
                 Cycles = new List<int[]>();
-                Segments = new List<int[]>();
             }
         }
 
         public CyclesSearcher()
         {
             Cycles = new List<int[]>();
-            Segments = new List<int[]>();
         }
 
         public CyclesSearcher(short[][] incedenceMatrix) : this()
@@ -51,11 +48,14 @@ namespace GraphAlgorithms
             else
             {
                 var segment = new List<int>(args.CurrentSequence) { args.CurrentVertex };
-                Segments.Add(segment.ToArray());
-                var segmentIterator = new GraphIterator(IncedenceMatrix);
-                segmentIterator.VisitVisitedVertex += DefineCycleOnTwoIteration;
-                segmentIterator.IterateSegment(segment.ToArray());
+                AnalyzeSegment(segment);
             }
+        }
+
+        private int FindPreviousIndex(List<int> currentSequence, int currentVertex)
+        {
+            return currentSequence
+                .IndexOf((v, index) => v == currentVertex && index < currentSequence.Count - 1);
         }
 
         private bool IsCycle(int previousVertexIndex)
@@ -63,10 +63,11 @@ namespace GraphAlgorithms
             return previousVertexIndex != -1;
         }
 
-        private int FindPreviousIndex(List<int> currentSequence, int currentVertex)
+        private void AnalyzeSegment(IEnumerable<int> segment)
         {
-            return currentSequence
-                .IndexOf((v, index) => v == currentVertex && index < currentSequence.Count - 1);
+            var segmentIterator = new GraphIterator(IncedenceMatrix);
+            segmentIterator.VisitVisitedVertex += DefineCycleOnTwoIteration;
+            segmentIterator.IterateSegment(segment.ToArray());
         }
 
         private void DefineCycleOnTwoIteration(GraphIteratorEventArgs args)
