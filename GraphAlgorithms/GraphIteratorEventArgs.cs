@@ -5,13 +5,13 @@ namespace GraphAlgorithms
 {
     internal class GraphIteratorEventArgs : EventArgs
     {
-        internal bool[] VisitedVertices { get; }
+        internal bool[] VerticesInSequence { get; }
         internal List<int> CurrentSequence { get; }
         internal int CurrentVertex { get; }
 
-        internal GraphIteratorEventArgs(bool[] visitedVertices, List<int> currentSequence, int currentVertex)
+        internal GraphIteratorEventArgs(bool[] verticesInSequence, List<int> currentSequence, int currentVertex)
         {
-            VisitedVertices = visitedVertices;
+            VerticesInSequence = verticesInSequence;
             CurrentSequence = currentSequence;
             CurrentVertex = currentVertex;
         }

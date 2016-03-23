@@ -42,13 +42,9 @@ namespace GraphAlgorithms
             var previousVertexIndex = FindPreviousIndex(args.CurrentSequence, args.CurrentVertex);
             if (IsCycle(previousVertexIndex))
             {
-                var cycle = args.CurrentSequence.Skip(previousVertexIndex);
-                cycles.Add(cycle.ToArray());
-            }
-            else
-            {
-                var segment = new List<int>(args.CurrentSequence) { args.CurrentVertex };
-                AnalyzeSegment(segment);
+                var cycle = args.CurrentSequence.Skip(previousVertexIndex).ToArray();
+                if(IsNewCycle(cycle))
+                    cycles.Add(cycle);
             }
         }
 
@@ -61,24 +57,6 @@ namespace GraphAlgorithms
         private bool IsCycle(int previousVertexIndex)
         {
             return previousVertexIndex != -1;
-        }
-
-        private void AnalyzeSegment(IEnumerable<int> segment)
-        {
-            var segmentIterator = new GraphIterator(IncedenceMatrix);
-            segmentIterator.PreviouslyHitVerticeVisited += DefineCycleOnTwoIteration;
-            segmentIterator.IterateSegment(segment.ToArray());
-        }
-
-        private void DefineCycleOnTwoIteration(GraphIteratorEventArgs args)
-        {
-            var previousVertexIndex = FindPreviousIndex(args.CurrentSequence, args.CurrentVertex);
-            if (IsCycle(previousVertexIndex))
-            {
-                var cycle = args.CurrentSequence.Skip(previousVertexIndex).ToArray();
-                if (IsNewCycle(cycle))
-                    cycles.Add(cycle);
-            }
         }
 
         private bool IsNewCycle(int[] cycle)

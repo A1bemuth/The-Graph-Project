@@ -8,6 +8,7 @@ namespace GraphAlgorithms
     {
         private readonly short[][] incedenceMatrix;
         private readonly bool[] visitedVertices;
+        private readonly bool[] verticesInSequence;
         private readonly List<int> currentSequence;
         private int currentVertex;
 
@@ -17,6 +18,7 @@ namespace GraphAlgorithms
         {
             this.incedenceMatrix = incedenceMatrix;
             visitedVertices = new bool[incedenceMatrix.Length];
+            verticesInSequence = new bool[incedenceMatrix.Length];
             currentSequence = new List<int>();
         }
 
@@ -24,8 +26,8 @@ namespace GraphAlgorithms
         {
             while (ThereAreNotVisitedVertices())
             {
-                currentVertex = visitedVertices.IndexesOf(v => !v).First();
-                InspectVertex();
+                var vertex = visitedVertices.IndexesOf(v => !v).First();
+                InspectVertex(vertex);
             }
         }
 
@@ -34,43 +36,45 @@ namespace GraphAlgorithms
             return visitedVertices.Any(v => !v);
         }
 
-        private void InspectVertex()
+        private void InspectVertex(int vertex)
         {
-            if (IsCurrentVertexVisited())
+            if (IsCurrentVertexVisited(vertex))
             {
-                OnVisitVisitedVertex();
+                OnVisitVisitedVertex(vertex);
             }
             else
             {
-                JumpToNextVertex();
+                JumpToNextVertex(vertex);
             }
         }
 
-        private bool IsCurrentVertexVisited()
+        private bool IsCurrentVertexVisited(int vertex)
         {
-            return visitedVertices[currentVertex];
+            return verticesInSequence[vertex];
         }
 
-        private void JumpToNextVertex()
+        private void JumpToNextVertex(int vertex)
         {
-            IncludeInSequence();
-            foreach (var arcIndex in FindOutgoingArcIndexes())
+            IncludeInSequence(vertex);
+
+            foreach (var arcIndex in FindOutgoingArcIndexes(vertex))
             {
-                currentVertex = FindeNextVertex(arcIndex);
-                InspectVertex();
+                var nextVertex = FindeNextVertex(arcIndex);
+                InspectVertex(nextVertex);
             }
-            ExcludeLastVertexFromSequence();
+            ExcludeLastVertexFromSequence(vertex);
         }
 
-        private void IncludeInSequence()
+        private void IncludeInSequence(int vertex)
         {
-            visitedVertices[currentVertex] = true;
-            currentSequence.Add(currentVertex);
+            visitedVertices[vertex] = true;
+            verticesInSequence[vertex] = true;
+            currentSequence.Add(vertex);
         }
 
-        private IEnumerable<int> FindOutgoingArcIndexes()
+        private IEnumerable<int> FindOutgoingArcIndexes(int vertex)
         {
-            return incedenceMatrix[currentVertex].IndexesOf(v => v == 1);
+            return incedenceMatrix[vertex].IndexesOf(v => v == 1);
         }
 
         private int FindeNextVertex(int outgoingArcIndex)
@@ -78,26 +82,15 @@ namespace GraphAlgorithms
             return incedenceMatrix.IndexInColumnOf(outgoingArcIndex, v => v == -1);
         }
 
-        private void ExcludeLastVertexFromSequence()
+        private void ExcludeLastVertexFromSequence(int vertex)
         {
             currentSequence.RemoveAt(currentSequence.Count - 1);
+            verticesInSequence[vertex] = false;
         }
 
-        internal void IterateSegment(int[] startSequence)
+        private void OnVisitVisitedVertex(int vertex)
         {
-            currentSequence.AddRange(startSequence.Take(startSequence.Length - 1));
-            foreach (var i in currentSequence)
-            {
-                visitedVertices[i] = true;
-            }
-            currentVertex = startSequence.Last();
-
-            InspectVertex();
-        }
-
-        private void OnVisitVisitedVertex()
-        {
-            var eventArgs = new GraphIteratorEventArgs(visitedVertices, currentSequence, currentVertex);
+            var eventArgs = new GraphIteratorEventArgs(visitedVertices, currentSequence, vertex);
             PreviouslyHitVerticeVisited?.Invoke(eventArgs);
         }
     }
