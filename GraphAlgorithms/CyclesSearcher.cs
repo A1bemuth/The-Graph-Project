@@ -37,26 +37,10 @@ namespace GraphAlgorithms
         }
 
 
-        private void DefineCycleOrSegmentOnFirstIteration(GraphIteratorEventArgs args)
+        private void DefineCycleOrSegmentOnFirstIteration(int[] cycle)
         {
-            var previousVertexIndex = FindPreviousIndex(args.CurrentSequence, args.CurrentVertex);
-            if (IsCycle(previousVertexIndex))
-            {
-                var cycle = args.CurrentSequence.Skip(previousVertexIndex).ToArray();
-                if(IsNewCycle(cycle))
-                    cycles.Add(cycle);
-            }
-        }
-
-        private int FindPreviousIndex(List<int> currentSequence, int currentVertex)
-        {
-            return currentSequence
-                .IndexOf((v, index) => v == currentVertex && index < currentSequence.Count - 1);
-        }
-
-        private bool IsCycle(int previousVertexIndex)
-        {
-            return previousVertexIndex != -1;
+            if (IsNewCycle(cycle))
+                cycles.Add(cycle);
         }
 
         private bool IsNewCycle(int[] cycle)

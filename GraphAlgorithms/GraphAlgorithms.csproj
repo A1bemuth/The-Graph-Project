@@ -47,7 +47,6 @@
     <Compile Include="CycleComparer.cs" />
     <Compile Include="CyclesSearcher.cs" />
     <Compile Include="GraphIterator.cs" />
-    <Compile Include="GraphIteratorEventArgs.cs" />
     <Compile Include="LinqExtension.cs" />
     <Compile Include="Tests\CycleComparerTester.cs" />
     <Compile Include="Tests\LinqExtensionTester.cs" />
