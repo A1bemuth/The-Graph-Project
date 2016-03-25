@@ -1,19 +1,19 @@
-﻿namespace GraphDataLayer
+﻿using System.Collections.Generic;
+
+namespace GraphDataLayer
 {
     public interface IGraph
     {
-        void AddArrow(long from, long to);
+        IGraph AddArrow(int from, int to);
 
-        void AddVertice();
+        IGraph AddVertices(int count);
 
-        void AddVertices(long count);
+        List<int> GetNeighbours(int vertice);
 
-        long[] GetNeighbours(long vertice);
+        short[,] GetIncidenceMatrix();
 
-        bool[][] GetIncidenceMatrix();
+        bool HasArrow(int from, int to);
 
-        bool HasArrow(long from, long to);
-
-        bool AreReciprocal(long verticeOne, long verticeTwo);
+        bool AreReciprocal(int verticeOne, int verticeTwo);
     }
 }
