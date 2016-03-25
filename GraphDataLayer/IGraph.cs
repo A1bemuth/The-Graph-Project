@@ -4,15 +4,13 @@ namespace GraphDataLayer
 {
     public interface IGraph
     {
-        void AddArrow(int from, int to);
+        IGraph AddArrow(int from, int to);
 
-        void AddVertice();
-
-        void AddVertices(int count);
+        IGraph AddVertices(int count);
 
         List<int> GetNeighbours(int vertice);
 
-        byte[][] GetIncidenceMatrix();
+        short[,] GetIncidenceMatrix();
 
         bool HasArrow(int from, int to);
 

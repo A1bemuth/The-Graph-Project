@@ -1,94 +1,70 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GraphDataLayer
 {
-    public class AdjacencyListGraph
+    public class AdjacencyListGraph : IGraph
     {
-        public AdjacencyListGraph() : this(2)
+        public AdjacencyListGraph() : this(0)
         {
         }
 
-        public AdjacencyListGraph(long size)
+        public AdjacencyListGraph(int verticeCount)
         {
-            count = 0;
-            arrowCount = new long[size];
-            vertices = new long[size][];
+            vertices = new List<int>[verticeCount];
         }
 
-        public void AddArrow(long from, long to)
+        public IGraph AddArrow(int from, int to)
         {
-            var fromArrowsCount = arrowCount[from];
-            if (vertices[from].LongLength == fromArrowsCount)
-            {
-                vertices[from].AddWithGrowth(to);
-            }
-            else
-            {
-                vertices[from][fromArrowsCount] = to;
-            }
-            arrowCount[from]++;
+            if(from == to)
+                throw new ArgumentException("Vertice can not point to itself.");
+            if(vertices[from] == null)
+                vertices[from] = new List<int>();
+            if(!vertices[from].Contains(to))
+                vertices[from].Add(to);
+            return this;
         }
 
-        //TODO(albemuth): нормально сделать
-        public void AddVertices(long verticesCount)
+        public IGraph AddVertices(int verticesCount)
         {
-            for (int i = 0; i < verticesCount; i++)
-            {
-                AddVertice();
-            }
+            Array.Resize(ref vertices, vertices.Length + verticesCount);
+            return this;
         }
 
-        public void AddVertice()
-        {
-            if (vertices.GetLongLength(0) == count)
-            {
-                vertices.AddWithGrowth(new long[1]);
-                arrowCount.AddWithGrowth(0);
-                count++;
-            }
-            else
-            {
-                vertices[count] = new long[1];
-                arrowCount[count++] = 0;
-            }
-        }
-
-        public long[] GetNeighbours(long vertice)
+        public List<int> GetNeighbours(int vertice)
         {
             return vertices[vertice];
         }
 
-        public bool[][] GetIncidenceMatrix()
+        public short[,] GetIncidenceMatrix()
         {
-            var matrix = new bool[count][];
-
-            for (int i = 0; i < count; i++)
+            var matrix = new short[vertices.Length, ArrowsCount];
+            for (int i = 0; i < vertices.Length; i++)
             {
-                matrix[i] = new bool[count];
-                var arrows = vertices[i];
-                for (int j = 0; j < arrowCount[i]; j++)
+                for (int j = 0; j < vertices[i]?.Count; j++)
                 {
-                    matrix[i][arrows[j]] = true;
+                    matrix[i, i + j] = -1;
+                    matrix[vertices[i][j], i + j] = 1;
                 }
             }
             return matrix;
         }
 
-        public bool HasArrow(long from, long to)
+        public bool HasArrow(int from, int to)
         {
             return vertices[from].Contains(to);
         }
 
-        public bool AreReciprocal(long verticeOne, long verticeTwo)
+        public bool AreReciprocal(int verticeOne, int verticeTwo)
         {
             return HasArrow(verticeOne, verticeTwo) 
                 && HasArrow(verticeTwo, verticeOne);
         }
 
-        public long VerticesCount => count;
+        public int VerticesCount => vertices.Length;
+        public int ArrowsCount => vertices.Sum(arrows => arrows?.Count ?? 0);
 
-        private long count;
-        private readonly long[] arrowCount;
-        private readonly long[][] vertices;
+        private List<int>[] vertices;
     }
 }
