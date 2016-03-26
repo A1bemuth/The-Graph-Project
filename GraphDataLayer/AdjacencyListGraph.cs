@@ -12,15 +12,18 @@ namespace GraphDataLayer
 
         public AdjacencyListGraph(int verticeCount)
         {
-            vertices = new List<int>[verticeCount];
+            //vertices = new List<int>[verticeCount];
+            vertices = Enumerable.Repeat(0, verticeCount)
+                .Select(v => new List<int>())
+                .ToArray();
         }
 
         public IGraph AddArrow(int from, int to)
         {
             if(from == to)
                 throw new ArgumentException("Vertice can not point to itself.");
-            if(vertices[from] == null)
-                vertices[from] = new List<int>();
+            //if(vertices[from] == null)
+            //    vertices[from] = new List<int>();
             if(!vertices[from].Contains(to))
                 vertices[from].Add(to);
             return this;

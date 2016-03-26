@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using GraphDataLayer;
 using NUnit.Framework;
 
 namespace GraphAlgorithms.Tests
@@ -10,66 +11,59 @@ namespace GraphAlgorithms.Tests
 
         // 0 → 1 → 2
         [Test]
-        public void ThreeVertexGraphWithoutCyclesTest()
+        public void ThreeVertexGraphWithoutCycelsTest()
         {
-            var incedenceMatrix = new[]
-            {
-                new short[] {1, 0},
-                new short[] {-1, 1},
-                new short[] {0, -1}
-            };
+            var graph = new AdjacencyListGraph(3);
+            graph.AddArrow(0, 1);
+            graph.AddArrow(1, 2);
 
-            var result = searcher.FindCycles(incedenceMatrix).ToList();
+            var result = searcher.FindCycles(graph);
 
             Assert.That(result.Count, Is.EqualTo(0));
         }
 
         // 0 ↔ 1
         [Test]
-        public void TwoVertexGraphWithCyclesTest()
+        public void TwoVertexGraphWithCycelsTest()
         {
-            var incedenceMatrix = new[]
-            {
-                new short[] {1, -1},
-                new short[] {-1, 1}
-            };
-            var result = searcher.FindCycles(incedenceMatrix).ToList();
+            var graph = new AdjacencyListGraph(2);
+            graph.AddArrow(0, 1);
+            graph.AddArrow(1, 0);
+
+            var result = searcher.FindCycles(graph);
 
             Assert.That(result.Count, Is.EqualTo(1));
-            CollectionAssert.AreEqual(new[] {0, 1}, result[0]);
+            CollectionAssert.Contains(result, new[] {0, 1});
         }
 
         // 0 → 1 ↔ 2
         [Test]
         public void ThreeVertexGraphWithCycleBetweenSecondAndThirdTest()
         {
-            var incedenceMatrix = new[]
-            {
-                new short[] {1, 0, 0},
-                new short[] {-1, 1, -1},
-                new short[] {0, -1, 1}
-            };
+            var graph = new AdjacencyListGraph(3);
+            graph.AddArrow(0, 1);
+            graph.AddArrow(1, 2);
+            graph.AddArrow(2, 1);
 
-            var result = searcher.FindCycles(incedenceMatrix).ToList();
+            var result = searcher.FindCycles(graph);
 
             Assert.That(result.Count, Is.EqualTo(1));
-            CollectionAssert.AreEqual(new[] {1, 2}, result[0]);
+            CollectionAssert.Contains(result, new[] {1, 2});
         }
 
         // 0 ↔ 1 ← 2
         [Test]
         public void ThreeVertexGraphWithCycleBetweenFirstAndSecondTest()
         {
-            var incedenceMatrix = new[]
-            {
-                new short[] {1, -1, 0},
-                new short[] {-1, 1, -1},
-                new short[] {0, 0, 1}
-            };
-            var result = searcher.FindCycles(incedenceMatrix).ToList();
+            var graph = new AdjacencyListGraph(3);
+            graph.AddArrow(0, 1);
+            graph.AddArrow(1, 0);
+            graph.AddArrow(2, 1);
+
+            var result = searcher.FindCycles(graph);
 
             Assert.That(result.Count, Is.EqualTo(1));
-            CollectionAssert.AreEqual(new[] {0, 1}, result[0]);
+            CollectionAssert.Contains(result, new[] { 0, 1 });
         }
 
         // 0 ← 3 ↔ 2
@@ -78,19 +72,18 @@ namespace GraphAlgorithms.Tests
         [Test]
         public void OnePathAndOneSegmentTest()
         {
-            var incedenceMatrix = new[]
-            {
-                new short[] {0, -1, 0, 0, 1},
-                new short[] {1, 0, 0, 0, -1},
-                new short[] {-1, 0, 1, -1, 0},
-                new short[] {0, 1, -1, 1, 0}
-            };
+            var graph = new AdjacencyListGraph(4);
+            graph.AddArrow(0, 1);
+            graph.AddArrow(1, 2);
+            graph.AddArrow(2, 3);
+            graph.AddArrow(3, 0);
+            graph.AddArrow(3, 2);
 
-            var result = searcher.FindCycles(incedenceMatrix).ToList();
+            var result = searcher.FindCycles(graph);
 
             Assert.That(result.Count, Is.EqualTo(2));
-            CollectionAssert.AreEqual(new[] {0, 1, 2, 3}, result[0]);
-            CollectionAssert.AreEqual(new[] {2, 3}, result[1]);
+            CollectionAssert.Contains(result, new[] { 0, 1, 2, 3 });
+            CollectionAssert.Contains(result, new[] { 2, 3 });
         }
 
         // 3 ← 0 → 1
@@ -99,93 +92,97 @@ namespace GraphAlgorithms.Tests
         [Test]
         public void GraphWithCycleAndRemoteVertexTest()
         {
-            var incedenceMatrix = new[]
-            {
-                new short[] {1, 0, 1, -1},
-                new short[] {0, 1, -1, 0},
-                new short[] {0, -1, 0, 1},
-                new short[] {-1, 0, 0, 0}
-            };
+            var graph = new AdjacencyListGraph(4);
+            graph.AddArrow(0, 3);
+            graph.AddArrow(0, 1);
+            graph.AddArrow(1, 2);
+            graph.AddArrow(2, 0);
 
-            var result = searcher.FindCycles(incedenceMatrix).ToList();
+            var result = searcher.FindCycles(graph);
 
             Assert.That(result.Count, Is.EqualTo(1));
-            CollectionAssert.AreEqual(new[] {0, 1, 2}, result[0]);
+            CollectionAssert.Contains(result, new[] { 0, 1, 2 });
         }
 
         // 0 ← 1 ↔ 2
         // ↓   ↑   ↑
         // 4 → 3 --
         [Test]
-        public void HardGraphWithThreeCyclesTest()
+        public void MediumGraphWithThreeCyclesTest()
         {
-            var incedenceMatrix = new[]
-            {
-                new short[] {0,   0,  0, -1,  1,  0,  0},
-                new short[] {0,   1, -1,  1,  0,  0, -1},
-                new short[] {-1, -1,  1,  0,  0,  0,  0},
-                new short[] {1,   0,  0,  0,  0, -1,  1},
-                new short[] {0,   0,  0,  0, -1,  1,  0}
-            };
+            var graph = new AdjacencyListGraph(5);
+            graph.AddArrow(0, 4);
+            graph.AddArrow(4, 3);
+            graph.AddArrow(3, 1);
+            graph.AddArrow(3, 2);
+            graph.AddArrow(1, 0);
+            graph.AddArrow(1, 2);
+            graph.AddArrow(2, 1);
 
-            var result = searcher.FindCycles(incedenceMatrix).ToList();
+            var result = searcher.FindCycles(graph);
 
             Assert.That(result.Count, Is.EqualTo(3));
-            CollectionAssert.AreEqual(new[] {2, 1}, result[0]);
-            CollectionAssert.AreEqual(new[] {0, 4, 3, 2, 1}, result[1]);
-            CollectionAssert.AreEqual(new[] {0, 4, 3, 1}, result[2]);
+            CollectionAssert.AreEqual(new[] { 0, 4, 3, 1 }, result[0]);
+            CollectionAssert.AreEqual(new[] { 1, 2 }, result[1]);
+            CollectionAssert.AreEqual(new[] { 0, 4, 3, 2, 1 }, result[2]);
         }
 
         [Test]
-        public void VeryGraphWithEightCyclesTest()
+        public void HardGraphWithEightCyclesTest()
         {
-            var incedenceMatrix = new[]
-            {
-                //            0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19
-                new short[] { 1,  1,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0},//0
-                new short[] {-1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},//1
-                new short[] { 0,  0,  0, -1,  1,  1, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},//2
-                new short[] { 0,  0,  0,  0,  0, -1,  1,  1, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},//3
-                new short[] { 0,  0, -1,  1,  0,  0,  0,  0,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},//4
-                new short[] { 0, -1,  1,  0,  0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},//5
-                new short[] { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  1, -1,  0,  0},//6
-                new short[] { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1, -1},//7
-                new short[] { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  1},//8
-                new short[] { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  1,  0,  1,  0, -1,  0,  0,  0},//9
-                new short[] { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  1,  0,  0,  0,  0,  0,  0},//10
-                new short[] { 0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  1,  0,  0,  0, -1,  0,  0,  0,  0,  0},//11
-                new short[] { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  1,  0, -1,  0,  0,  0,  0,  0,  0},//12
-            };
+            var graph = new AdjacencyListGraph(13);
+            graph.AddArrow(0, 1);
+            graph.AddArrow(0, 5);
+            graph.AddArrow(5, 4);
+            graph.AddArrow(4, 2);
+            graph.AddArrow(2, 0);
+            graph.AddArrow(2, 3);
+            graph.AddArrow(3, 2);
+            graph.AddArrow(3, 5);
+            graph.AddArrow(4, 3);
+            graph.AddArrow(4, 11);
+            graph.AddArrow(11, 12);
+            graph.AddArrow(12, 9);
+            graph.AddArrow(9, 10);
+            graph.AddArrow(10, 12);
+            graph.AddArrow(9, 11);
+            graph.AddArrow(0, 6);
+            graph.AddArrow(6, 9);
+            graph.AddArrow(7, 6);
+            graph.AddArrow(7, 8);
+            graph.AddArrow(8, 7);
 
-            var result = searcher.FindCycles(incedenceMatrix).ToList();
+            var result = searcher.FindCycles(graph);
 
             Assert.That(result.Count, Is.EqualTo(8));
-            //CollectionAssert.AreEqual(new[] {0, 5, 4, 2}, result[0]);
-            //CollectionAssert.AreEqual(new[] {2, 3}, result[1]);
-            //CollectionAssert.AreEqual(new[] { 5, 4, 2, 3 }, result[2]);
-            //CollectionAssert.AreEqual(new[] { 0, 5, 4, 3, 2 }, result[3]);
-            //CollectionAssert.AreEqual(new[] { 5, 4, 3 }, result[4]);
-            //CollectionAssert.AreEqual(new[] {12, 9, 10}, result[5]);
-            //CollectionAssert.AreEqual(new[] {11, 12, 9}, result[6]);
-            //CollectionAssert.AreEqual(new[] {7, 8}, result[7]);
+            CollectionAssert.AreEqual(new[] {0, 5, 4, 2}, result[0]);
+            CollectionAssert.AreEqual(new[] {2, 3}, result[1]);
+            CollectionAssert.AreEqual(new[] { 5, 4, 2, 3 }, result[2]);
+            CollectionAssert.AreEqual(new[] { 0, 5, 4, 3, 2 }, result[3]);
+            CollectionAssert.AreEqual(new[] { 5, 4, 3 }, result[4]);
+            CollectionAssert.AreEqual(new[] {12, 9, 10}, result[5]);
+            CollectionAssert.AreEqual(new[] {11, 12, 9}, result[6]);
+            CollectionAssert.AreEqual(new[] {7, 8}, result[7]);
         }
 
         [Test]
         public void BigGrahpWithThreeCyclesTest()
         {
-            var incedenceMatrix = new[]
-            {
-                new short[] { 1,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0},
-                new short[] {-1,  1,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0},
-                new short[] { 0, -1,  1,  0, -1, -1,  0,  0,  0,  0,  0,  0},
-                new short[] { 0,  0,  0,  1,  1,  0, -1,  1,  0,  0,  0,  0},
-                new short[] { 0,  0,  0,  0,  0,  0,  1, -1,  1,  0,  0, -1},
-                new short[] { 0,  0,  0,  0,  0,  1,  0,  0, -1, -1,  1,  0},
-                new short[] { 0,  0,  0,  0,  0,  0,  0,  0,  0,  1, -1,  0},
-                new short[] { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1},
-            };
+            var graph = new AdjacencyListGraph(8);
+            graph.AddArrow(0, 1);
+            graph.AddArrow(1, 2);
+            graph.AddArrow(2, 0);
+            graph.AddArrow(3, 1);
+            graph.AddArrow(3, 2);
+            graph.AddArrow(5, 2);
+            graph.AddArrow(4, 3);
+            graph.AddArrow(3, 4);
+            graph.AddArrow(4, 5);
+            graph.AddArrow(6, 5);
+            graph.AddArrow(5, 6);
+            graph.AddArrow(7, 4);
 
-            var result = searcher.FindCycles(incedenceMatrix).ToList();
+            var result = searcher.FindCycles(graph);
 
             Assert.That(result.Count, Is.EqualTo(3));
             CollectionAssert.AreEqual(new[] {0, 1, 2}, result[0]);
@@ -196,27 +193,34 @@ namespace GraphAlgorithms.Tests
         [Test]
         public void VeryHardGraphWithFifteenCyclesTest()
         {
-            var incedenceMatrix = new[]
-            {
-                //            0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24
-                new short[] { 0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0},//0
-                new short[] { 0,  0,  0, -1,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0},//1
-                new short[] { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  1,  0,  0,  0,  0,  0,  0,  0,  0, -1,  0},//2
-                new short[] { 0,  1,  0,  0,  0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1},//3
-                new short[] {-1, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},//4
-                new short[] { 0,  0,  1,  0,  0,  0,  0,  0,  0, -1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  0,  0},//5
-                new short[] { 0,  0,  0,  0,  0,  0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  1,  0,  0,  0},//6
-                new short[] { 0,  0,  0,  0,  0,  0, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0,  1},//7
-                new short[] { 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, -1,  0,  0,  0,  0, -1,  1,  0,  0,  0,  0,  0,  0},//8
-                new short[] { 0,  0,  0,  0, -1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, -1,  0,  0,  0,  0,  0,  0,  1,  0},//9
-                new short[] { 0,  0, -1,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},//10
-                new short[] { 0,  0,  0,  0,  1, -1,  0,  0,  0,  1, -1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},//11
-                new short[] { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  1,  1, -1,  0,  0,  0,  0,  0,  0},//12
-                new short[] { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  1,  0,  0,  0,  0,  0,  0, -1,  0,  0,  0,  0,  0},//13
-                new short[] { 0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, -1,  0,  0,  0},//14
-            };
+            var graph = new AdjacencyListGraph(15);
+            graph.AddArrow(8, 4);
+            graph.AddArrow(3, 4);
+            graph.AddArrow(5, 10);
+            graph.AddArrow(0, 1);
+            graph.AddArrow(11, 9);
+            graph.AddArrow(9, 11);
+            graph.AddArrow(14, 7);
+            graph.AddArrow(1, 3);
+            graph.AddArrow(10, 6);
+            graph.AddArrow(11, 5);
+            graph.AddArrow(5, 11);
+            graph.AddArrow(8, 13);
+            graph.AddArrow(13, 8);
+            graph.AddArrow(4, 2);
+            graph.AddArrow(2, 0);
+            graph.AddArrow(9, 12);
+            graph.AddArrow(12, 9);
+            graph.AddArrow(12, 8);
+            graph.AddArrow(8, 12);
+            graph.AddArrow(7, 13);
+            graph.AddArrow(1, 6);
+            graph.AddArrow(6, 14);
+            graph.AddArrow(0, 5);
+            graph.AddArrow(9, 2);
+            graph.AddArrow(7, 3);
 
-            var result = searcher.FindCycles(incedenceMatrix).ToList();
+            var result = searcher.FindCycles(graph);
 
             Assert.That(result.Count, Is.EqualTo(15));
         }

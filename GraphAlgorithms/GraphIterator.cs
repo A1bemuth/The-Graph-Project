@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GraphDataLayer;
 
 namespace GraphAlgorithms
 {
     public class GraphIterator
     {
-        private readonly short[][] incedenceMatrix;
+        private readonly IGraph graph;
         private readonly bool[] visitedVertices;
         private readonly bool[] verticesInSequence;
         private readonly List<int> currentSequence;
 
-        internal event Action<int[]> PreviouslyHitVerticeVisited;
+        internal event Action<int[]> CycleDetected;
 
-        internal GraphIterator(short[][] incedenceMatrix)
+        internal GraphIterator(IGraph graph)
         {
-            this.incedenceMatrix = incedenceMatrix;
-            visitedVertices = new bool[incedenceMatrix.Length];
-            verticesInSequence = new bool[incedenceMatrix.Length];
+            this.graph = graph;
+            visitedVertices = new bool[graph.VerticesCount];
+            verticesInSequence = new bool[graph.VerticesCount];
             currentSequence = new List<int>();
         }
 
@@ -38,7 +39,7 @@ namespace GraphAlgorithms
         private void InspectVertex(int vertex)
         {
             IncludeInSequence(vertex);
-            foreach (var neighbor in FindNeighbors(vertex))
+            foreach (var neighbor in graph.GetNeighbours(vertex))
             {
                 var previousIndex = FindPreviousIndex(neighbor);
                 if (IsCycle(previousIndex))
@@ -61,11 +62,6 @@ namespace GraphAlgorithms
             currentSequence.Add(vertex);
         }
 
-        private IEnumerable<int> FindNeighbors(int vertex)
-        {
-            return FindOutgoingArcIndexes(vertex).Select(FindeNextVertex);
-        }
-
         private int FindPreviousIndex(int vertex)
         {
             return currentSequence
@@ -79,23 +75,13 @@ namespace GraphAlgorithms
 
         private void OnVisitVisitedVertex(int[] cycle)
         {
-            PreviouslyHitVerticeVisited?.Invoke(cycle);
+            CycleDetected?.Invoke(cycle);
         }
 
         private void ExcludeLastVertexFromSequence(int vertex)
         {
             currentSequence.RemoveAt(currentSequence.Count - 1);
             verticesInSequence[vertex] = false;
-        }
-
-        private IEnumerable<int> FindOutgoingArcIndexes(int vertex)
-        {
-            return incedenceMatrix[vertex].IndexesOf(v => v == 1);
-        }
-
-        private int FindeNextVertex(int outgoingArcIndex)
-        {
-            return incedenceMatrix.IndexInColumnOf(outgoingArcIndex, v => v == -1);
         }
     }
 }

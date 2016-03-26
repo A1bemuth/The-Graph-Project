@@ -1,43 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GraphDataLayer;
 
 namespace GraphAlgorithms
 {
     public class CyclesSearcher
     {
         private List<int[]> cycles;
+        private IGraph graph;
         public short[][] IncedenceMatrix { get; set; }
 
         public CyclesSearcher()
         {
         }
 
-        public CyclesSearcher(short[][] incedenceMatrix) : this()
+        public CyclesSearcher(IGraph graph) : this()
         {
-            IncedenceMatrix = incedenceMatrix;
+            this.graph = graph;
         }
 
-        public IEnumerable<int[]> FindCycles()
+        public List<int[]> FindCycles()
         {
-            if(IncedenceMatrix == null)
-                throw new NullReferenceException("The incedence matrix property is null");
+            if(graph == null)
+                throw new NullReferenceException("The graph is null");
 
             cycles = new List<int[]>();
-            var startingIterator = new GraphIterator(IncedenceMatrix);
-            startingIterator.PreviouslyHitVerticeVisited += DefineCycleOrSegmentOnFirstIteration;
-            startingIterator.IterateAllGraph();
+            //var startingIterator = new GraphIterator(IncedenceMatrix);
+            var iterator = new GraphIterator(graph);
+            iterator.CycleDetected += DefineNewCycle;
+            iterator.IterateAllGraph();
             return cycles;
+        }
+
+        public List<int[]> FindCycles(IGraph graph)
+        {
+            this.graph = graph;
+            return FindCycles();
         }
 
         public IEnumerable<int[]> FindCycles(short[][] incedenceMatrix)
         {
-            IncedenceMatrix = incedenceMatrix;
-            return FindCycles();
+            //IncedenceMatrix = incedenceMatrix;
+            //return FindCycles();
+            throw new NotImplementedException();
         }
 
 
-        private void DefineCycleOrSegmentOnFirstIteration(int[] cycle)
+        private void DefineNewCycle(int[] cycle)
         {
             if (IsNewCycle(cycle))
                 cycles.Add(cycle);
