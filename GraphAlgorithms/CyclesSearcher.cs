@@ -33,4 +33,14 @@ namespace GraphAlgorithms
             return cycles.All(intse => !comparer.Equals(cycle, intse));
         }
     }
+
+    public static class GraphExtension
+    {
+        public static List<int[]> FindCycles(this IGraph graph)
+        {
+            var searcher = new CyclesSearcher();
+            return searcher.FindCycles(graph);
+        }
+    }
+
 }

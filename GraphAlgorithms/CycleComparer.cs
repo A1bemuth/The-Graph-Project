@@ -2,7 +2,7 @@
 
 namespace GraphAlgorithms
 {
-    public class CycleComparer
+    public class CycleComparer : IEqualityComparer<int[]>
     {
         private int[] firstCycle;
         private int[] secondCycle;
@@ -48,6 +48,19 @@ namespace GraphAlgorithms
                 j = j == cyclesLength - 1 ? 0 : j + 1;
             }
             return true;
+        }
+
+        public int GetHashCode(int[] cycle)
+        {
+            unchecked
+            {
+                var hash = 0;
+                for (var i = 0; i < cycle.Length; i++)
+                {
+                    hash += cycle[i] ^ (i + 1);
+                }
+                return hash;
+            }
         }
     }
 }

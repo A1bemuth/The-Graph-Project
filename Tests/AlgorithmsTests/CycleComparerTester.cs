@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
+using GraphAlgorithms;
 using NUnit.Framework;
 using NUnit.Framework.Compatibility;
 
-namespace GraphAlgorithms.Tests
+namespace Tests.AlgorithmsTests
 {
     [TestFixture]
     public class CycleComparerTester

@@ -1,7 +1,8 @@
-﻿using GraphDataLayer;
+﻿using GraphAlgorithms;
+using GraphDataLayer;
 using NUnit.Framework;
 
-namespace GraphAlgorithms.Tests
+namespace Tests.AlgorithmsTests
 {
     [TestFixture]
     public class CyclesSearcherTester
@@ -222,6 +223,31 @@ namespace GraphAlgorithms.Tests
             var result = searcher.FindCycles(graph);
 
             Assert.That(result.Count, Is.EqualTo(15));
+        }
+
+        [Test]
+        public void ExtensionTest()
+        {
+            var graph = new AdjacencyListGraph(8);
+            graph.AddArrow(0, 1);
+            graph.AddArrow(1, 2);
+            graph.AddArrow(2, 0);
+            graph.AddArrow(3, 1);
+            graph.AddArrow(3, 2);
+            graph.AddArrow(5, 2);
+            graph.AddArrow(4, 3);
+            graph.AddArrow(3, 4);
+            graph.AddArrow(4, 5);
+            graph.AddArrow(6, 5);
+            graph.AddArrow(5, 6);
+            graph.AddArrow(7, 4);
+
+            var result = graph.FindCycles();
+
+            Assert.That(result.Count, Is.EqualTo(3));
+            CollectionAssert.AreEqual(new[] { 0, 1, 2 }, result[0]);
+            CollectionAssert.AreEqual(new[] { 3, 4 }, result[1]);
+            CollectionAssert.AreEqual(new[] { 5, 6 }, result[2]);
         }
     }
 }
