@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using GraphDataLayer;
+﻿using GraphDataLayer;
 using NUnit.Framework;
 
 namespace GraphAlgorithms.Tests

@@ -49,7 +49,6 @@
     <Compile Include="GraphIterator.cs" />
     <Compile Include="LinqExtension.cs" />
     <Compile Include="Tests\CycleComparerTester.cs" />
-    <Compile Include="Tests\LinqExtensionTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\CyclesSearcherTester.cs" />
   </ItemGroup>

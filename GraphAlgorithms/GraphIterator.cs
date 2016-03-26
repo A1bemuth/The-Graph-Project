@@ -22,11 +22,11 @@ namespace GraphAlgorithms
             currentSequence = new List<int>();
         }
 
-        internal void IterateAllGraph()
+        internal void Iterate()
         {
             while (ThereAreNotVisitedVertices())
             {
-                var vertex = visitedVertices.IndexesOf(v => !v).First();
+                var vertex = visitedVertices.IndexOf(v => !v);
                 InspectVertex(vertex);
             }
         }
@@ -38,24 +38,32 @@ namespace GraphAlgorithms
 
         private void InspectVertex(int vertex)
         {
-            IncludeInSequence(vertex);
-            foreach (var neighbor in graph.GetNeighbours(vertex))
+            if (IsVertexInSequence(vertex))
             {
-                var previousIndex = FindPreviousIndex(neighbor);
+                var previousIndex = FindPreviousIndex(vertex);
                 if (IsCycle(previousIndex))
                 {
                     var cycle = currentSequence.Skip(previousIndex).ToArray();
-                    OnVisitVisitedVertex(cycle);
+                    OnCycleDetected(cycle);
                 }
-                else
+            }
+            else
+            {
+                IncludeVertexInSequence(vertex);
+                foreach (var neighbor in graph.GetNeighbours(vertex))
                 {
                     InspectVertex(neighbor);
                 }
+                ExcludeVertexFromSequence(vertex);
             }
-            ExcludeLastVertexFromSequence(vertex);
         }
 
-        private void IncludeInSequence(int vertex)
+        private bool IsVertexInSequence(int vertex)
+        {
+            return verticesInSequence[vertex];
+        }
+
+        private void IncludeVertexInSequence(int vertex)
         {
             visitedVertices[vertex] = true;
             verticesInSequence[vertex] = true;
@@ -73,12 +81,12 @@ namespace GraphAlgorithms
             return previousVertexIndex != -1;
         }
 
-        private void OnVisitVisitedVertex(int[] cycle)
+        private void OnCycleDetected(int[] cycle)
         {
             CycleDetected?.Invoke(cycle);
         }
 
-        private void ExcludeLastVertexFromSequence(int vertex)
+        private void ExcludeVertexFromSequence(int vertex)
         {
             currentSequence.RemoveAt(currentSequence.Count - 1);
             verticesInSequence[vertex] = false;
