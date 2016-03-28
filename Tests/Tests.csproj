@@ -46,11 +46,19 @@
   <ItemGroup>
     <Compile Include="AlgorithmsTests\CycleComparerTester.cs" />
     <Compile Include="AlgorithmsTests\CyclesSearcherTester.cs" />
+    <Compile Include="DataLayerTests\ExcelImportTests.cs" />
     <Compile Include="DataLayerTests\GraphTests.cs" />
+    <Compile Include="DataLayerTests\TestExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="TestSamples\1-by-1.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestSamples\2-by-2.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphAlgorithms\GraphAlgorithms.csproj">
