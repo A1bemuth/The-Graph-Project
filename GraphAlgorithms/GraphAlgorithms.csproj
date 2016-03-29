@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C9EA996E-CC78-4E44-887F-C6125D35267F}</ProjectGuid>
+    <ProjectGuid>{9532EBF7-2B2F-41BF-B1E7-0757EAFAB62E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GraphDataLayer</RootNamespace>
-    <AssemblyName>GraphDataLayer</AssemblyName>
+    <RootNamespace>GraphAlgorithms</RootNamespace>
+    <AssemblyName>GraphAlgorithms</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,12 +44,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdjacencyListGraph.cs" />
-    <Compile Include="IGraph.cs" />
+    <Compile Include="CycleComparer.cs" />
+    <Compile Include="CyclesSearcher.cs" />
+    <Compile Include="GraphIterator.cs" />
+    <Compile Include="LinqExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GraphDataLayer\GraphDataLayer.csproj">
+      <Project>{c9ea996e-cc78-4e44-887f-c6125d35267f}</Project>
+      <Name>GraphDataLayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
