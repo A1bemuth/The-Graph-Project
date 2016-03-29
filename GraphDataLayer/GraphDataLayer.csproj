@@ -46,7 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdjacencyListGraph.cs" />
-    <Compile Include="IGraph.cs" />
+	<Compile Include="IGraph.cs" />
+    <Compile Include="GraphProperties.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

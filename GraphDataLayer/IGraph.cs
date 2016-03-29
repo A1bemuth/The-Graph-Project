@@ -5,13 +5,8 @@ namespace GraphDataLayer
     public interface IGraph
     {
         int VerticesCount { get; }
-<<<<<<< HEAD
 
-        int EdgesCount { get; }
-
-        void AddArrow(int from, int to);
-=======
->>>>>>> origin/develop
+        int ArrowsCount { get; }
 
         IGraph AddArrow(int from, int to);
 
@@ -19,11 +14,7 @@ namespace GraphDataLayer
 
         List<int> GetNeighbours(int vertice);
 
-<<<<<<< HEAD
-        short[][] GetIncidenceMatrix();
-=======
         short[,] GetIncidenceMatrix();
->>>>>>> origin/develop
 
         bool HasArrow(int from, int to);
 

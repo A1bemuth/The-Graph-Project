@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace GraphDataLayer
 {
     public static class GraphProperties
     {
-
         public static int GetSizeOfGraph(this IGraph graph)
         {
-            return 0;
+            return graph.VerticesCount-1;
         }
 
         /// <summary>
@@ -19,27 +16,16 @@ namespace GraphDataLayer
         /// </summary>
         public static double GetDensity(this IGraph graph)
         {
-            double density = (double)graph.EdgesCount / (graph.VerticesCount * (graph.VerticesCount - 1));
-            if (!graph.IsDirected())
-                density *= 2;
-            return density;
-
+            double density = (double)graph.ArrowsCount / (graph.VerticesCount * (graph.VerticesCount - 1));
+            return Math.Round(density,2);
         }
+
         /// <summary>
         ///     Определяет является ли граф направленным
         /// </summary>
         public static bool IsDirected(this IGraph graph)
         {
-            bool isDirected = false;
-            foreach (var i in graph.GetIncidenceMatrix())
-            {
-                if ((i.Count(j => j < 0) > 0))
-                {
-                    isDirected = true;
-                    break;
-                }
-            }
-            return isDirected;
+           return true;
         }
     }
 }

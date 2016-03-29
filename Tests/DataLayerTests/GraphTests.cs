@@ -33,30 +33,8 @@ namespace Tests.DataLayerTests
             Assert.That(graph.HasArrow(0, 2));
         }
 
+        
         [Test]
-<<<<<<< HEAD
-        public void TestGraphProperties()
-        {
-            short[][] directedGraph ={
-                new short[] {1,-1,-1,0,0 },
-                new short[] {0,1,0,1,-1 },
-                new short[] {0, 0,1,-1,0 },
-                new short[] {-1, 0,0,0,1 },
-            };
-            short[][] undirectedGraph ={
-                new short[] {1,1,1,0,0 },
-                new short[] {0,1,0,1,1 },
-                new short[] {0, 0,1,1,0 },
-                new short[] {1, 0,0,0,1 },
-            };
-            var graph = new GraphStructure(directedGraph);
-            Assert.That(graph.VerticesCount == 4);
-            Assert.That(graph.EdgesCount == 5);
-            Assert.True(graph.IsDirected());
-
-            graph = new GraphStructure(undirectedGraph);
-            Assert.False(graph.IsDirected());
-=======
         public void TestReciprocalPoints()
         {
             var graph = new AdjacencyListGraph(2);
@@ -89,7 +67,18 @@ namespace Tests.DataLayerTests
                 {1,     0,      -1}
             };
             Assert.That(incidenceMatrix, Is.EqualTo(expectedMatrix));
->>>>>>> origin/develop
+        }
+
+
+        [Test]
+        public void TestGraphProperties()
+        {
+            var graph = new AdjacencyListGraph(3)
+                .AddArrow(0, 2)
+                .AddArrow(2, 1);
+
+            Assert.That(graph.ArrowsCount, Is.EqualTo(2));
+            Assert.That(graph.GetDensity, Is.EqualTo(0.33));
         }
     }
 }
