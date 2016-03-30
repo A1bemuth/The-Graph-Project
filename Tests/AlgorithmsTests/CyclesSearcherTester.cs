@@ -1,4 +1,6 @@
-﻿using GraphAlgorithms;
+﻿using System;
+using System.Diagnostics;
+using GraphAlgorithms;
 using GraphDataLayer;
 using NUnit.Framework;
 
@@ -248,6 +250,52 @@ namespace Tests.AlgorithmsTests
             CollectionAssert.AreEqual(new[] { 0, 1, 2 }, result[0]);
             CollectionAssert.AreEqual(new[] { 3, 4 }, result[1]);
             CollectionAssert.AreEqual(new[] { 5, 6 }, result[2]);
+        }
+
+        [Test]
+        public void SpecialTestForZvereva()
+        {
+            var graph = new AdjacencyListGraph(12);
+            graph.AddArrow(0, 6);
+            graph.AddArrow(0, 7);
+            graph.AddArrow(1, 0);
+            graph.AddArrow(1, 3);
+            graph.AddArrow(1, 4);
+            graph.AddArrow(2, 3);
+            graph.AddArrow(2, 11);
+            graph.AddArrow(3, 11);
+            graph.AddArrow(4, 11);
+            graph.AddArrow(5, 11);
+            graph.AddArrow(6, 5);
+            graph.AddArrow(7, 1);
+            graph.AddArrow(7, 2);
+            graph.AddArrow(8, 11);
+            graph.AddArrow(9, 10);
+            graph.AddArrow(9, 11);
+            graph.AddArrow(10, 11);
+            graph.AddArrow(11, 0);
+            graph.AddArrow(11, 1);
+            graph.AddArrow(11, 2);
+            graph.AddArrow(11, 3);
+            graph.AddArrow(11, 4);
+            graph.AddArrow(11, 5);
+            graph.AddArrow(11, 6);
+            graph.AddArrow(11, 7);
+            graph.AddArrow(11, 8);
+            graph.AddArrow(11, 9);
+            graph.AddArrow(11, 10);
+            var timer = new Stopwatch();
+
+            timer.Start();
+            var result = graph.FindCycles();
+            timer.Stop();
+
+            Console.WriteLine($"Elapsed time: {timer.Elapsed}");
+            Console.WriteLine($"Total cycles: {result.Count}");
+            foreach (var cycle in result)
+            {
+                Console.WriteLine(string.Join(" ", cycle));
+            }
         }
     }
 }
