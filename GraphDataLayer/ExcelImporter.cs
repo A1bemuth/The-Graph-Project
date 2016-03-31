@@ -37,25 +37,30 @@ namespace GraphDataLayer
             var ranges = new List<int[,]>(xlWorkbook.Worksheets.Count);
             foreach (Excel.Worksheet worksheet in xlWorkbook.Worksheets)
             {
-                var height = worksheet.UsedRange.Rows.Count;
-                var width = worksheet.UsedRange.Columns.Count;
-                var rangeNumbers = new int[height, width];
-                var range = worksheet.UsedRange.Value2;
+                var usedRange = worksheet.UsedRange;
+                var rangeValues = usedRange.Value2;
+                int[,] rangeNumbers;
 
-                if (range is object[,])
+                if (rangeValues is object[,])
                 {
-                    for (int i = 0; i < height; i++)
+                    rangeNumbers = new int[usedRange.Rows.Count, usedRange.Columns.Count];
+                    for (int i = 0; i < usedRange.Rows.Count; i++)
                     {
-                        for (int j = 0; j < width; j++)
+                        for (int j = 0; j < usedRange.Columns.Count; j++)
                         {
-                            var item = range[i + 1, j + 1];
+                            var item = rangeValues[i + 1, j + 1];
                             rangeNumbers[i, j] = ParseItem(item);
                         }
                     }
                 }
+                else if (rangeValues == null)
+                {
+                    continue;
+                }
                 else
                 {
-                    rangeNumbers[0, 0] = (int) range;
+                    rangeNumbers = new int[1, 1];
+                    rangeNumbers[0, 0] = (int) rangeValues;
                 }
                 ranges.Add(rangeNumbers);
             }
@@ -65,7 +70,7 @@ namespace GraphDataLayer
         private int ParseItem(dynamic item)
         {
             int result;
-            return int.TryParse(item.ToString(), out result) ? result : 0;
+            return int.TryParse(item?.ToString(), out result) ? result : 0;
         }
 
         public void Dispose()
