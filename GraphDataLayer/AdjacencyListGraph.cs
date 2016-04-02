@@ -49,18 +49,15 @@ namespace GraphDataLayer
 
         public short[,] GetIncidenceMatrix()
         {
-            var matrix = new short[vertices.Length, ArrowsCount];
-            for (int i = 0; i < vertices.Length; i++)
+            var matrix = new short[VerticesCount, ArrowsCount];
+            var edgeIndex = 0;
+            for (var i = 0; i < VerticesCount; i++)
             {
-                for (int j = 0; j < vertices[i]?.Count; j++)
+                foreach (var heighbour in vertices[i])
                 {
-                    if(vertices[i][j]==-1)
-                        continue;
-                    else
-                    {
-                        matrix[i, j] = 1;
-                        matrix[vertices[i][j], j] = -1;
-                    }
+                    matrix[i, edgeIndex] = 1;
+                    matrix[heighbour, edgeIndex] = -1;
+                    edgeIndex++;
                 }
             }
             return matrix;
