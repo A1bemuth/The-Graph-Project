@@ -15,14 +15,24 @@ namespace GraphDataLayer
             vertices = Enumerable.Repeat(0, verticeCount)
                 .Select(v => new List<int>())
                 .ToArray();
+            ArrowsCount = 0;
         }
 
         public IGraph AddArrow(int from, int to)
         {
             if(from == to)
                 throw new ArgumentException("Vertice can not point to itself.");
-            if(!vertices[from].Contains(to))
-                vertices[from].Add(to);
+            if (!vertices[from].Contains(to))
+            {
+                for (int i = 0; i < vertices.Length; i++)
+                {
+                    if(i!=from)
+                        vertices[i].Add(-1);
+                    if (i == from)
+                        vertices[from].Add(to);
+                }
+                ArrowsCount++;
+            }
             return this;
         }
 
@@ -44,8 +54,13 @@ namespace GraphDataLayer
             {
                 for (int j = 0; j < vertices[i]?.Count; j++)
                 {
-                    matrix[i, i + j] = -1;
-                    matrix[vertices[i][j], i + j] = 1;
+                    if(vertices[i][j]==-1)
+                        continue;
+                    else
+                    {
+                        matrix[i, j] = 1;
+                        matrix[vertices[i][j], j] = -1;
+                    }
                 }
             }
             return matrix;
@@ -63,7 +78,7 @@ namespace GraphDataLayer
         }
 
         public int VerticesCount => vertices.Length;
-        public int ArrowsCount => vertices.Sum(arrows => arrows?.Count ?? 0);
+        public int ArrowsCount; //=> vertices.Sum(arrows => arrows?.Count ?? 0);
 
         private List<int>[] vertices;
     }

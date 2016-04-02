@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlgorithmsTests\ClusteringCoefficientTests.cs" />
     <Compile Include="AlgorithmsTests\CycleComparerTester.cs" />
     <Compile Include="AlgorithmsTests\CyclesSearcherTester.cs" />
     <Compile Include="DataLayerTests\GraphTests.cs" />
