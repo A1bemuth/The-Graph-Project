@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClusteringCoefficient.cs" />
     <Compile Include="CycleComparer.cs" />
     <Compile Include="CyclesSearcher.cs" />
     <Compile Include="GraphIterator.cs" />

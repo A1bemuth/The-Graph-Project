@@ -65,9 +65,9 @@ namespace Tests.DataLayerTests
             var incidenceMatrix = graph.GetIncidenceMatrix();
             var expectedMatrix = new short[,]
             {
-                {1,    1,     0},
-                {0,     -1,      -1},
-                {-1,     0,      1}
+                { 1,     1,     0},
+                { 0,    -1,    -1},
+                {-1,     0,     1}
             };
             Assert.That(incidenceMatrix, Is.EqualTo(expectedMatrix));
         }
