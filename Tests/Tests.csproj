@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="AlgorithmsTests\CycleComparerTester.cs" />
     <Compile Include="AlgorithmsTests\CyclesSearcherTester.cs" />
+    <Compile Include="DataLayerTests\DictonaryGraphTester.cs" />
     <Compile Include="DataLayerTests\GraphTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

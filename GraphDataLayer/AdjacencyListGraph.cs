@@ -37,16 +37,29 @@ namespace GraphDataLayer
             return vertices[vertice];
         }
 
+        public List<int> GetConnectedVertices(int vertice)
+        {
+            var connectedVertices = new HashSet<int>(GetNeighbours(vertice));
+            for (var i = 0; i < VerticesCount; i++)
+            {
+                if(i == vertice)
+                    continue;
+                if(vertices[i].Contains(vertice))
+                    connectedVertices.Add(i);
+            }
+            return connectedVertices.ToList();
+        }
+
         public short[,] GetIncidenceMatrix()
         {
             var matrix = new short[VerticesCount, ArrowsCount];
             var edgeIndex = 0;
             for (var i = 0; i < VerticesCount; i++)
             {
-                foreach (var heighbour in vertices[i])
+                foreach (var neighbour in vertices[i])
                 {
                     matrix[i, edgeIndex] = 1;
-                    matrix[heighbour, edgeIndex] = -1;
+                    matrix[neighbour, edgeIndex] = -1;
                     edgeIndex++;
                 }
             }
