@@ -37,6 +37,11 @@ namespace GraphDataLayer
             return vertices[vertice];
         }
 
+        public List<int> GetIncomingVertex(int vertice)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<int> GetConnectedVertices(int vertice)
         {
             var connectedVertices = new HashSet<int>(GetNeighbours(vertice));
@@ -69,6 +74,11 @@ namespace GraphDataLayer
         public bool HasArrow(int from, int to)
         {
             return vertices[from].Contains(to);
+        }
+
+        public bool HasConnection(int @from, int to)
+        {
+            throw new NotImplementedException();
         }
 
         public bool AreReciprocal(int verticeOne, int verticeTwo)

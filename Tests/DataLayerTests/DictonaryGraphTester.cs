@@ -1,4 +1,5 @@
-﻿using GraphDataLayer;
+﻿using System;
+using GraphDataLayer;
 using NUnit.Framework;
 
 namespace Tests.DataLayerTests
@@ -58,6 +59,30 @@ namespace Tests.DataLayerTests
         }
 
         [Test]
+        public void ThrowWhenAddArrowWithNotExistedStartTest()
+        {
+            var graph = new AdjacencyGraph(1);
+
+            Assert.Throws<ArgumentException>(() => graph.AddArrow(1, 0));
+        }
+
+        [Test]
+        public void ThrowWhenAddArrowWithNotExistedEndTest()
+        {
+            var graph = new AdjacencyGraph(1);
+
+            Assert.Throws<ArgumentException>(() => graph.AddArrow(0, 1));
+        }
+
+        [Test]
+        public void ThrowWhenAddArrowItself()
+        {
+            var graph = new AdjacencyGraph(1);
+
+            Assert.Throws<ArgumentException>(() => graph.AddArrow(0, 0));
+        }
+
+        [Test]
         public void GetTwoNeighboursForFirstVertexTest()
         {
             var graph = new AdjacencyGraph(3)
@@ -78,6 +103,14 @@ namespace Tests.DataLayerTests
                 .AddArrow(2, 1);
 
             Assert.That(graph.GetNeighbours(3), Is.EqualTo(new int[0]));
+        }
+
+        [Test]
+        public void ThrowWhenGetNeighboursForNotExistedVertexTest()
+        {
+            var graph = new AdjacencyGraph(0);
+
+            Assert.Throws<ArgumentException>(() => graph.GetNeighbours(1));
         }
 
         [Test]

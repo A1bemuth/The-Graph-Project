@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using GraphDataLayer;
+﻿using GraphDataLayer;
 using NUnit.Framework;
 
 namespace Tests.DataLayerTests
