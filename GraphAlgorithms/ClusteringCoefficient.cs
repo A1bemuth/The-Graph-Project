@@ -1,50 +1,66 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using GraphDataLayer;
 
 namespace GraphAlgorithms
 {
     public class ClusteringCoefficient
     {
-        private short clusteringCoefficicentGraph;
-        private short[] clusteringCoefficientVertex;
+        private double clusteringCoefficicentGraph;
         private short[,] matrixIncidence;
+        private IGraph Graph;
 
-        public ClusteringCoefficient()
+        public ClusteringCoefficient(IGraph graph)
         {
+            this.Graph = graph;
+            clusteringCoefficicentGraph = 0;
+            matrixIncidence = Graph.GetIncidenceMatrix();       
         }
 
-        public int GetClusteringCoefficientGraph(IGraph fGraph)
+        public double GetClusteringCoefficientForGraph()
         {
-            matrixIncidence = fGraph.GetIncidenceMatrix();
-            for (int indexVertex = 0; indexVertex < matrixIncidence.GetLength(0); indexVertex++)
+            for (int indexVertex = 0; indexVertex < matrixIncidence.GetLength(0); indexVertex++)    //по всем вершинам в матрице инцидентности
             {
-                List<int> neighbour = new List<int>();
-                GetNeighbour(indexVertex, neighbour);
+                clusteringCoefficicentGraph += GetClusteringCoefficientForVertex(indexVertex);
             }
             
-            return 0;
+            return clusteringCoefficicentGraph/matrixIncidence.GetLength(0);
         }
 
-        private void GetNeighbour(int fIndexVertex, List<int> fNeighbour)
+        public double GetClusteringCoefficientForVertex(int fIndexVertex)
         {
-            var matrixBoolNeighbour = new bool[matrixIncidence.GetLength(0)];
-            fNeighbour.Clear();
-            for (int indexVertex = 0; indexVertex < matrixIncidence.GetLength(0); indexVertex++)
+            double clusteringCoefficientForVertex=0;
+
+            var neighbour = Graph.GetConnectedVertices(fIndexVertex);      //соседи для текущей вершины
+            var countNeighbour = neighbour.Count;                   //кол-во соседей
+            
+            var countAdjacentNeighbour = GetCountAdjacentNeighbour(neighbour);
+
+            clusteringCoefficientForVertex = (double) 2*countAdjacentNeighbour/(countNeighbour*(countNeighbour - 1));
+            return clusteringCoefficientForVertex;
+        }
+
+        private int GetCountAdjacentNeighbour(List<int> neighbour)
+        {
+            int countAdjacentNeighbour = 0;
+            for (int indexCurrentNeighbour = 0; indexCurrentNeighbour < neighbour.Count; indexCurrentNeighbour++)
+                //по всем соседям
             {
-                for (int indexEdge = 0; indexEdge < matrixIncidence.GetLength(1); indexEdge++)
+                for (int indexNeighbour = indexCurrentNeighbour; indexNeighbour < neighbour.Count - 1; indexNeighbour++)
+                    //по всем соседям после текущего
                 {
-                    if (matrixIncidence[indexVertex,indexEdge]==1 || matrixIncidence[indexVertex, indexEdge] == -1)
+                    for (int indexEdge = 0; indexEdge < matrixIncidence.GetLength(1); indexEdge++)
                     {
-                        
+                        if (matrixIncidence[neighbour[indexCurrentNeighbour], indexEdge]*
+                            matrixIncidence[neighbour[indexNeighbour + 1], indexEdge] == -1)
+                            //если есть связь между сеседями то ++ и шлепаем дальше
+                        {
+                            countAdjacentNeighbour++;
+                            break;
+                        }
                     }
                 }
             }
-
-
-
-            return fNeighbour;
+            return countAdjacentNeighbour;
         }
     }
 }
