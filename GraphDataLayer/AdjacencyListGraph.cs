@@ -86,15 +86,35 @@ namespace GraphDataLayer
             return vertices[vertice];
         }
 
+        public List<int> GetIncomingVertex(int vertice)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<int> GetConnectedVertices(int vertice)
+        {
+            var connectedVertices = new HashSet<int>(GetNeighbours(vertice));
+            for (var i = 0; i < VerticesCount; i++)
+            {
+                if(i == vertice)
+                    continue;
+                if(vertices[i].Contains(vertice))
+                    connectedVertices.Add(i);
+            }
+            return connectedVertices.ToList();
+        }
+
         public short[,] GetIncidenceMatrix()
         {
-            var matrix = new short[vertices.Length, ArrowsCount];
-            for (int i = 0; i < vertices.Length; i++)
+            var matrix = new short[VerticesCount, ArrowsCount];
+            var edgeIndex = 0;
+            for (var i = 0; i < VerticesCount; i++)
             {
-                for (int j = 0; j < vertices[i]?.Count; j++)
+                foreach (var neighbour in vertices[i])
                 {
-                    matrix[i, i + j] = -1;
-                    matrix[vertices[i][j], i + j] = 1;
+                    matrix[i, edgeIndex] = 1;
+                    matrix[neighbour, edgeIndex] = -1;
+                    edgeIndex++;
                 }
             }
             return matrix;
@@ -103,6 +123,11 @@ namespace GraphDataLayer
         public bool HasArrow(int from, int to)
         {
             return vertices[from].Contains(to);
+        }
+
+        public bool HasConnection(int @from, int to)
+        {
+            throw new NotImplementedException();
         }
 
         public bool AreReciprocal(int verticeOne, int verticeTwo)

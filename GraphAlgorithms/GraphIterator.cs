@@ -41,11 +41,8 @@ namespace GraphAlgorithms
             if (IsVertexInSequence(vertex))
             {
                 var previousIndex = FindPreviousIndex(vertex);
-                if (IsCycle(previousIndex))
-                {
-                    var cycle = currentSequence.Skip(previousIndex).ToArray();
-                    OnCycleDetected(cycle);
-                }
+                var cycle = currentSequence.Skip(previousIndex).ToArray();
+                OnCycleDetected(cycle);
             }
             else
             {
@@ -74,11 +71,6 @@ namespace GraphAlgorithms
         {
             return currentSequence
                 .IndexOf((v, index) => v == vertex && index < currentSequence.Count - 1);
-        }
-
-        private bool IsCycle(int previousVertexIndex)
-        {
-            return previousVertexIndex != -1;
         }
 
         private void OnCycleDetected(int[] cycle)

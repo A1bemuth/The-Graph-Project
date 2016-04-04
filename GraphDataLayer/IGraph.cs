@@ -5,6 +5,7 @@ namespace GraphDataLayer
     public interface IGraph
     {
         int VerticesCount { get; }
+        int ArrowsCount { get; }
 
         IGraph AddArrow(int from, int to);
 
@@ -12,9 +13,15 @@ namespace GraphDataLayer
 
         List<int> GetNeighbours(int vertice);
 
+        List<int> GetIncomingVertex(int vertice);
+
+        List<int> GetConnectedVertices(int vertice);
+
         short[,] GetIncidenceMatrix();
 
         bool HasArrow(int from, int to);
+
+        bool HasConnection(int from, int to);
 
         bool AreReciprocal(int verticeOne, int verticeTwo);
     }

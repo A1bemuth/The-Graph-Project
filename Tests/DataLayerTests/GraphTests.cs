@@ -61,11 +61,61 @@ namespace Tests.DataLayerTests
             var incidenceMatrix = graph.GetIncidenceMatrix();
             var expectedMatrix = new short[,]
             {
-                {-1,    -1,     0},
-                {0,     1,      1},
-                {1,     0,      -1}
+                {1,    1,     0},
+                {0,     -1,      -1},
+                {-1,     0,      1}
             };
             Assert.That(incidenceMatrix, Is.EqualTo(expectedMatrix));
+        }
+
+        [Test]
+        public void FourVerticesGraphIncedenceMatrixTest()
+        {
+            var graph = new AdjacencyListGraph(4)
+                .AddArrow(0, 1)
+                .AddArrow(0, 2)
+                .AddArrow(1, 0)
+                .AddArrow(0, 3);
+
+            var expectedMatrix = new short[,]
+            {
+                {1, 1, 1, -1},
+                {-1, 0, 0, 1},
+                {0, -1, 0, 0},
+                {0, 0, -1, 0}
+            };
+
+            Assert.That(graph.GetIncidenceMatrix(), Is.EqualTo(expectedMatrix));
+        }
+
+        [Test]
+        public void FourVerticesGraphConnectedVertexForZeroVertex()
+        {
+            var graph = new AdjacencyListGraph(4)
+                .AddArrow(0, 1)
+                .AddArrow(0, 2)
+                .AddArrow(1, 0)
+                .AddArrow(0, 3);
+            var expectedVertices = new[] {1, 2, 3};
+
+            var actualVertices = graph.GetConnectedVertices(0);
+
+            Assert.That(actualVertices, Is.EqualTo(expectedVertices));
+        }
+
+        [Test]
+        public void FourVerticesGraphConnectedVertexForSecondVertex()
+        {
+            var graph = new AdjacencyListGraph(4)
+                .AddArrow(0, 1)
+                .AddArrow(0, 2)
+                .AddArrow(1, 0)
+                .AddArrow(0, 3);
+            var expectedVertices = new[] {0};
+
+            var actualVertices = graph.GetConnectedVertices(2);
+
+            Assert.That(actualVertices, Is.EqualTo(expectedVertices));
         }
     }
 }
