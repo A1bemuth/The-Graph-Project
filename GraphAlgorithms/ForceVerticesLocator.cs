@@ -117,7 +117,7 @@ namespace GraphAlgorithms
 
         private NodeLayoutInfo[] LocateToStartLayout()
         {
-            var rand = new Random();
+            var rand = new Random(0);
             return Enumerable.Range(0, nodes.Count)
                 .Select(i => new NodeLayoutInfo(nodes[i], new Vector(), Point.Empty)
                 {

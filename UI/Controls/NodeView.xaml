@@ -6,7 +6,5 @@
              xmlns:local="clr-namespace:UI.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="20" Height="20">
-    <Border BorderBrush="Red" BorderThickness="1">
-        <Ellipse Fill="DarkGray"/>
-    </Border>
+    <Ellipse Fill="DarkGray"/>
 </UserControl>

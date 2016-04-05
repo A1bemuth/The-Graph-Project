@@ -22,73 +22,49 @@ namespace UI.Controls.Panels
             panel.VerticesLocator.Locate();
             foreach (var node in panel.VerticesLocator.Nodes)
             {
-                var nodeView = new NodeView();
+                var nodeView = NodeView.Create(node);
 
                 SetLeft(nodeView, node.Location.X + centerX - nodeView.Width/2);
-                SetTop(nodeView, centerY + node.Location.Y - nodeView.Height/2);
+                SetTop(nodeView, centerY - node.Location.Y - nodeView.Height/2);
 
                 foreach (var connection in node.Connections)
                 {
-                    var startPoint = new Point(node.Location.X + centerX, node.Location.Y + centerY);
-                    var endPoint = new Point(connection.Location.X + centerX, connection.Location.Y + centerY);
-                    var line = DrawLinkArrow(startPoint, endPoint);
+                    var startPoint = new Point(node.Location.X, node.Location.Y);
+                    var endPoint = new Point(connection.Location.X, connection.Location.Y);
+                    var line = new Arrow(startPoint, endPoint);
+                    line.SetShifts(centerX, centerY);
                     panel.Children.Add(line);
                 }
                 panel.Children.Add(nodeView);
             }
         }
 
-        private static Shape DrawLinkArrow(Point p1, Point p2)
-        {
-            var lineGroup = new GeometryGroup();
-            var theta = Math.Atan2(p2.Y - p1.Y, p2.X - p1.X) * 180 / Math.PI;
-
-            var pathGeometry = new PathGeometry();
-            var pathFigure = new PathFigure();
-            var p = new Point(p1.X + (p2.X - p1.X) / 1.1, p1.Y + (p2.Y - p1.Y) / 1.1);
-            pathFigure.StartPoint = p;
-
-            var lpoint = new Point(p.X + 3, p.Y + 10);
-            var rpoint = new Point(p.X - 3, p.Y + 10);
-            var seg1 = new LineSegment { Point = lpoint };
-            pathFigure.Segments.Add(seg1);
-
-            var seg2 = new LineSegment { Point = rpoint };
-            pathFigure.Segments.Add(seg2);
-
-            var seg3 = new LineSegment { Point = p };
-            pathFigure.Segments.Add(seg3);
-
-            pathGeometry.Figures.Add(pathFigure);
-            var transform = new RotateTransform
-            {
-                Angle = theta + 90,
-                CenterX = p.X,
-                CenterY = p.Y
-            };
-            pathGeometry.Transform = transform;
-            lineGroup.Children.Add(pathGeometry);
-
-            var connectorGeometry = new LineGeometry
-            {
-                StartPoint = p1,
-                EndPoint = p2
-            };
-            lineGroup.Children.Add(connectorGeometry);
-            var path = new Path
-            {
-                Data = lineGroup,
-                StrokeThickness = 2
-            };
-            path.Stroke = path.Fill = Brushes.DarkGray;
-
-            return path;
-        }
-
         public IVerticesLocator VerticesLocator
         {
             get { return (IVerticesLocator)GetValue(VerticesLocatorProperty); }
             set { SetValue(VerticesLocatorProperty, value); }
+        }
+
+        protected override Size ArrangeOverride(Size arrangeSize)
+        {
+            var centerX = arrangeSize.Width/2;
+            var centerY = arrangeSize.Height/2;
+
+            foreach (UIElement child in Children)
+            {
+                if (child is NodeView)
+                {
+                    var node = child as NodeView;
+                    SetLeft(child, centerX + node.Center.X - node.Width/2);
+                    SetTop(child, centerY - node.Center.Y - node.Height/2);
+                }else if (child is Arrow)
+                {
+                    var arrow = child as Arrow;
+                    arrow.SetShifts(centerX, centerY);
+                }
+            }
+
+            return base.ArrangeOverride(arrangeSize);
         }
     }
 }
