@@ -12,7 +12,7 @@ namespace GraphAlgorithms
         private static double Repulsion { get; } = 10000;
         private static double Damping { get; } = 0.5;
 
-        private static int SpringLength { get; } = 100;
+        private static int SpringLength { get; } = 75;
         private static int MaxIterations { get; } = 10000;
 
         private readonly List<Node> nodes;

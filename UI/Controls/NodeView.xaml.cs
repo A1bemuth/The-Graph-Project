@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using GraphAlgorithms;
 
 namespace UI.Controls
@@ -23,6 +24,11 @@ namespace UI.Controls
             {
                 Center = new Point(node.Location.X, node.Location.Y)
             };
+        }
+
+        private void UserControl_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            EllipseLayout.Fill = Brushes.Red;
         }
     }
 }

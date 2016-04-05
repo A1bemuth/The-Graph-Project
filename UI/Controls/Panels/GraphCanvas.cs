@@ -26,6 +26,7 @@ namespace UI.Controls.Panels
 
                 SetLeft(nodeView, node.Location.X + centerX - nodeView.Width/2);
                 SetTop(nodeView, centerY - node.Location.Y - nodeView.Height/2);
+                SetZIndex(nodeView, 10);
 
                 foreach (var connection in node.Connections)
                 {
