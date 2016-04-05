@@ -51,9 +51,9 @@
     <Compile Include="Geometry\Size.cs" />
     <Compile Include="Geometry\Vector.cs" />
     <Compile Include="GraphIterator.cs" />
-    <Compile Include="INode.cs" />
     <Compile Include="IVerticesLocator.cs" />
     <Compile Include="LinqExtension.cs" />
+    <Compile Include="Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

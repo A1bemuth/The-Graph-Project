@@ -47,7 +47,7 @@ namespace UI
         {
             var locator = new ForceVerticesLocator();
             var nodes = Enumerable.Range(0, graph.VerticesCount)
-                .Select(i => new NodeView())
+                .Select(i => new Node())
                 .ToArray();
             for (int i = 0; i < nodes.Length; i++)
             {

@@ -4,10 +4,10 @@ namespace GraphAlgorithms
 {
     public interface IVerticesLocator
     {
-        IList<INode> Nodes { get; }
+        IList<Node> Nodes { get; }
 
-        IVerticesLocator AddNode(INode node);
-        bool RemoveNode(INode node);
+        IVerticesLocator AddNode(Node node);
+        bool RemoveNode(Node node);
         void Locate();
         void Clear();
     }

@@ -22,21 +22,19 @@ namespace UI.Controls.Panels
             panel.VerticesLocator.Locate();
             foreach (var node in panel.VerticesLocator.Nodes)
             {
-                var element = node as UIElement;
-                if (element == null)
-                    throw new ArgumentException("Node isn't UIElement");
+                var nodeView = new NodeView();
 
-                SetLeft(element, node.Location.X + centerX);
-                SetTop(element, centerY + node.Location.Y);
+                SetLeft(nodeView, node.Location.X + centerX - nodeView.Width/2);
+                SetTop(nodeView, centerY + node.Location.Y - nodeView.Height/2);
 
                 foreach (var connection in node.Connections)
                 {
-                    var startPoint = new Point(node.Location.X + centerX + 12.5, node.Location.Y + centerY + 12.5);
-                    var endPoint = new Point(connection.Location.X + centerX + 12.5, connection.Location.Y + centerY + 12.5);
+                    var startPoint = new Point(node.Location.X + centerX, node.Location.Y + centerY);
+                    var endPoint = new Point(connection.Location.X + centerX, connection.Location.Y + centerY);
                     var line = DrawLinkArrow(startPoint, endPoint);
                     panel.Children.Add(line);
                 }
-                panel.Children.Add(element);
+                panel.Children.Add(nodeView);
             }
         }
 

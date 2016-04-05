@@ -15,17 +15,17 @@ namespace GraphAlgorithms
         private static int SpringLength { get; } = 100;
         private static int MaxIterations { get; } = 10000;
 
-        private readonly List<INode> nodes;
+        private readonly List<Node> nodes;
 
-        public IList<INode> Nodes => nodes.AsReadOnly();
+        public IList<Node> Nodes => nodes.AsReadOnly();
 
         internal class NodeLayoutInfo
         {
-            internal  INode Node { get; }
+            internal Node Node { get; }
             internal Vector Velocity { get; set; }
             internal Point NextPosition { get; set; }
 
-            public NodeLayoutInfo(INode node, Vector velocity, Point nextPosition)
+            public NodeLayoutInfo(Node node, Vector velocity, Point nextPosition)
             {
                 Node = node;
                 Velocity = velocity;
@@ -35,10 +35,10 @@ namespace GraphAlgorithms
 
         public ForceVerticesLocator()
         {
-            nodes = new List<INode>();
+            nodes = new List<Node>();
         }
 
-        public IVerticesLocator AddNode(INode node)
+        public IVerticesLocator AddNode(Node node)
         {
             if (node == null)
                 throw new ArgumentNullException(nameof(node));
@@ -49,7 +49,7 @@ namespace GraphAlgorithms
             return this;
         }
 
-        public bool RemoveNode(INode node)
+        public bool RemoveNode(Node node)
         {
             foreach (var other in nodes)
             {
@@ -117,7 +117,7 @@ namespace GraphAlgorithms
 
         private NodeLayoutInfo[] LocateToStartLayout()
         {
-            var rand = new Random(0);
+            var rand = new Random();
             return Enumerable.Range(0, nodes.Count)
                 .Select(i => new NodeLayoutInfo(nodes[i], new Vector(), Point.Empty)
                 {
@@ -129,7 +129,7 @@ namespace GraphAlgorithms
                 .ToArray();
         }
 
-        private Vector CalcRepulsionForce(INode x, INode y)
+        private Vector CalcRepulsionForce(Node x, Node y)
         {
             var proximity = Math.Max(x.Location.Distance(y.Location), 1);
 
@@ -140,7 +140,7 @@ namespace GraphAlgorithms
             return new Vector(force, angle);
         }
 
-        private Vector CalcAttractionForce(INode x, INode y, double springLength)
+        private Vector CalcAttractionForce(Node x, Node y, double springLength)
         {
             var proximity = Math.Max(x.Location.Distance(y.Location), 1);
 
