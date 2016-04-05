@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphAlgorithms", "GraphAlg
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{AE833732-3C80-45D4-851D-72744C6C0D4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{17C7FA42-2D81-4932-ACA3-C2FC66AA413E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{AE833732-3C80-45D4-851D-72744C6C0D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE833732-3C80-45D4-851D-72744C6C0D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE833732-3C80-45D4-851D-72744C6C0D4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17C7FA42-2D81-4932-ACA3-C2FC66AA413E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17C7FA42-2D81-4932-ACA3-C2FC66AA413E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17C7FA42-2D81-4932-ACA3-C2FC66AA413E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17C7FA42-2D81-4932-ACA3-C2FC66AA413E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
