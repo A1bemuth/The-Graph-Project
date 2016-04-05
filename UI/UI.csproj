@@ -63,6 +63,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\Panels\GraphCanvas.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -94,6 +95,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GraphAlgorithms\GraphAlgorithms.csproj">
+      <Project>{9532ebf7-2b2f-41bf-b1e7-0757eafab62e}</Project>
+      <Name>GraphAlgorithms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphDataLayer\GraphDataLayer.csproj">
+      <Project>{c9ea996e-cc78-4e44-887f-c6125d35267f}</Project>
+      <Name>GraphDataLayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
