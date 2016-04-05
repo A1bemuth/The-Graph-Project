@@ -40,6 +40,14 @@ namespace GraphAlgorithms.Geometry
             return new Vector(length, direction);
         }
 
+        public Point ToPoint()
+        {
+            var aX = Length * Math.Cos(Math.PI / 180.0 * Direction);
+            var aY = Length * Math.Sin(Math.PI / 180.0 * Direction);
+
+            return new Point((int)aX, (int)aY);
+        }
+
         public static Vector operator *(Vector vector, double multiplier)
         {
             return new Vector(vector.Length * multiplier, vector.Direction);
