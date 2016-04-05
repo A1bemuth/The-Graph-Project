@@ -46,7 +46,11 @@
   <ItemGroup>
     <Compile Include="CycleComparer.cs" />
     <Compile Include="CyclesSearcher.cs" />
+    <Compile Include="Geometry\Rectangle.cs" />
+    <Compile Include="Geometry\Vector.cs" />
     <Compile Include="GraphIterator.cs" />
+    <Compile Include="INode.cs" />
+    <Compile Include="IVerticesLocator.cs" />
     <Compile Include="LinqExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -59,6 +63,7 @@
       <Name>GraphDataLayer</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
