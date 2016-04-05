@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:panels="clr-namespace:UI.Controls.Panels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow">
     <Grid>
-        <panels:GraphCanvas x:Name="GraphView"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <panels:GraphCanvas x:Name="GraphView" />
+        <Button Grid.Row="1" HorizontalAlignment="Left" Margin="15,0,0,0" Click="DrawGraph">Test</Button>
     </Grid>
 </Window>
