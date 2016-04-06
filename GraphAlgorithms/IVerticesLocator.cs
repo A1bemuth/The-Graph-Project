@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GraphAlgorithms.Geometry;
 
 namespace GraphAlgorithms
 {
@@ -8,7 +9,7 @@ namespace GraphAlgorithms
 
         IVerticesLocator AddNode(Node node);
         bool RemoveNode(Node node);
-        void Locate();
+        Size Locate();
         void Clear();
     }
 }

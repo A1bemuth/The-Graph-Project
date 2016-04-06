@@ -7,7 +7,9 @@ namespace GraphAlgorithms
 {
     public class ForceVerticesLocator : IVerticesLocator
     {
-        private static double nodeSize = 20;
+        private Point minPoint;
+        private Point maxPoint;
+
         private static double Attraction { get; } = 0.1;
         private static double Repulsion { get; } = 10000;
         private static double Damping { get; } = 0.5;
@@ -64,7 +66,7 @@ namespace GraphAlgorithms
             nodes.Clear();
         }
 
-        public void Locate()
+        public Size Locate()
         {
             var layout = LocateToStartLayout();
             var stopCount = 0;
@@ -106,13 +108,18 @@ namespace GraphAlgorithms
                 if (iterations > MaxIterations) break;
             }
 
-            var diffLocation = DifferentWithCenter();
+            CalcMaxAndMinPoints();
+            var graphSize = CalcGraphSize();
+
+            var diffLocation = new Point(minPoint.X + graphSize.Width/2, minPoint.Y + graphSize.Height/2);
 
             foreach (var node in nodes)
             {
                 var location = new Point(node.Location.X - diffLocation.X, node.Location.Y - diffLocation.Y);
                 node.Location = location;
             }
+
+            return graphSize;
         }
 
         private NodeLayoutInfo[] LocateToStartLayout()
@@ -151,7 +158,7 @@ namespace GraphAlgorithms
             return new Vector(force, angle);
         }
 
-        private Point DifferentWithCenter()
+        private void CalcMaxAndMinPoints()
         {
             var minX = int.MaxValue;
             var minY = int.MaxValue;
@@ -165,11 +172,16 @@ namespace GraphAlgorithms
                 if (node.Location.Y < minY) minY = node.Location.Y;
                 if (node.Location.Y > maxY) maxY = node.Location.Y;
             }
+            minPoint = new Point(minX, minY);
+            maxPoint = new Point(maxX, maxY);
+        }
 
-            var width = Math.Abs(maxX - minX);
-            var height = Math.Abs(maxY - minY);
+        private Size CalcGraphSize()
+        {
+            var width = Math.Abs(maxPoint.X - minPoint.X);
+            var height = Math.Abs(maxPoint.Y - minPoint.Y);
 
-            return new Point(minX + width / 2, minY + height / 2);
+            return new Size(width, height);
         }
     }
 }
