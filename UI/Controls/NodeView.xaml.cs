@@ -35,13 +35,13 @@ namespace UI.Controls
             {
                 if (arrow.StartNode.Equals(this))
                 {
-                    arrow.Status = NodeStatus.Selected;
-                    arrow.EndNode.Status = NodeStatus.Connected;
+                    arrow.Status |= NodeStatus.Outgoing;
+                    arrow.EndNode.Status |= NodeStatus.Outgoing;
                 }
                 else
                 {
-                    arrow.Status = NodeStatus.Selected;
-                    arrow.StartNode.Status = NodeStatus.Connected;
+                    arrow.Status |= NodeStatus.Incomming;
+                    arrow.StartNode.Status |= NodeStatus.Incomming;
                 }
             }
         }
@@ -55,10 +55,22 @@ namespace UI.Controls
         public void ChangeView()
         {
             if(Status == NodeStatus.Selected)
-                EllipseLayout.Fill = Brushes.OrangeRed;
-
-            if(Status == NodeStatus.Connected)
-                EllipseLayout.Fill = Brushes.MediumAquamarine;
+            {
+                EllipseLayout.Fill = Brushes.Red;
+            }
+            else if(Status == NodeStatus.Incomming)
+            {
+                EllipseLayout.Fill = Brushes.DodgerBlue;
+                
+            }
+            else if (Status == NodeStatus.Outgoing)
+            {
+                EllipseLayout.Fill = Brushes.MediumSeaGreen;
+            }
+            else if (Status == (NodeStatus.Outgoing | NodeStatus.Incomming))
+            {
+                EllipseLayout.Fill = Brushes.Coral;
+            }
         }
     }
 }
