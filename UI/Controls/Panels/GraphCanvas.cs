@@ -110,7 +110,7 @@ namespace UI.Controls.Panels
                     var endArrowPoint = CalcShiftFor(arrow.EndPoint);
                     arrow.SetCanvasParameters(startArrowPoint, endArrowPoint);
 
-                    arrow.Arrange(new Rect(new Point(), arrow.DesiredSize));
+                    arrow.Arrange(new Rect(new Point(), arrangeSize));
                 }
             }
             return arrangeSize;
@@ -129,7 +129,7 @@ namespace UI.Controls.Panels
         {
             var side = Math.Min(ActualHeight, ActualWidth);
             var verticesCount = VerticesLocator?.Nodes.Count ?? 0;
-            verticesScale = Math.Min(side/verticesCount, side/10);
+            verticesScale = Math.Min(side/verticesCount, side/15);
         }
 
         private Point CalcShiftFor(Point point, double shift = 0.0D)

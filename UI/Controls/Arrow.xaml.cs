@@ -1,14 +1,17 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using UI.Annotations;
 
 namespace UI.Controls
 {
     /// <summary>
     /// Interaction logic for Arrow.xaml
     /// </summary>
-    public partial class Arrow : UserControl
+    public partial class Arrow : UserControl , INotifyPropertyChanged
     {
         public static DependencyProperty StartPointProperty = DependencyProperty.Register("StartPoint", typeof(Point),
             typeof(Arrow), new FrameworkPropertyMetadata(new Point()));
@@ -35,8 +38,15 @@ namespace UI.Controls
 
         public Geometry Geometry
         {
-            get { return (Geometry) GetValue(GeometryProperty); }
-            set { SetValue(GeometryProperty, value); }
+            get
+            {
+                return (Geometry) GetValue(GeometryProperty);
+            }
+            set
+            {
+                SetValue(GeometryProperty, value);
+                OnPropertyChanged();
+            }
         }
 
         public Arrow()
@@ -94,6 +104,14 @@ namespace UI.Controls
             };
             lineGroup.Children.Add(connectorGeometry);
             Geometry = lineGroup;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
