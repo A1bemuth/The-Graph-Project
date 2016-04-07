@@ -60,8 +60,8 @@ namespace UI.Controls
             var arrowPoint = new Point(start.X + (end.X - start.X)/1.2, start.Y + (end.Y - start.Y)/1.2);
             pathFigure.StartPoint = arrowPoint;
 
-            var lpoint = new Point(arrowPoint.X + 5, arrowPoint.Y + 15);
-            var rpoint = new Point(arrowPoint.X - 5, arrowPoint.Y + 15);
+            var lpoint = new Point(arrowPoint.X + 5, arrowPoint.Y + 10);
+            var rpoint = new Point(arrowPoint.X - 5, arrowPoint.Y + 10);
             var seg1 = new LineSegment { Point = lpoint };
             pathFigure.Segments.Add(seg1);
 
