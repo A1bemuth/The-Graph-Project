@@ -5,11 +5,12 @@ namespace GraphAlgorithms
 {
     public interface IVerticesLocator
     {
+        Size Size { get; }
         IList<Node> Nodes { get; }
 
         IVerticesLocator AddNode(Node node);
         bool RemoveNode(Node node);
-        Size Locate();
+        void Locate();
         void Clear();
     }
 }

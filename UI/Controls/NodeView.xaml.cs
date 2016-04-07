@@ -1,7 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using GraphAlgorithms;
 
 namespace UI.Controls
 {
@@ -10,25 +8,20 @@ namespace UI.Controls
     /// </summary>
     public partial class NodeView : UserControl
     {
-
         public Point Center { get; set; }
+
+        public double Scale
+        {
+            set
+            {
+                Height = value;
+                Width = value;
+            }
+        }
 
         public NodeView()
         {
             InitializeComponent();
-        }
-
-        public static NodeView Create(Node node)
-        {
-            return new NodeView
-            {
-                Center = new Point(node.Location.X, node.Location.Y)
-            };
-        }
-
-        private void UserControl_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            EllipseLayout.Fill = Brushes.Red;
         }
     }
 }

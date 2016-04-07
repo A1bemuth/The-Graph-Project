@@ -48,11 +48,17 @@ namespace UI.Controls
             EndPoint = end;
         }
 
-        public void SetShifts(double horizontalShift, double verticalShift)
+        public void SetCanvasParameters(double horizontalShift, double verticalShift, double comprasionRatio)
         {
-            var startShiftedPoint = new Point(StartPoint.X + horizontalShift, verticalShift - StartPoint.Y);
-            var endShiftedPoint = new Point(EndPoint.X + horizontalShift, verticalShift - EndPoint.Y);
+            var startShiftedPoint = new Point(StartPoint.X * comprasionRatio + horizontalShift, verticalShift - StartPoint.Y * comprasionRatio);
+            var endShiftedPoint = new Point(EndPoint.X * comprasionRatio + horizontalShift, verticalShift - EndPoint.Y * comprasionRatio);
+
             UpdateGeometry(startShiftedPoint, endShiftedPoint);
+        }
+
+        public void SetCanvasParameters(Point start, Point end)
+        {
+            UpdateGeometry(start, end);
         }
 
         private void UpdateGeometry(Point start, Point end)
@@ -60,31 +66,31 @@ namespace UI.Controls
             var lineGroup = new GeometryGroup();
             var theta = Math.Atan2(end.Y - start.Y, end.X - start.X) * 180 / Math.PI;
 
-            var pathGeometry = new PathGeometry();
+            var arrowGeometry = new PathGeometry();
             var pathFigure = new PathFigure();
-            var p = new Point(start.X + (end.X - start.X) / 1.1, start.Y + (end.Y - start.Y) / 1.1);
-            pathFigure.StartPoint = p;
+            var arrowPoint = new Point(start.X + (end.X - start.X)/1.2, start.Y + (end.Y - start.Y)/1.2);
+            pathFigure.StartPoint = arrowPoint;
 
-            var lpoint = new Point(p.X + 3, p.Y + 10);
-            var rpoint = new Point(p.X - 3, p.Y + 10);
+            var lpoint = new Point(arrowPoint.X + 3, arrowPoint.Y + 10);
+            var rpoint = new Point(arrowPoint.X - 3, arrowPoint.Y + 10);
             var seg1 = new LineSegment { Point = lpoint };
             pathFigure.Segments.Add(seg1);
 
             var seg2 = new LineSegment { Point = rpoint };
             pathFigure.Segments.Add(seg2);
 
-            var seg3 = new LineSegment { Point = p };
+            var seg3 = new LineSegment { Point = arrowPoint };
             pathFigure.Segments.Add(seg3);
 
-            pathGeometry.Figures.Add(pathFigure);
+            arrowGeometry.Figures.Add(pathFigure);
             var transform = new RotateTransform
             {
                 Angle = theta + 90,
-                CenterX = p.X,
-                CenterY = p.Y
+                CenterX = arrowPoint.X,
+                CenterY = arrowPoint.Y
             };
-            pathGeometry.Transform = transform;
-            lineGroup.Children.Add(pathGeometry);
+            arrowGeometry.Transform = transform;
+            lineGroup.Children.Add(arrowGeometry);
 
             var connectorGeometry = new LineGeometry
             {

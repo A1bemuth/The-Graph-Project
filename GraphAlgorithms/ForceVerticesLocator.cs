@@ -21,6 +21,8 @@ namespace GraphAlgorithms
 
         public IList<Node> Nodes => nodes.AsReadOnly();
 
+        public Size Size { get; private set; }
+
         internal class NodeLayoutInfo
         {
             internal Node Node { get; }
@@ -66,7 +68,7 @@ namespace GraphAlgorithms
             nodes.Clear();
         }
 
-        public Size Locate()
+        public void Locate()
         {
             var layout = LocateToStartLayout();
             var stopCount = 0;
@@ -109,17 +111,15 @@ namespace GraphAlgorithms
             }
 
             CalcMaxAndMinPoints();
-            var graphSize = CalcGraphSize();
+            Size = CalcGraphSize();
 
-            var diffLocation = new Point(minPoint.X + graphSize.Width/2, minPoint.Y + graphSize.Height/2);
+            var diffLocation = new Point(minPoint.X + Size.Width/2, minPoint.Y + Size.Height/2);
 
             foreach (var node in nodes)
             {
                 var location = new Point(node.Location.X - diffLocation.X, node.Location.Y - diffLocation.Y);
                 node.Location = location;
             }
-
-            return graphSize;
         }
 
         private NodeLayoutInfo[] LocateToStartLayout()
