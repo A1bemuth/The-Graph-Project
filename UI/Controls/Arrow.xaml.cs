@@ -19,6 +19,8 @@ namespace UI.Controls
         public static DependencyProperty GeometryProperty = DependencyProperty.Register("Geometry", typeof(Geometry), typeof(Arrow),
             new FrameworkPropertyMetadata(null));
 
+
+
         public Point StartPoint
         {
             get { return (Point)GetValue(StartPointProperty); }
@@ -46,14 +48,7 @@ namespace UI.Controls
         {
             StartPoint = start;
             EndPoint = end;
-        }
-
-        public void SetCanvasParameters(double horizontalShift, double verticalShift, double comprasionRatio)
-        {
-            var startShiftedPoint = new Point(StartPoint.X * comprasionRatio + horizontalShift, verticalShift - StartPoint.Y * comprasionRatio);
-            var endShiftedPoint = new Point(EndPoint.X * comprasionRatio + horizontalShift, verticalShift - EndPoint.Y * comprasionRatio);
-
-            UpdateGeometry(startShiftedPoint, endShiftedPoint);
+            UpdateGeometry(new Point(), new Point());
         }
 
         public void SetCanvasParameters(Point start, Point end)

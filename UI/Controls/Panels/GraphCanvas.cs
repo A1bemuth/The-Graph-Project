@@ -13,6 +13,15 @@ namespace UI.Controls.Panels
         private double comprasionRatio;
         private double verticesScale;
 
+        private Arrow[] arrows;
+        private NodeView[] nodes;
+
+        public GraphCanvas() : base()
+        {
+            arrows = new Arrow[0];
+            nodes = new NodeView[0];
+        }
+
         public IVerticesLocator VerticesLocator { get; } = new ForceVerticesLocator();
 
 
@@ -36,17 +45,20 @@ namespace UI.Controls.Panels
 
         private void CreateGraphMathModel()
         {
-            var nodes = Enumerable.Range(0, Graph.VerticesCount)
+            var vertices = Enumerable.Range(0, Graph.VerticesCount)
                 .Select(i => new Node())
                 .ToArray();
-            for (int i = 0; i < nodes.Length; i++)
+            for (int i = 0; i < vertices.Length; i++)
             {
                 foreach (var neighbour in Graph.GetNeighbours(i))
                 {
-                    nodes[i].AddChild(nodes[neighbour]);
+                    vertices[i].AddChild(vertices[neighbour]);
                 }
-                VerticesLocator.AddNode(nodes[i]);
+                VerticesLocator.AddNode(vertices[i]);
             }
+
+            nodes = new NodeView[Graph.VerticesCount];
+            arrows = new Arrow[Graph.ArrowsCount];
         }
 
         private void RelocateGraph()
@@ -62,6 +74,7 @@ namespace UI.Controls.Panels
                 {
                     Center = new Point(node.Location.X, node.Location.Y)
                 };
+                SetZIndex(nodeView, 10);
                 
                 foreach (var connection in node.Connections)
                 {
@@ -69,6 +82,7 @@ namespace UI.Controls.Panels
                     var endPoint = new Point(connection.Location.X, connection.Location.Y);
                     var line = new Arrow(startPoint, endPoint);
                     Children.Add(line);
+                    nodeView.Arrows.Add(line);
                 }
                 Children.Add(nodeView);
             }
