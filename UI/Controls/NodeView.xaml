@@ -6,6 +6,6 @@
              x:Name="This"
              xmlns:local="clr-namespace:UI.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Height="25" Width="25" MouseDown="UserControl_MouseDown" Cursor="Hand">
+             d:DesignHeight="300" d:DesignWidth="300" MouseDown="UserControl_MouseDown" Cursor="Hand">
     <Ellipse x:Name="EllipseLayout" Fill="DarkGray"></Ellipse>
 </UserControl>

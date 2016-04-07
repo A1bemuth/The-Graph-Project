@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using GraphAlgorithms;
 using GraphDataLayer;
 
@@ -99,9 +100,10 @@ namespace UI.Controls.Panels
                 if (child is NodeView)
                 {
                     var node = child as NodeView;
-                    node.Scale = verticesScale;
-                    var topLeftPoint = CalcShiftFor(node.Center, verticesScale / 2);
-                    child.Arrange(new Rect(topLeftPoint, new Size(verticesScale, verticesScale)));
+                    var nodeScale = node.IsSelected ? verticesScale + 10 : verticesScale;
+                    node.Scale = nodeScale;
+                    var topLeftPoint = CalcShiftFor(node.Center, nodeScale / 2);
+                    child.Arrange(new Rect(topLeftPoint, new Size(nodeScale, nodeScale)));
                 }
                 else
                 {
@@ -136,6 +138,17 @@ namespace UI.Controls.Panels
         {
             return new Point(center.X + point.X * comprasionRatio - shift,
                         center.Y - point.Y * comprasionRatio - shift);
+        }
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            if(e.Handled)
+                return;
+            foreach (var child in Children)
+            {
+                var graphObject = child as IGraphObject;
+                graphObject?.ChangeStateToDefault();
+            }
         }
     }
 }

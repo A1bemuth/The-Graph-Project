@@ -7,10 +7,9 @@
              xmlns:local="clr-namespace:UI.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Path Data="{Binding ElementName=This, Path=Geometry}" 
-          Fill="{Binding ElementName=This, Path=Background}" 
+    <Path Data="{Binding ElementName=This, Path=Geometry}"
           Stroke="{Binding ElementName=This, Path=BorderBrush}"
-          StrokeThickness="3"/>
+          StrokeThickness="{Binding ElementName=This, Path=StrokeThickness}"/>
     <UserControl.Style>
         <Style TargetType="UserControl">
             <Setter Property="BorderBrush" Value="DarkGray"/>

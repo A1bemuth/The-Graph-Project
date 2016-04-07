@@ -11,7 +11,7 @@ namespace UI.Controls
     /// <summary>
     /// Interaction logic for Arrow.xaml
     /// </summary>
-    public partial class Arrow : UserControl , INotifyPropertyChanged
+    public partial class Arrow : UserControl, IGraphObject
     {
         public static DependencyProperty StartPointProperty = DependencyProperty.Register("StartPoint", typeof(Point),
             typeof(Arrow), new FrameworkPropertyMetadata(new Point()));
@@ -22,7 +22,8 @@ namespace UI.Controls
         public static DependencyProperty GeometryProperty = DependencyProperty.Register("Geometry", typeof(Geometry), typeof(Arrow),
             new FrameworkPropertyMetadata(null));
 
-
+        public static DependencyProperty StrokeThicknessProperty = DependencyProperty.Register("StrokeThickness", typeof(double)
+            , typeof(Arrow), new FrameworkPropertyMetadata(3.0d));
 
         public Point StartPoint
         {
@@ -38,15 +39,14 @@ namespace UI.Controls
 
         public Geometry Geometry
         {
-            get
-            {
-                return (Geometry) GetValue(GeometryProperty);
-            }
-            set
-            {
-                SetValue(GeometryProperty, value);
-                OnPropertyChanged();
-            }
+            get { return (Geometry) GetValue(GeometryProperty); }
+            set { SetValue(GeometryProperty, value); }
+        }
+
+        public double StrokeThickness
+        {
+            get { return (double) GetValue(StrokeThicknessProperty); }
+            set { SetValue(StrokeThicknessProperty, value); }
         }
 
         public Arrow()
@@ -106,12 +106,10 @@ namespace UI.Controls
             Geometry = lineGroup;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public void ChangeStateToDefault()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            BorderBrush = Brushes.DarkGray;
+            StrokeThickness = 3;
         }
     }
 }

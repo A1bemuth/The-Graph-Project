@@ -8,9 +8,9 @@ namespace UI.Controls
     /// <summary>
     /// Interaction logic for NodeView.xaml
     /// </summary>
-    public partial class NodeView : UserControl
+    public partial class NodeView : UserControl , IGraphObject
     {
-        private bool isSelected;
+        public bool IsSelected { get; private set; }
 
         public List<Arrow> Arrows { get; }
 
@@ -33,12 +33,21 @@ namespace UI.Controls
 
         private void UserControl_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            isSelected = true;
+            IsSelected = true;
             EllipseLayout.Fill = Brushes.OrangeRed;
             foreach (var arrow in Arrows)
             {
                 arrow.BorderBrush = Brushes.DarkOrange;
+                arrow.StrokeThickness = 5;
             }
+
+            e.Handled = true;
+        }
+
+        public void ChangeStateToDefault()
+        {
+            IsSelected = false;
+            EllipseLayout.Fill = Brushes.DarkGray;
         }
     }
 }

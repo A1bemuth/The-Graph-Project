@@ -78,6 +78,7 @@
       <DependentUpon>NodeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Panels\GraphCanvas.cs" />
+    <Compile Include="IGraphObject.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
