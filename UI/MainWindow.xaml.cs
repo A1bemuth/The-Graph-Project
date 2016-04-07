@@ -1,8 +1,5 @@
-﻿using System.Linq;
-using System.Windows;
-using GraphAlgorithms;
+﻿using System.Windows;
 using GraphDataLayer;
-using UI.Controls;
 
 namespace UI
 {
@@ -45,20 +42,7 @@ namespace UI
 
         private void DrawGraph(object sender, RoutedEventArgs e)
         {
-            var locator = new ForceVerticesLocator();
-            var nodes = Enumerable.Range(0, graph.VerticesCount)
-                .Select(i => new Node())
-                .ToArray();
-            for (int i = 0; i < nodes.Length; i++)
-            {
-                foreach (var neighbour in graph.GetNeighbours(i))
-                {
-                    nodes[i].AddChild(nodes[neighbour]);
-                }
-                locator.AddNode(nodes[i]);
-            }
-
-            GraphView.VerticesLocator = locator;
+            GraphView.Graph = graph;
         }
     }
 }

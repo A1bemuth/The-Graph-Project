@@ -1,28 +1,55 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using GraphAlgorithms;
+using GraphDataLayer;
 
 namespace UI.Controls.Panels
 {
     public class GraphCanvas : Canvas
     {
-        public Point Center { get; set; }
         private Point center;
         private double comprasionRatio;
         private double verticesScale;
 
+        public IVerticesLocator VerticesLocator { get; } = new ForceVerticesLocator();
 
-        public DependencyProperty VerticesLocatorProperty = DependencyProperty.Register("VerticesLocator",
-           typeof(IVerticesLocator), typeof(GraphCanvas), new FrameworkPropertyMetadata(null, LocatorChanged));
 
-        private static void LocatorChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        public DependencyProperty GraphProperty = DependencyProperty.Register("Graph", typeof (IGraph),
+            typeof (GraphCanvas), new FrameworkPropertyMetadata(null, GraphChanded));
+
+        public IGraph Graph
         {
-            var panel = dependencyObject as GraphCanvas;
-            panel.RelocateGraph();
+            get { return (IGraph) GetValue(GraphProperty); }
+            set { SetValue(GraphProperty, value); }
         }
 
-        public void RelocateGraph()
+        private static void GraphChanded(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            var graphCanvas = dependencyObject as GraphCanvas;
+            if(graphCanvas == null)
+                return;
+            graphCanvas.CreateGraphMathModel();
+            graphCanvas.RelocateGraph();
+        }
+
+        private void CreateGraphMathModel()
+        {
+            var nodes = Enumerable.Range(0, Graph.VerticesCount)
+                .Select(i => new Node())
+                .ToArray();
+            for (int i = 0; i < nodes.Length; i++)
+            {
+                foreach (var neighbour in Graph.GetNeighbours(i))
+                {
+                    nodes[i].AddChild(nodes[neighbour]);
+                }
+                VerticesLocator.AddNode(nodes[i]);
+            }
+        }
+
+        private void RelocateGraph()
         {
             Children.Clear();
             if(VerticesLocator == null)
@@ -45,12 +72,6 @@ namespace UI.Controls.Panels
                 }
                 Children.Add(nodeView);
             }
-        }
-
-        public IVerticesLocator VerticesLocator
-        {
-            get { return (IVerticesLocator)GetValue(VerticesLocatorProperty); }
-            set { SetValue(VerticesLocatorProperty, value); }
         }
 
         protected override Size ArrangeOverride(Size arrangeSize)
