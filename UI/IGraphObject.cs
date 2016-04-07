@@ -2,6 +2,9 @@
 {
     public interface IGraphObject
     {
-        void ChangeStateToDefault();
+        NodeStatus Status { get; }
+
+        void ChangeViewToDefault();
+        void ChangeView();
     }
 }

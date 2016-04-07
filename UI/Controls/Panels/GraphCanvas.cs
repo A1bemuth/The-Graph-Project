@@ -69,23 +69,23 @@ namespace UI.Controls.Panels
                 return;
             VerticesLocator.Locate();
 
-            foreach (var node in VerticesLocator.Nodes)
+            var nodes = VerticesLocator.Nodes.Select(n => new NodeView
             {
-                var nodeView = new NodeView
+                Center = new Point(n.Location.X, n.Location.Y)
+            }).ToArray();
+
+            for(var i = 0; i < nodes.Length; i++)
+            {
+                SetZIndex(nodes[i], 10);
+
+                foreach (var connection in Graph.GetNeighbours(i))
                 {
-                    Center = new Point(node.Location.X, node.Location.Y)
-                };
-                SetZIndex(nodeView, 10);
-                
-                foreach (var connection in node.Connections)
-                {
-                    var startPoint = new Point(node.Location.X, node.Location.Y);
-                    var endPoint = new Point(connection.Location.X, connection.Location.Y);
-                    var line = new Arrow(startPoint, endPoint);
+                    var line = new Arrow(nodes[i], nodes[connection]);
                     Children.Add(line);
-                    nodeView.Arrows.Add(line);
+                    nodes[i].Arrows.Add(line);
+                    nodes[connection].Arrows.Add(line);
                 }
-                Children.Add(nodeView);
+                Children.Add(nodes[i]);
             }
         }
 
@@ -100,7 +100,7 @@ namespace UI.Controls.Panels
                 if (child is NodeView)
                 {
                     var node = child as NodeView;
-                    var nodeScale = node.Status == NodeStatus.Selected ? verticesScale + 10 : verticesScale;
+                    var nodeScale = node.Status == NodeStatus.Selected ? verticesScale + 5 : verticesScale;
                     node.Scale = nodeScale;
                     var topLeftPoint = CalcShiftFor(node.Center, nodeScale / 2);
                     child.Arrange(new Rect(topLeftPoint, new Size(nodeScale, nodeScale)));
@@ -108,8 +108,8 @@ namespace UI.Controls.Panels
                 else
                 {
                     var arrow = child as Arrow;
-                    var startArrowPoint = CalcShiftFor(arrow.StartPoint);
-                    var endArrowPoint = CalcShiftFor(arrow.EndPoint);
+                    var startArrowPoint = CalcShiftFor(arrow.StartNode.Center);
+                    var endArrowPoint = CalcShiftFor(arrow.EndNode.Center);
                     arrow.SetCanvasParameters(startArrowPoint, endArrowPoint);
 
                     arrow.Arrange(new Rect(new Point(), arrangeSize));
@@ -145,9 +145,19 @@ namespace UI.Controls.Panels
             foreach (var child in Children)
             {
                 var graphObject = child as IGraphObject;
-                graphObject?.ChangeStateToDefault();
+                graphObject?.ChangeViewToDefault();
             }
             base.OnPreviewMouseLeftButtonDown(e);
+        }
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            foreach (var child in Children)
+            {
+                var graphObject = child as IGraphObject;
+                graphObject?.ChangeView();
+            }
+            base.OnMouseLeftButtonDown(e);
         }
     }
 }

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using UI.Annotations;
 
 namespace UI.Controls
 {
@@ -13,29 +10,11 @@ namespace UI.Controls
     /// </summary>
     public partial class Arrow : UserControl, IGraphObject
     {
-        public static DependencyProperty StartPointProperty = DependencyProperty.Register("StartPoint", typeof(Point),
-            typeof(Arrow), new FrameworkPropertyMetadata(new Point()));
-
-        public static DependencyProperty EndPointProperty = DependencyProperty.Register("EndPoint", typeof(Point),
-            typeof(Arrow), new FrameworkPropertyMetadata(new Point(1, 1)));
-
         public static DependencyProperty GeometryProperty = DependencyProperty.Register("Geometry", typeof(Geometry), typeof(Arrow),
             new FrameworkPropertyMetadata(null));
 
         public static DependencyProperty StrokeThicknessProperty = DependencyProperty.Register("StrokeThickness", typeof(double)
             , typeof(Arrow), new FrameworkPropertyMetadata(3.0d));
-
-        public Point StartPoint
-        {
-            get { return (Point)GetValue(StartPointProperty); }
-            set { SetValue(StartPointProperty, value); }
-        }
-
-        public Point EndPoint
-        {
-            get { return (Point)GetValue(EndPointProperty); }
-            set { SetValue(EndPointProperty, value); }
-        }
 
         public Geometry Geometry
         {
@@ -49,16 +28,21 @@ namespace UI.Controls
             set { SetValue(StrokeThicknessProperty, value); }
         }
 
+        public NodeStatus Status { get; set; }
+
+        public NodeView StartNode { get; set; }
+
+        public NodeView EndNode { get; set; }
+
         public Arrow()
         {
             InitializeComponent();
         }
 
-        public Arrow(Point start, Point end) : this()
+        public Arrow(NodeView start, NodeView end) : this()
         {
-            StartPoint = start;
-            EndPoint = end;
-            UpdateGeometry(new Point(), new Point());
+            StartNode = start;
+            EndNode = end;
         }
 
         public void SetCanvasParameters(Point start, Point end)
@@ -106,10 +90,20 @@ namespace UI.Controls
             Geometry = lineGroup;
         }
 
-        public void ChangeStateToDefault()
+        public void ChangeViewToDefault()
         {
+            Status = NodeStatus.NotInclude;
             BorderBrush = Brushes.DarkGray;
             StrokeThickness = 3;
+        }
+
+        public void ChangeView()
+        {
+            if (Status == NodeStatus.Selected)
+            {
+                BorderBrush = Brushes.MediumAquamarine;
+                StrokeThickness = 5;
+            }
         }
     }
 }

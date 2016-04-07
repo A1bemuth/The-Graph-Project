@@ -4,7 +4,6 @@
     {
         NotInclude,
         Selected,
-        Incoming,
-        Outgoing
+        Connected
     }
 }

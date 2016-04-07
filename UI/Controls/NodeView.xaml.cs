@@ -5,17 +5,12 @@ using System.Windows.Media;
 
 namespace UI.Controls
 {
-    /// <summary>
-    /// Interaction logic for NodeView.xaml
-    /// </summary>
     public partial class NodeView : UserControl, IGraphObject
     {
-        //public bool IsSelected { get; private set; }
-
         public NodeStatus Status { get; private set; }
 
         public List<Arrow> Arrows { get; }
-
+        
         public Point Center { get; set; }
 
         public double Scale
@@ -36,20 +31,34 @@ namespace UI.Controls
         private void UserControl_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Status = NodeStatus.Selected;
-            EllipseLayout.Fill = Brushes.OrangeRed;
             foreach (var arrow in Arrows)
             {
-                arrow.BorderBrush = Brushes.DarkOrange;
-                arrow.StrokeThickness = 5;
+                if (arrow.StartNode.Equals(this))
+                {
+                    arrow.Status = NodeStatus.Selected;
+                    arrow.EndNode.Status = NodeStatus.Connected;
+                }
+                else
+                {
+                    arrow.Status = NodeStatus.Selected;
+                    arrow.StartNode.Status = NodeStatus.Connected;
+                }
             }
-
-            e.Handled = true;
         }
 
-        public void ChangeStateToDefault()
+        public void ChangeViewToDefault()
         {
             Status = NodeStatus.NotInclude;
             EllipseLayout.Fill = Brushes.DarkGray;
+        }
+
+        public void ChangeView()
+        {
+            if(Status == NodeStatus.Selected)
+                EllipseLayout.Fill = Brushes.OrangeRed;
+
+            if(Status == NodeStatus.Connected)
+                EllipseLayout.Fill = Brushes.MediumAquamarine;
         }
     }
 }
