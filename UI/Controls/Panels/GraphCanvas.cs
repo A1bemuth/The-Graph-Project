@@ -100,7 +100,7 @@ namespace UI.Controls.Panels
                 if (child is NodeView)
                 {
                     var node = child as NodeView;
-                    var nodeScale = node.IsSelected ? verticesScale + 10 : verticesScale;
+                    var nodeScale = node.Status == NodeStatus.Selected ? verticesScale + 10 : verticesScale;
                     node.Scale = nodeScale;
                     var topLeftPoint = CalcShiftFor(node.Center, nodeScale / 2);
                     child.Arrange(new Rect(topLeftPoint, new Size(nodeScale, nodeScale)));
@@ -140,15 +140,14 @@ namespace UI.Controls.Panels
                         center.Y - point.Y * comprasionRatio - shift);
         }
 
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            if(e.Handled)
-                return;
             foreach (var child in Children)
             {
                 var graphObject = child as IGraphObject;
                 graphObject?.ChangeStateToDefault();
             }
+            base.OnPreviewMouseLeftButtonDown(e);
         }
     }
 }
