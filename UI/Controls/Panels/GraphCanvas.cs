@@ -109,7 +109,7 @@ namespace UI.Controls.Panels
                     var arrow = child as Arrow;
                     var startArrowPoint = CalcShiftFor(arrow.StartNode.Center);
                     var endArrowPoint = CalcShiftFor(arrow.EndNode.Center);
-                    arrow.SetCanvasParameters(startArrowPoint, endArrowPoint);
+                    arrow.SetCanvasParameters(startArrowPoint, endArrowPoint, verticesScale);
 
                     arrow.Arrange(new Rect(new Point(), arrangeSize));
                 }

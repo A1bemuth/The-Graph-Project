@@ -34,6 +34,12 @@ namespace UI.Controls
 
         public NodeView EndNode { get; set; }
 
+        public Point StartPoint { get; private set; }
+        
+        public Point EndPoint { get; private set; }
+
+        public double Offset { get; private set; }
+
         public Arrow()
         {
             InitializeComponent();
@@ -43,51 +49,83 @@ namespace UI.Controls
         {
             StartNode = start;
             EndNode = end;
+            StartPoint = StartNode.Center;
+            EndPoint = EndNode.Center;
         }
 
-        public void SetCanvasParameters(Point start, Point end)
+        public void SetCanvasParameters(Point start, Point end, double offset)
         {
-            UpdateGeometry(start, end);
+            StartPoint = start;
+            EndPoint = end;
+            Offset = offset/2 + 5;
+            UpdateGeometry();
         }
 
-        private void UpdateGeometry(Point start, Point end)
+        private void UpdateGeometry()
         {
-            var lineGroup = new GeometryGroup();
-            var theta = Math.Atan2(end.Y - start.Y, end.X - start.X) * 180 / Math.PI;
+            var mainGeometry = new GeometryGroup();
+            var angle = 8d;
+            var theta = Math.Atan2(EndPoint.Y - StartPoint.Y, EndPoint.X - StartPoint.X);
+            StartPoint = new Point(StartPoint.X + Math.Cos(theta + angle*Math.PI/180)*Offset,
+                StartPoint.Y + Math.Sin(theta + angle*Math.PI/180)*Offset);
+            EndPoint = new Point(EndPoint.X - Math.Cos(theta - angle*Math.PI/180)*Offset,
+                EndPoint.Y - Math.Sin(theta - angle*Math.PI/180)*Offset);
 
-            var arrowGeometry = new PathGeometry();
-            var pathFigure = new PathFigure();
-            var arrowPoint = new Point(start.X + (end.X - start.X)/1.15, start.Y + (end.Y - start.Y)/1.15);
-            pathFigure.StartPoint = arrowPoint;
+            var edgeGeometry = CreateEdgeGeometry();
+            var triangleGeometry = CreateTriangleGeometry(theta);
+            mainGeometry.Children.Add(edgeGeometry);
+            mainGeometry.Children.Add(triangleGeometry);
+            Geometry = mainGeometry;
+        }
 
-            var lpoint = new Point(arrowPoint.X + 4, arrowPoint.Y + 10);
-            var rpoint = new Point(arrowPoint.X - 4, arrowPoint.Y + 10);
-            var seg1 = new LineSegment { Point = lpoint };
-            pathFigure.Segments.Add(seg1);
+        private PathGeometry CreateEdgeGeometry()
+        {
+            var edge = new PathGeometry();
+            var figure = new PathFigure
+            {
+                StartPoint = StartPoint,
+                IsClosed = false,
+                IsFilled = false
+            };
+            figure.Segments.Add(new ArcSegment
+            {
+                Point = EndPoint,
+                Size = new Size(155, 155)
+            });
+            edge.Figures.Add(figure);
+            return edge;
+        }
 
-            var seg2 = new LineSegment { Point = rpoint };
-            pathFigure.Segments.Add(seg2);
+        private PathGeometry CreateTriangleGeometry(double theta)
+        {
+            var headWidth = 5;
+            var headHeight = 13;
 
-            var seg3 = new LineSegment { Point = arrowPoint };
-            pathFigure.Segments.Add(seg3);
+            var startArrowPoint = new Point(EndPoint.X, EndPoint.Y);
 
-            arrowGeometry.Figures.Add(pathFigure);
+            var leftPoint = new Point(startArrowPoint.X - headWidth, startArrowPoint.Y + headHeight);
+            var rightPoint = new Point(startArrowPoint.X + headWidth, startArrowPoint.Y + headHeight);
+
+            var triangleGeometry = new PathGeometry();
+            var segment = new PathFigure(startArrowPoint, new PathSegment[] 
+            {
+                new LineSegment(leftPoint, true), 
+                new LineSegment(rightPoint, true)
+            }, true)
+            {
+                IsFilled = true,
+                IsClosed = true
+            };
             var transform = new RotateTransform
             {
-                Angle = theta + 90,
-                CenterX = arrowPoint.X,
-                CenterY = arrowPoint.Y
+                Angle = theta * 180 / Math.PI + 75,
+                CenterX = EndPoint.X,
+                CenterY = EndPoint.Y
             };
-            arrowGeometry.Transform = transform;
-            lineGroup.Children.Add(arrowGeometry);
-
-            var connectorGeometry = new LineGeometry
-            {
-                StartPoint = start,
-                EndPoint = end
-            };
-            lineGroup.Children.Add(connectorGeometry);
-            Geometry = lineGroup;
+            triangleGeometry.Transform = transform;
+            triangleGeometry.Figures.Add(segment);
+            triangleGeometry.FillRule = FillRule.Nonzero;
+            return triangleGeometry;
         }
 
         public void ChangeViewToDefault()
