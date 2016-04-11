@@ -80,6 +80,7 @@ namespace UI.Controls
 
         private PathGeometry CreateEdgeGeometry()
         {
+            var length = Math.Sqrt(Math.Pow(EndPoint.X - StartPoint.X, 2) + Math.Pow(EndPoint.Y - StartPoint.Y, 2));
             var edge = new PathGeometry();
             var figure = new PathFigure
             {
@@ -90,7 +91,7 @@ namespace UI.Controls
             figure.Segments.Add(new ArcSegment
             {
                 Point = EndPoint,
-                Size = new Size(155, 155)
+                Size = new Size(length*1.5, length*1.5)
             });
             edge.Figures.Add(figure);
             return edge;
