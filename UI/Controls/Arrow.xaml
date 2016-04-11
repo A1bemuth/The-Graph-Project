@@ -9,7 +9,8 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Path Data="{Binding ElementName=This, Path=Geometry}"
           Stroke="{Binding ElementName=This, Path=BorderBrush}"
-          StrokeThickness="{Binding ElementName=This, Path=StrokeThickness}"/>
+          StrokeThickness="{Binding ElementName=This, Path=StrokeThickness}"
+          Opacity="{Binding ElementName=This, Path=Opacity}"/>
     <UserControl.Style>
         <Style TargetType="UserControl">
             <Setter Property="BorderBrush" Value="DarkGray"/>

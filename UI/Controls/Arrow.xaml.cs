@@ -57,11 +57,11 @@ namespace UI.Controls
 
             var arrowGeometry = new PathGeometry();
             var pathFigure = new PathFigure();
-            var arrowPoint = new Point(start.X + (end.X - start.X)/1.2, start.Y + (end.Y - start.Y)/1.2);
+            var arrowPoint = new Point(start.X + (end.X - start.X)/1.15, start.Y + (end.Y - start.Y)/1.15);
             pathFigure.StartPoint = arrowPoint;
 
-            var lpoint = new Point(arrowPoint.X + 5, arrowPoint.Y + 10);
-            var rpoint = new Point(arrowPoint.X - 5, arrowPoint.Y + 10);
+            var lpoint = new Point(arrowPoint.X + 4, arrowPoint.Y + 10);
+            var rpoint = new Point(arrowPoint.X - 4, arrowPoint.Y + 10);
             var seg1 = new LineSegment { Point = lpoint };
             pathFigure.Segments.Add(seg1);
 
@@ -94,22 +94,25 @@ namespace UI.Controls
         {
             Status = NodeStatus.NotInclude;
             BorderBrush = Brushes.DarkGray;
-            StrokeThickness = 3;
         }
 
         public void ChangeView()
         {
-            if (Status == NodeStatus.Incomming)
+            if (Status == NodeStatus.NotInclude)
             {
-                BorderBrush = Brushes.DeepSkyBlue;
+                BorderBrush = Brushes.Gainsboro;
+            }
+            else if (Status == NodeStatus.Incomming)
+            {
+                BorderBrush = Brushes.Gold;
             }
             else if (Status == NodeStatus.Outgoing)
             {
-                BorderBrush = Brushes.MediumAquamarine;
+                BorderBrush = Brushes.DodgerBlue;
             }
-            else if (Status == (NodeStatus.Outgoing | NodeStatus.Incomming))
+            else
             {
-                BorderBrush = Brushes.Coral;
+                BorderBrush = Brushes.Gray;
             }
         }
     }

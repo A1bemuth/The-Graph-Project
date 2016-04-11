@@ -50,26 +50,32 @@ namespace UI.Controls
         {
             Status = NodeStatus.NotInclude;
             EllipseLayout.Fill = Brushes.DarkGray;
+            EllipseLayout.Opacity = 1;
         }
 
         public void ChangeView()
         {
             if(Status == NodeStatus.Selected)
             {
-                EllipseLayout.Fill = Brushes.Red;
+                EllipseLayout.Fill = Brushes.OrangeRed;
             }
             else if(Status == NodeStatus.Incomming)
             {
-                EllipseLayout.Fill = Brushes.DodgerBlue;
+                EllipseLayout.Fill = Brushes.Gold;
                 
             }
             else if (Status == NodeStatus.Outgoing)
             {
-                EllipseLayout.Fill = Brushes.MediumSeaGreen;
+                EllipseLayout.Fill = Brushes.DodgerBlue;
             }
             else if (Status == (NodeStatus.Outgoing | NodeStatus.Incomming))
             {
-                EllipseLayout.Fill = Brushes.Coral;
+                EllipseLayout.Fill = Brushes.YellowGreen;
+            }
+            else
+            {
+                EllipseLayout.Fill = Brushes.Gainsboro;
+
             }
         }
     }
