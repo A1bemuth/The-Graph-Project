@@ -133,6 +133,7 @@ namespace UI.Controls
         {
             Status = NodeStatus.NotInclude;
             BorderBrush = Brushes.DarkGray;
+            Panel.SetZIndex(this, 0);
         }
 
         public void ChangeView()
@@ -144,10 +145,12 @@ namespace UI.Controls
             else if (Status == NodeStatus.Incomming)
             {
                 BorderBrush = Brushes.Gold;
+                Panel.SetZIndex(this, 5);
             }
             else if (Status == NodeStatus.Outgoing)
             {
                 BorderBrush = Brushes.DodgerBlue;
+                Panel.SetZIndex(this, 5);
             }
             else
             {

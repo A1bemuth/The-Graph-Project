@@ -49,33 +49,31 @@ namespace UI.Controls
         public void ChangeViewToDefault()
         {
             Status = NodeStatus.NotInclude;
-            EllipseLayout.Fill = Brushes.DarkGray;
-            EllipseLayout.Opacity = 1;
+            BorderBrush = Brushes.DarkGray;
         }
 
         public void ChangeView()
         {
             if(Status == NodeStatus.Selected)
             {
-                EllipseLayout.Fill = Brushes.OrangeRed;
+                BorderBrush = Brushes.OrangeRed;
             }
             else if(Status == NodeStatus.Incomming)
             {
-                EllipseLayout.Fill = Brushes.Gold;
+                BorderBrush = Brushes.Gold;
                 
             }
             else if (Status == NodeStatus.Outgoing)
             {
-                EllipseLayout.Fill = Brushes.DodgerBlue;
+                BorderBrush = Brushes.DodgerBlue;
             }
             else if (Status == (NodeStatus.Outgoing | NodeStatus.Incomming))
             {
-                EllipseLayout.Fill = Brushes.YellowGreen;
+                BorderBrush = Brushes.YellowGreen;
             }
             else
             {
-                EllipseLayout.Fill = Brushes.Gainsboro;
-
+                BorderBrush = Brushes.Gainsboro;
             }
         }
     }
