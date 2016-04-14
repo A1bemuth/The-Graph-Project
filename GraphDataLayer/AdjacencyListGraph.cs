@@ -22,15 +22,7 @@ namespace GraphDataLayer
             if(from == to)
                 throw new ArgumentException("Vertice can not point to itself.");
             if (!vertices[from].Contains(to))
-            {
-                for (int i = 0; i < vertices.Length; i++)
-                {
-                    if(i!=from)
-                        vertices[i].Add(-1);
-                    if (i == from)
-                        vertices[from].Add(to);
-                }
-            }
+                vertices[from].Add(to);
             return this;
         }
 
@@ -96,7 +88,7 @@ namespace GraphDataLayer
         }
 
         public int VerticesCount => vertices.Length;
-        public int ArrowsCount=> vertices.Sum(arrows => arrows?.Count ?? 0);
+        public int ArrowsCount => vertices.Sum(arrows => arrows?.Count ?? 0);
 
         private List<int>[] vertices;
     }

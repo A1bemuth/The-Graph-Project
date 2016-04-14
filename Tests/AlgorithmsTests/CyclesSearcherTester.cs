@@ -15,7 +15,7 @@ namespace Tests.AlgorithmsTests
         [Test]
         public void ThreeVertexGraphWithoutCycelsTest()
         {
-            var graph = new AdjacencyListGraph(3);
+            var graph = new AdjacencyGraph(3);
             graph.AddArrow(0, 1);
             graph.AddArrow(1, 2);
 
