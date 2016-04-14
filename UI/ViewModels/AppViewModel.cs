@@ -1,5 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using GraphAlgorithms;
 using GraphDataLayer;
 using UI.Annotations;
 
@@ -8,6 +11,8 @@ namespace UI.ViewModels
     public class AppViewModel : INotifyPropertyChanged
     {
         private IGraph graph;
+        private double clusteringCoef;
+        private ICollection<string> cycles;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -18,6 +23,27 @@ namespace UI.ViewModels
             {
                 graph = value;
                 OnPropertyChanged(nameof(Graph));
+                AnalyzeGraph();
+            }
+        }
+
+        public double ClusteringCoefficient
+        {
+            get { return clusteringCoef; }
+            private set
+            {
+                clusteringCoef = value;
+                OnPropertyChanged(nameof(ClusteringCoefficient));
+            }
+        }
+
+        public ICollection<string> Cycles
+        {
+            get { return cycles; }
+            private set
+            {
+                cycles = value;
+                OnPropertyChanged(nameof(Cycles));
             }
         }
 
@@ -30,27 +56,27 @@ namespace UI.ViewModels
 
         private void LoadGraph(object parameter)
         {
-            Graph = new AdjacencyGraph(13)
+            Graph = new AdjacencyListGraph(8)
                 .AddArrow(0, 1)
-                .AddArrow(0, 5)
-                .AddArrow(5, 4)
-                .AddArrow(4, 2)
+                .AddArrow(1, 2)
                 .AddArrow(2, 0)
-                .AddArrow(2, 3)
+                .AddArrow(3, 1)
                 .AddArrow(3, 2)
-                .AddArrow(3, 5)
+                .AddArrow(5, 2)
                 .AddArrow(4, 3)
-                .AddArrow(4, 11)
-                .AddArrow(11, 12)
-                .AddArrow(12, 9)
-                .AddArrow(9, 10)
-                .AddArrow(10, 12)
-                .AddArrow(9, 11)
-                .AddArrow(0, 6)
-                .AddArrow(6, 9)
-                .AddArrow(7, 6)
-                .AddArrow(7, 8)
-                .AddArrow(8, 7);
+                .AddArrow(3, 4)
+                .AddArrow(4, 5)
+                .AddArrow(6, 5)
+                .AddArrow(5, 6)
+                .AddArrow(7, 4);
+        }
+
+        private void AnalyzeGraph()
+        {
+            if(Graph == null)
+                return;
+            ClusteringCoefficient = graph.ClusteringCoefficient();
+            Cycles = graph.FindCycles().Select(c => string.Join(",", c)).ToArray();
         }
 
         [NotifyPropertyChangedInvocator]

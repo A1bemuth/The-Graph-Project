@@ -20,6 +20,16 @@
                 <MenuItem Header="Загрузить граф" Command="{Binding LoadGraphCommand}"/>
             </MenuItem>
         </Menu>
-        <controls:GraphCanvas Grid.Row="1" Graph="{Binding Graph}"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <controls:GraphCanvas Grid.Column="0" Graph="{Binding Graph}"/>
+            <StackPanel Grid.Column="1">
+                <TextBlock Text="{Binding ClusteringCoefficient}"/>
+                <ListBox ItemsSource="{Binding Cycles}"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
