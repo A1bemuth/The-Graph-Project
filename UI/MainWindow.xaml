@@ -3,26 +3,23 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:panels="clr-namespace:UI.Controls.Panels"
+        xmlns:controls="clr-namespace:UI.Controls"
+        xmlns:viewModels="clr-namespace:UI.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow">
+    <Window.DataContext>
+        <viewModels:AppViewModel/>
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <panels:GraphCanvas x:Name="GraphView" />
-        <Button Grid.Row="1" HorizontalAlignment="Left" Margin="15,0,0,0" Click="DrawGraph">Test</Button>
-        <!--<Path Stroke="Red">
-            <Path.Data>
-                <PathGeometry>
-                    <PathFigure StartPoint="100, 90">
-                        <ArcSegment Point="95,100" Size="8,10" SweepDirection="Clockwise"/>
-                        <LineSegment Point="105,100"/>
-                        <ArcSegment Point="100,90" Size="10, 8"/>
-                    </PathFigure>
-                </PathGeometry>
-            </Path.Data>
-        </Path>-->
+        <Menu Grid.Row="0">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Загрузить граф" Command="{Binding LoadGraphCommand}"/>
+            </MenuItem>
+        </Menu>
+        <controls:GraphCanvas Grid.Row="1" Graph="{Binding Graph}"/>
     </Grid>
 </Window>

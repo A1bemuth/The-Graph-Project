@@ -6,7 +6,7 @@ using System.Windows.Input;
 using GraphAlgorithms;
 using GraphDataLayer;
 
-namespace UI.Controls.Panels
+namespace UI.Controls
 {
     public class GraphCanvas : Canvas
     {
@@ -14,17 +14,7 @@ namespace UI.Controls.Panels
         private double comprasionRatio;
         private double verticesScale;
 
-        private Arrow[] arrows;
-        private NodeView[] nodes;
-
-        public GraphCanvas() : base()
-        {
-            arrows = new Arrow[0];
-            nodes = new NodeView[0];
-        }
-
         public IVerticesLocator VerticesLocator { get; } = new ForceVerticesLocator();
-
 
         public DependencyProperty GraphProperty = DependencyProperty.Register("Graph", typeof (IGraph),
             typeof (GraphCanvas), new FrameworkPropertyMetadata(null, GraphChanded));
@@ -46,6 +36,7 @@ namespace UI.Controls.Panels
 
         private void CreateGraphMathModel()
         {
+            VerticesLocator.Clear();
             var vertices = Enumerable.Range(0, Graph.VerticesCount)
                 .Select(i => new Node())
                 .ToArray();
@@ -57,9 +48,6 @@ namespace UI.Controls.Panels
                 }
                 VerticesLocator.AddNode(vertices[i]);
             }
-
-            nodes = new NodeView[Graph.VerticesCount];
-            arrows = new Arrow[Graph.ArrowsCount];
         }
 
         private void RelocateGraph()

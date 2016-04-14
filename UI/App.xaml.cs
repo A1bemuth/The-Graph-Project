@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using UI.ViewModels;
 
 namespace UI
 {
@@ -13,5 +8,12 @@ namespace UI
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            var mainWindow = new MainWindow();
+            var appModel = new AppViewModel();
+            mainWindow.DataContext = appModel;
+            mainWindow.Show();
+        }
     }
 }
