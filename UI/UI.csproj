@@ -56,6 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Command.cs" />
+    <Compile Include="Converters\CycleToStringConverter.cs" />
     <Compile Include="ViewModels\AppViewModel.cs" />
     <Page Include="Controls\Arrow.xaml">
       <SubType>Designer</SubType>

@@ -8,6 +8,7 @@ namespace UI
         NotInclude = 0,
         Selected = 1,
         Incomming = 2,
-        Outgoing = 4
+        Outgoing = 4,
+        InCycle = 8
     }
 }

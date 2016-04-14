@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,22 +9,68 @@ using GraphDataLayer;
 
 namespace UI.Controls
 {
-    public class GraphCanvas : Canvas
+    public class GraphCanvas : Panel
     {
         private Point center;
         private double comprasionRatio;
         private double verticesScale;
+
+        private List<NodeView> nodes;
+        private List<Arrow> arrows;
 
         public IVerticesLocator VerticesLocator { get; } = new ForceVerticesLocator();
 
         public DependencyProperty GraphProperty = DependencyProperty.Register("Graph", typeof (IGraph),
             typeof (GraphCanvas), new FrameworkPropertyMetadata(null, GraphChanded));
 
+        public DependencyProperty SelectedCycleProperty = DependencyProperty.Register("SelectedCycle", typeof(IEnumerable<int>), typeof(GraphCanvas),
+            new FrameworkPropertyMetadata(new List<int>(), SelectedCycleChanged));
+
+        private static void SelectedCycleChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            var graphCanvas = dependencyObject as GraphCanvas;
+            if(graphCanvas == null)
+                return;
+            graphCanvas.SetChildrenDefaultViews();
+            graphCanvas.PickOutCycle();
+        }
+
         public IGraph Graph
         {
             get { return (IGraph) GetValue(GraphProperty); }
             set { SetValue(GraphProperty, value); }
         }
+
+        public int[] SelectedCycle
+        {
+            get { return (int[]) GetValue(SelectedCycleProperty); }
+            set { SetValue(SelectedCycleProperty, value); }
+        }
+
+        private void SetChildrenDefaultViews()
+        {
+            foreach (var child in Children)
+            {
+                var graphObject = child as IGraphObject;
+                graphObject?.ChangeViewToDefault();
+            }
+        }
+
+        private void PickOutCycle()
+        {
+            if (SelectedCycle == null)
+                return;
+            for (int i = 0; i < SelectedCycle.Length; i++)
+            {
+                nodes[SelectedCycle[i]].IncludeInCycle(nodes[SelectedCycle[(i + 1)%SelectedCycle.Length]]);
+            }
+
+            foreach (IGraphObject child in Children)
+            {
+                child.ChangeView();
+            }
+        }
+
 
         private static void GraphChanded(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
@@ -53,16 +100,18 @@ namespace UI.Controls
         private void RelocateGraph()
         {
             Children.Clear();
+            
             if(VerticesLocator == null)
                 return;
             VerticesLocator.Locate();
 
-            var nodes = VerticesLocator.Nodes.Select(n => new NodeView
+            nodes = VerticesLocator.Nodes.Select(n => new NodeView
             {
                 Center = new Point(n.Location.X, n.Location.Y)
-            }).ToArray();
+            }).ToList();
+            arrows = new List<Arrow>(Graph.ArrowsCount);
 
-            for(var i = 0; i < nodes.Length; i++)
+            for (var i = 0; i < nodes.Count; i++)
             {
                 SetZIndex(nodes[i], 10);
 
@@ -72,6 +121,7 @@ namespace UI.Controls
                     Children.Add(line);
                     nodes[i].Arrows.Add(line);
                     nodes[connection].Arrows.Add(line);
+                    arrows.Add(line);
                 }
                 Children.Add(nodes[i]);
             }
@@ -129,11 +179,7 @@ namespace UI.Controls
 
         protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            foreach (var child in Children)
-            {
-                var graphObject = child as IGraphObject;
-                graphObject?.ChangeViewToDefault();
-            }
+            SetChildrenDefaultViews();
             base.OnPreviewMouseLeftButtonDown(e);
         }
 

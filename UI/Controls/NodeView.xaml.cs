@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -46,6 +47,12 @@ namespace UI.Controls
             }
         }
 
+        public void IncludeInCycle(NodeView nextNode)
+        {
+            Status = NodeStatus.InCycle;
+            Arrows.First(a => a.EndNode.Equals(nextNode)).Status = NodeStatus.InCycle;
+        }
+
         public void ChangeViewToDefault()
         {
             Status = NodeStatus.NotInclude;
@@ -54,26 +61,26 @@ namespace UI.Controls
 
         public void ChangeView()
         {
-            if(Status == NodeStatus.Selected)
+            switch (Status)
             {
-                BorderBrush = Brushes.OrangeRed;
-            }
-            else if(Status == NodeStatus.Incomming)
-            {
-                BorderBrush = Brushes.Gold;
-                
-            }
-            else if (Status == NodeStatus.Outgoing)
-            {
-                BorderBrush = Brushes.DodgerBlue;
-            }
-            else if (Status == (NodeStatus.Outgoing | NodeStatus.Incomming))
-            {
-                BorderBrush = Brushes.YellowGreen;
-            }
-            else
-            {
-                BorderBrush = Brushes.Gainsboro;
+                case NodeStatus.Selected:
+                    BorderBrush = Brushes.OrangeRed;
+                    break;
+                case NodeStatus.Incomming:
+                    BorderBrush = Brushes.Gold;
+                    break;
+                case NodeStatus.Outgoing:
+                    BorderBrush = Brushes.DodgerBlue;
+                    break;
+                case NodeStatus.Outgoing | NodeStatus.Incomming:
+                    BorderBrush = Brushes.YellowGreen;
+                    break;
+                case NodeStatus.InCycle:
+                    BorderBrush = Brushes.LimeGreen;
+                    break;
+                default:
+                    BorderBrush = Brushes.Gainsboro;
+                    break;
             }
         }
     }

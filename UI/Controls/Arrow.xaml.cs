@@ -138,23 +138,23 @@ namespace UI.Controls
 
         public void ChangeView()
         {
-            if (Status == NodeStatus.NotInclude)
+            switch (Status)
             {
-                BorderBrush = Brushes.Gainsboro;
-            }
-            else if (Status == NodeStatus.Incomming)
-            {
-                BorderBrush = Brushes.Gold;
-                Panel.SetZIndex(this, 5);
-            }
-            else if (Status == NodeStatus.Outgoing)
-            {
-                BorderBrush = Brushes.DodgerBlue;
-                Panel.SetZIndex(this, 5);
-            }
-            else
-            {
-                BorderBrush = Brushes.Gray;
+                case NodeStatus.Incomming:
+                    BorderBrush = Brushes.Gold;
+                    Panel.SetZIndex(this, 5);
+                    break;
+                case NodeStatus.Outgoing:
+                    BorderBrush = Brushes.DodgerBlue;
+                    Panel.SetZIndex(this, 5);
+                    break;
+                case NodeStatus.InCycle:
+                    BorderBrush = Brushes.LightSeaGreen;
+                    Panel.SetZIndex(this, 5);
+                    break;
+                default:
+                    BorderBrush = Brushes.Gainsboro;
+                    break;
             }
         }
     }
