@@ -55,10 +55,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Command.cs" />
+    <Compile Include="Infrastructure\Command.cs" />
     <Compile Include="Converters\CycleToStringConverter.cs" />
     <Compile Include="ViewModels\AppViewModel.cs" />
-    <Page Include="Controls\Arrow.xaml">
+    <Compile Include="ViewModels\GraphInformationViewModel.cs" />
+    <Page Include="Controls\ArrowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -74,21 +75,21 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\Arrow.xaml.cs">
-      <DependentUpon>Arrow.xaml</DependentUpon>
+    <Compile Include="Controls\ArrowView.xaml.cs">
+      <DependentUpon>ArrowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\NodeView.xaml.cs">
       <DependentUpon>NodeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\GraphCanvas.cs" />
-    <Compile Include="IGraphObject.cs" />
+    <Compile Include="Infrastructure\IGraphObject.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NodeStatus.cs" />
+    <Compile Include="Infrastructure\NodeStatus.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

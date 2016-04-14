@@ -1,4 +1,4 @@
-﻿namespace GraphAlgorithms.Geometry
+﻿namespace GraphAlgorithms.VerticeLocation.Geometry
 {
     public struct Size
     {

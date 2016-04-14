@@ -17,7 +17,8 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
             <MenuItem Header="Файл">
-                <MenuItem Header="Загрузить граф" Command="{Binding LoadGraphCommand}"/>
+                <MenuItem Header="Загрузить граф" 
+                          Command="{Binding LoadGraphCommand}"/>
             </MenuItem>
         </Menu>
         <Grid Grid.Row="1">
@@ -26,11 +27,11 @@
                 <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
             <controls:GraphCanvas Grid.Column="0" Graph="{Binding Graph}"
-                                  SelectedCycle="{Binding SelectedCycle}"/>
+                                  SelectedCycle="{Binding GraphInformationModel.SelectedCycle}"/>
             <StackPanel Grid.Column="1">
-                <TextBlock Text="{Binding ClusteringCoefficient}"/>
-                <ListBox ItemsSource="{Binding Cycles, Converter={StaticResource CycleToStringConverter}}"
-                         SelectedIndex="{Binding SelectedCycleIndex}"/>
+                <TextBlock Text="{Binding GraphInformationModel.ClusteringCoefficient}"/>
+                <ListBox ItemsSource="{Binding GraphInformationModel.Cycles, Converter={StaticResource CycleToStringConverter}}"
+                         SelectedIndex="{Binding GraphInformationModel.SelectedCycleIndex}"/>
             </StackPanel>
         </Grid>
     </Grid>

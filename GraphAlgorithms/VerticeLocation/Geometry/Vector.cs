@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GraphAlgorithms.Geometry
+namespace GraphAlgorithms.VerticeLocation.Geometry
 {
     public struct Vector
     {

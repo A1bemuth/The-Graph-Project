@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GraphAlgorithms.Geometry;
+using GraphAlgorithms.VerticeLocation.Geometry;
 
-namespace GraphAlgorithms
+namespace GraphAlgorithms.VerticeLocation
 {
     public class ForceVerticesLocator : IVerticesLocator
     {

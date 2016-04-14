@@ -2,19 +2,22 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using UI.Infrastructure;
 
 namespace UI.Controls
 {
-    /// <summary>
-    /// Interaction logic for Arrow.xaml
-    /// </summary>
-    public partial class Arrow : UserControl, IGraphObject
+    public partial class ArrowView : UserControl, IGraphObject
     {
-        public static DependencyProperty GeometryProperty = DependencyProperty.Register("Geometry", typeof(Geometry), typeof(Arrow),
+        private double offsetFromNodeCenter;
+        private const double OffsetFromCentralAxis = 8.0d*Math.PI/180;
+        private const int ArrowHeadWidth = 5;
+        private const int ArrowHeadHeight = 13;
+
+        public static DependencyProperty GeometryProperty = DependencyProperty.Register("Geometry", typeof(Geometry), typeof(ArrowView),
             new FrameworkPropertyMetadata(null));
 
         public static DependencyProperty StrokeThicknessProperty = DependencyProperty.Register("StrokeThickness", typeof(double)
-            , typeof(Arrow), new FrameworkPropertyMetadata(3.0d));
+            , typeof(ArrowView), new FrameworkPropertyMetadata(3.0d));
 
         public Geometry Geometry
         {
@@ -34,42 +37,37 @@ namespace UI.Controls
 
         public NodeView EndNode { get; set; }
 
-        public Point StartPoint { get; private set; }
+        public Point StartDrawingPoint { get; private set; }
         
-        public Point EndPoint { get; private set; }
+        public Point EndDrawingPoint { get; private set; }
 
-        public double Offset { get; private set; }
-
-        public Arrow()
+        public ArrowView()
         {
             InitializeComponent();
         }
 
-        public Arrow(NodeView start, NodeView end) : this()
+        public ArrowView(NodeView start, NodeView end) : this()
         {
             StartNode = start;
             EndNode = end;
-            StartPoint = StartNode.Center;
-            EndPoint = EndNode.Center;
+            StartDrawingPoint = StartNode.Center;
+            EndDrawingPoint = EndNode.Center;
         }
 
         public void SetCanvasParameters(Point start, Point end, double offset)
         {
-            StartPoint = start;
-            EndPoint = end;
-            Offset = offset/2 + 5;
+            StartDrawingPoint = start;
+            EndDrawingPoint = end;
+            offsetFromNodeCenter = offset/2 + 5;
             UpdateGeometry();
         }
 
         private void UpdateGeometry()
         {
             var mainGeometry = new GeometryGroup();
-            var angle = 8d;
-            var theta = Math.Atan2(EndPoint.Y - StartPoint.Y, EndPoint.X - StartPoint.X);
-            StartPoint = new Point(StartPoint.X + Math.Cos(theta + angle*Math.PI/180)*Offset,
-                StartPoint.Y + Math.Sin(theta + angle*Math.PI/180)*Offset);
-            EndPoint = new Point(EndPoint.X - Math.Cos(theta - angle*Math.PI/180)*Offset,
-                EndPoint.Y - Math.Sin(theta - angle*Math.PI/180)*Offset);
+            var theta = CalculateAngleBetweenStartAndEndPoints();
+            StartDrawingPoint = MoveStartDrawingPoint(theta);
+            EndDrawingPoint = MoveEndDrawingPoint(theta);
 
             var edgeGeometry = CreateEdgeGeometry();
             var triangleGeometry = CreateTriangleGeometry(theta);
@@ -78,19 +76,36 @@ namespace UI.Controls
             Geometry = mainGeometry;
         }
 
+        private double CalculateAngleBetweenStartAndEndPoints()
+        {
+            return Math.Atan2(EndDrawingPoint.Y - StartDrawingPoint.Y, EndDrawingPoint.X - StartDrawingPoint.X);
+        }
+
+        private Point MoveStartDrawingPoint(double theta)
+        {
+            return new Point(StartDrawingPoint.X + Math.Cos(theta + OffsetFromCentralAxis) * offsetFromNodeCenter,
+                StartDrawingPoint.Y + Math.Sin(theta + OffsetFromCentralAxis) * offsetFromNodeCenter);
+        }
+
+        private Point MoveEndDrawingPoint(double theta)
+        {
+            return new Point(EndDrawingPoint.X - Math.Cos(theta - OffsetFromCentralAxis) * offsetFromNodeCenter,
+                EndDrawingPoint.Y - Math.Sin(theta - OffsetFromCentralAxis) * offsetFromNodeCenter);
+        }
+
         private PathGeometry CreateEdgeGeometry()
         {
-            var length = Math.Sqrt(Math.Pow(EndPoint.X - StartPoint.X, 2) + Math.Pow(EndPoint.Y - StartPoint.Y, 2));
+            var length = CalulateLengthBetweenStartAndEndPoints();
             var edge = new PathGeometry();
             var figure = new PathFigure
             {
-                StartPoint = StartPoint,
+                StartPoint = StartDrawingPoint,
                 IsClosed = false,
                 IsFilled = false
             };
             figure.Segments.Add(new ArcSegment
             {
-                Point = EndPoint,
+                Point = EndDrawingPoint,
                 Size = new Size(length*1.5, length*1.5)
             });
             edge.Figures.Add(figure);
@@ -99,34 +114,34 @@ namespace UI.Controls
 
         private PathGeometry CreateTriangleGeometry(double theta)
         {
-            var headWidth = 5;
-            var headHeight = 13;
-
-            var startArrowPoint = new Point(EndPoint.X, EndPoint.Y);
-
-            var leftPoint = new Point(startArrowPoint.X - headWidth, startArrowPoint.Y + headHeight);
-            var rightPoint = new Point(startArrowPoint.X + headWidth, startArrowPoint.Y + headHeight);
+            var leftArrowPoint = new Point(EndDrawingPoint.X - ArrowHeadWidth, EndDrawingPoint.Y + ArrowHeadHeight);
+            var rightArrowPoint = new Point(EndDrawingPoint.X + ArrowHeadWidth, EndDrawingPoint.Y + ArrowHeadHeight);
 
             var triangleGeometry = new PathGeometry();
-            var segment = new PathFigure(startArrowPoint, new PathSegment[] 
+            var segment = new PathFigure(EndDrawingPoint, new[]
             {
-                new LineSegment(leftPoint, true), 
-                new LineSegment(rightPoint, true)
+                new LineSegment(leftArrowPoint, true),
+                new LineSegment(rightArrowPoint, true)
             }, true)
             {
-                IsFilled = true,
-                IsClosed = true
+                IsFilled = true
             };
             var transform = new RotateTransform
             {
                 Angle = theta * 180 / Math.PI + 75,
-                CenterX = EndPoint.X,
-                CenterY = EndPoint.Y
+                CenterX = EndDrawingPoint.X,
+                CenterY = EndDrawingPoint.Y
             };
             triangleGeometry.Transform = transform;
             triangleGeometry.Figures.Add(segment);
-            triangleGeometry.FillRule = FillRule.Nonzero;
             return triangleGeometry;
+        }
+
+        private double CalulateLengthBetweenStartAndEndPoints()
+        {
+            return
+                Math.Sqrt(Math.Pow(EndDrawingPoint.X - StartDrawingPoint.X, 2) +
+                          Math.Pow(EndDrawingPoint.Y - StartDrawingPoint.Y, 2));
         }
 
         public void ChangeViewToDefault()

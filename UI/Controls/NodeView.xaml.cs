@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using UI.Infrastructure;
 
 namespace UI.Controls
 {
@@ -10,7 +11,7 @@ namespace UI.Controls
     {
         public NodeStatus Status { get; private set; }
 
-        public List<Arrow> Arrows { get; }
+        public List<ArrowView> Arrows { get; }
         
         public Point Center { get; set; }
 
@@ -26,7 +27,7 @@ namespace UI.Controls
         public NodeView()
         {
             InitializeComponent();
-            Arrows = new List<Arrow>();
+            Arrows = new List<ArrowView>();
         }
 
         private void UserControl_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

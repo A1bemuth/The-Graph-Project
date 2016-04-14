@@ -1,20 +1,15 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using GraphAlgorithms;
 using GraphDataLayer;
 using UI.Annotations;
+using UI.Infrastructure;
 
 namespace UI.ViewModels
 {
     public class AppViewModel : INotifyPropertyChanged
     {
         private IGraph graph;
-        private double clusteringCoef;
-        private List<int[]> cycles;
-        private int selectedCycleIndex = -1;
-        private IEnumerable<int> selectedCycle;
+        private GraphInformationViewModel graphInformationViewModel = new GraphInformationViewModel();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -25,49 +20,17 @@ namespace UI.ViewModels
             {
                 graph = value;
                 OnPropertyChanged(nameof(Graph));
-                AnalyzeGraph();
+                graphInformationViewModel.AnalyzeGraph(value);
             }
         }
 
-        public double ClusteringCoefficient
+        public GraphInformationViewModel GraphInformationModel
         {
-            get { return clusteringCoef; }
-            private set
-            {
-                clusteringCoef = value;
-                OnPropertyChanged(nameof(ClusteringCoefficient));
-            }
-        }
-
-        public List<int[]> Cycles
-        {
-            get { return cycles; }
+            get { return graphInformationViewModel; }
             set
             {
-                cycles = value;
-                OnPropertyChanged(nameof(Cycles));
-            }
-
-        }
-
-        public int SelectedCycleIndex
-        {
-            get { return selectedCycleIndex; }
-            set
-            {
-                selectedCycleIndex = value;
-                OnPropertyChanged(nameof(SelectedCycleIndex));
-                SelectedCycle = cycles[selectedCycleIndex];
-            }
-        }
-
-        public IEnumerable<int> SelectedCycle
-        {
-            get { return selectedCycle; }
-            set
-            {
-                selectedCycle = value;
-                OnPropertyChanged(nameof(SelectedCycle));
+                graphInformationViewModel = value;
+                OnPropertyChanged(nameof(GraphInformationModel));
             }
         }
 
@@ -109,14 +72,6 @@ namespace UI.ViewModels
                 .AddArrow(11, 8)
                 .AddArrow(11, 9)
                 .AddArrow(11, 10);
-        }
-
-        private void AnalyzeGraph()
-        {
-            if(Graph == null)
-                return;
-            ClusteringCoefficient = graph.ClusteringCoefficient();
-            Cycles = graph.FindCycles();
         }
 
         [NotifyPropertyChangedInvocator]

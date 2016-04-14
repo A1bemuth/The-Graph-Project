@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using GraphAlgorithms.Geometry;
+using GraphAlgorithms.VerticeLocation.Geometry;
 
-namespace GraphAlgorithms
+namespace GraphAlgorithms.VerticeLocation
 {
     public class Node
     {

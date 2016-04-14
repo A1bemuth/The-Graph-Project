@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace UI
+namespace UI.Infrastructure
 {
     public class Command : ICommand
     {

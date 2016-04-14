@@ -47,15 +47,15 @@
     <Compile Include="ClusteringCoefficient.cs" />
     <Compile Include="CycleComparer.cs" />
     <Compile Include="CyclesSearcher.cs" />
-    <Compile Include="ForceVerticesLocator.cs" />
-    <Compile Include="Geometry\Point.cs" />
-    <Compile Include="Geometry\Size.cs" />
-    <Compile Include="Geometry\Vector.cs" />
+    <Compile Include="VerticeLocation\ForceVerticesLocator.cs" />
+    <Compile Include="VerticeLocation\Geometry\Point.cs" />
+    <Compile Include="VerticeLocation\Geometry\Size.cs" />
+    <Compile Include="VerticeLocation\Geometry\Vector.cs" />
     <Compile Include="GraphExtension.cs" />
     <Compile Include="GraphIterator.cs" />
-    <Compile Include="IVerticesLocator.cs" />
+    <Compile Include="VerticeLocation\IVerticesLocator.cs" />
     <Compile Include="LinqExtension.cs" />
-    <Compile Include="Node.cs" />
+    <Compile Include="VerticeLocation\Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

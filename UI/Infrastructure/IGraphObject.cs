@@ -1,4 +1,4 @@
-﻿namespace UI
+﻿namespace UI.Infrastructure
 {
     public interface IGraphObject
     {
