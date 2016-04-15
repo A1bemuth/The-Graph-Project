@@ -9,10 +9,12 @@ namespace UI.ViewModels
     public class AppViewModel : INotifyPropertyChanged
     {
         private IGraph graph;
-        private GraphInformationViewModel graphInformationViewModel = new GraphInformationViewModel();
         private int selectedVerticeIndex = -1;
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public Command LoadGraphCommand { get; }
+        public GraphInformationViewModel GraphInformationModel { get; }
+        public VerticeInformationViewModel VerticeInformationModel { get; }
 
         public IGraph Graph
         {
@@ -21,17 +23,7 @@ namespace UI.ViewModels
             {
                 graph = value;
                 OnPropertyChanged(nameof(Graph));
-                graphInformationViewModel.AnalyzeGraph(value);
-            }
-        }
-
-        public GraphInformationViewModel GraphInformationModel
-        {
-            get { return graphInformationViewModel; }
-            set
-            {
-                graphInformationViewModel = value;
-                OnPropertyChanged(nameof(GraphInformationModel));
+                GraphInformationModel.AnalyzeGraph(value);
             }
         }
 
@@ -42,14 +34,15 @@ namespace UI.ViewModels
             {
                 selectedVerticeIndex = value;
                 OnPropertyChanged(nameof(SelectedVerticeIndex));
+                VerticeInformationModel.UpdateVerticeInformation(this);
             }
         }
-
-        public Command LoadGraphCommand { get; }
 
         public AppViewModel()
         {
             LoadGraphCommand = new Command(LoadGraph);
+            GraphInformationModel = new GraphInformationViewModel();
+            VerticeInformationModel = new VerticeInformationViewModel();
         }
 
         private void LoadGraph(object parameter)

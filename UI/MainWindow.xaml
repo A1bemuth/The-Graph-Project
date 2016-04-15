@@ -49,12 +49,12 @@
                     <TextBlock Grid.Row="0" Grid.Column="0"
                                Text="Количетво вершин"/>
                     <TextBlock Grid.Row="0" Grid.Column="1"
-                               Text="100"/>
+                               Text="{Binding GraphInformationModel.VerticeCount}"/>
 
                     <TextBlock Grid.Row="1" Grid.Column="0"
                                Text="Количество дуг"/>
                     <TextBlock Grid.Row="1" Grid.Column="1"
-                               Text="100"/>
+                               Text="{Binding GraphInformationModel.ArrowCount}"/>
 
                     <TextBlock Grid.Column="0" Grid.Row="2"
                         Text="Коэффициент кластеризации графа" />
@@ -67,7 +67,32 @@
                         ItemsSource="{Binding GraphInformationModel.Cycles, Converter={StaticResource CycleToStringConverter}}"
                         SelectedIndex="{Binding GraphInformationModel.SelectedCycleIndex}"/>
                 </Grid>
-                <TextBlock Grid.Row="1" Text="{Binding SelectedVerticeIndex}"/>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Grid.Row="0" Grid.Column="0"
+                        Text="Индекс выбранной вершины"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1"
+                               Text="{Binding VerticeInformationModel.Index}"/>
+                    
+                    <TextBlock Grid.Row="1" Grid.Column="0"
+                        Text="Коэффициент кластеризации вершины"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1"
+                               Text="{Binding VerticeInformationModel.ClusteringCoefficient}"/>
+                    
+                    <TextBlock Grid.Row="2" Grid.Column="0"
+                               Text="Циклы с вершиной"/>
+                    <ComboBox Grid.Row="2" Grid.Column="1" 
+                              ItemsSource="{Binding VerticeInformationModel.IncludedInCycles, Converter={StaticResource CycleToStringConverter}}"/>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>
