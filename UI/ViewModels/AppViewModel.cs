@@ -10,6 +10,7 @@ namespace UI.ViewModels
     {
         private IGraph graph;
         private GraphInformationViewModel graphInformationViewModel = new GraphInformationViewModel();
+        private int selectedVerticeIndex = -1;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -34,6 +35,16 @@ namespace UI.ViewModels
             }
         }
 
+        public int SelectedVerticeIndex
+        {
+            get { return selectedVerticeIndex; }
+            set
+            {
+                selectedVerticeIndex = value;
+                OnPropertyChanged(nameof(SelectedVerticeIndex));
+            }
+        }
+
         public Command LoadGraphCommand { get; }
 
         public AppViewModel()
@@ -43,11 +54,19 @@ namespace UI.ViewModels
 
         private void LoadGraph(object parameter)
         {
-            Graph = new AdjacencyListGraph(4)
-                .AddArrow(0, 3)
+            Graph = new AdjacencyListGraph(8)
                 .AddArrow(0, 1)
                 .AddArrow(1, 2)
-                .AddArrow(2, 0);
+                .AddArrow(2, 0)
+                .AddArrow(3, 1)
+                .AddArrow(3, 2)
+                .AddArrow(5, 2)
+                .AddArrow(4, 3)
+                .AddArrow(3, 4)
+                .AddArrow(4, 5)
+                .AddArrow(6, 5)
+                .AddArrow(5, 6)
+                .AddArrow(7, 4);
         }
 
         [NotifyPropertyChangedInvocator]

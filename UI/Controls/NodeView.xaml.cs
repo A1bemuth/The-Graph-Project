@@ -9,6 +9,14 @@ namespace UI.Controls
 {
     public partial class NodeView : UserControl, IGraphObject
     {
+        public static DependencyProperty NumberProperty = DependencyProperty.Register("Number", typeof (int), typeof (NodeView));
+
+        public int Number
+        {
+            get { return (int) GetValue(NumberProperty); }
+            private set { SetValue(NumberProperty, value); }
+        }
+
         public NodeStatus Status { get; private set; }
 
         public List<ArrowView> Arrows { get; }
@@ -28,6 +36,11 @@ namespace UI.Controls
         {
             InitializeComponent();
             Arrows = new List<ArrowView>();
+        }
+
+        public NodeView(int number) : this()
+        {
+            Number = number;
         }
 
         private void UserControl_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

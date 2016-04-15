@@ -5,11 +5,13 @@ namespace GraphAlgorithms.VerticeLocation
 {
     public class Node
     {
+        public int Number { get; }
         public Point Location { get; set; }
         public IList<Node> Connections { get; }
 
-        public Node()
+        public Node(int number)
         {
+            Number = number;
             Connections = new List<Node>();
         }
 

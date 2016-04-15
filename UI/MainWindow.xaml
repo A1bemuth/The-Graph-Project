@@ -27,7 +27,8 @@
                 <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
             <controls:GraphCanvas Grid.Column="0" Graph="{Binding Graph}"
-                                  SelectedCycle="{Binding GraphInformationModel.SelectedCycle}"/>
+                                  SelectedCycle="{Binding GraphInformationModel.SelectedCycle}"
+                                  SelectedVerticeIndex="{Binding SelectedVerticeIndex, Mode=OneWayToSource}"/>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -66,6 +67,7 @@
                         ItemsSource="{Binding GraphInformationModel.Cycles, Converter={StaticResource CycleToStringConverter}}"
                         SelectedIndex="{Binding GraphInformationModel.SelectedCycleIndex}"/>
                 </Grid>
+                <TextBlock Grid.Row="1" Text="{Binding SelectedVerticeIndex}"/>
             </Grid>
         </Grid>
     </Grid>
