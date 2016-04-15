@@ -59,6 +59,7 @@
     <Compile Include="Converters\CycleToStringConverter.cs" />
     <Compile Include="ViewModels\AppViewModel.cs" />
     <Compile Include="ViewModels\GraphInformationViewModel.cs" />
+    <Compile Include="ViewModels\VerticeInformationViewModel.cs" />
     <Page Include="Controls\ArrowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

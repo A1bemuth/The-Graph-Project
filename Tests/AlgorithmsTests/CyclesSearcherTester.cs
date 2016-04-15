@@ -94,11 +94,11 @@ namespace Tests.AlgorithmsTests
         [Test]
         public void GraphWithCycleAndRemoteVertexTest()
         {
-            var graph = new AdjacencyListGraph(4);
-            graph.AddArrow(0, 3);
-            graph.AddArrow(0, 1);
-            graph.AddArrow(1, 2);
-            graph.AddArrow(2, 0);
+            var graph = new AdjacencyListGraph(4)
+                .AddArrow(0, 3)
+                .AddArrow(0, 1)
+                .AddArrow(1, 2)
+                .AddArrow(2, 0);
 
             var result = searcher.FindCycles(graph);
 
@@ -170,19 +170,19 @@ namespace Tests.AlgorithmsTests
         [Test]
         public void BigGrahpWithThreeCyclesTest()
         {
-            var graph = new AdjacencyListGraph(8);
-            graph.AddArrow(0, 1);
-            graph.AddArrow(1, 2);
-            graph.AddArrow(2, 0);
-            graph.AddArrow(3, 1);
-            graph.AddArrow(3, 2);
-            graph.AddArrow(5, 2);
-            graph.AddArrow(4, 3);
-            graph.AddArrow(3, 4);
-            graph.AddArrow(4, 5);
-            graph.AddArrow(6, 5);
-            graph.AddArrow(5, 6);
-            graph.AddArrow(7, 4);
+            var graph = new AdjacencyListGraph(8)
+                .AddArrow(0, 1)
+                .AddArrow(1, 2)
+                .AddArrow(2, 0)
+                .AddArrow(3, 1)
+                .AddArrow(3, 2)
+                .AddArrow(5, 2)
+                .AddArrow(4, 3)
+                .AddArrow(3, 4)
+                .AddArrow(4, 5)
+                .AddArrow(6, 5)
+                .AddArrow(5, 6)
+                .AddArrow(7, 4);
 
             var result = searcher.FindCycles(graph);
 

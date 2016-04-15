@@ -7,11 +7,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" MouseDown="UserControl_MouseDown" 
              Cursor="Hand">
-    <Ellipse Stroke="{Binding ElementName=This, Path=BorderBrush}" 
-             Opacity="{Binding ElementName=This, Path=Opacity}" 
-             Fill="Transparent"
-             StrokeThickness="10"/>
-    <UserControl.Style>
+    <Grid>
+        <Ellipse Stroke="{Binding ElementName=This, Path=BorderBrush}"
+                 Opacity="{Binding ElementName=This, Path=Opacity}"
+                 Fill="Transparent"
+                 StrokeThickness="10" />
+        <TextBlock Text="{Binding ElementName=This, Path=Number}"
+                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Grid>    <UserControl.Style>
         <Style TargetType="UserControl">
             <Setter Property="BorderBrush" Value="DarkGray"/>
         </Style>

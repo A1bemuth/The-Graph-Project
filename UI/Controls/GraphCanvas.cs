@@ -12,25 +12,32 @@ namespace UI.Controls
 {
     public class GraphCanvas : Panel
     {
-        public DependencyProperty GraphProperty = DependencyProperty.Register("Graph", typeof (IGraph),
+        public static DependencyProperty SelectedVerticeIndexProperty =
+            DependencyProperty.Register("SelectedVerticeIndex", typeof (int), typeof (GraphCanvas),
+                new FrameworkPropertyMetadata(-1));
+
+        public static DependencyProperty GraphProperty = DependencyProperty.Register("Graph", typeof (IGraph),
             typeof (GraphCanvas), new FrameworkPropertyMetadata(null, GraphChanded));
 
-        public DependencyProperty SelectedCycleProperty = DependencyProperty.Register("SelectedCycle", typeof(IEnumerable<int>), typeof(GraphCanvas),
+        public static DependencyProperty SelectedCycleProperty = DependencyProperty.Register("SelectedCycle",
+            typeof (IEnumerable<int>), typeof (GraphCanvas),
             new FrameworkPropertyMetadata(new List<int>(), SelectedCycleChanged));
 
-        private static void GraphChanded(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        private static void GraphChanded(DependencyObject dependencyObject,
+            DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             var graphCanvas = dependencyObject as GraphCanvas;
-            if(graphCanvas == null)
+            if (graphCanvas == null)
                 return;
             graphCanvas.CreateGraphMathModel();
             graphCanvas.RelocateGraph();
         }
 
-        private static void SelectedCycleChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        private static void SelectedCycleChanged(DependencyObject dependencyObject,
+            DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             var graphCanvas = dependencyObject as GraphCanvas;
-            if(graphCanvas == null)
+            if (graphCanvas == null)
                 return;
             graphCanvas.SetChildrenDefaultViews();
             graphCanvas.PickOutCycle();
@@ -49,6 +56,12 @@ namespace UI.Controls
 
         public IVerticesLocator VerticesLocator { get; } = new ForceVerticesLocator();
 
+        public int SelectedVerticeIndex
+        {
+            get { return (int) GetValue(SelectedVerticeIndexProperty); }
+            set { SetValue(SelectedVerticeIndexProperty, value); }
+        }
+
         public IGraph Graph
         {
             get { return (IGraph) GetValue(GraphProperty); }
@@ -65,7 +78,7 @@ namespace UI.Controls
         {
             VerticesLocator.Clear();
             var vertices = Enumerable.Range(0, Graph.VerticesCount)
-                .Select(i => new Node())
+                .Select(i => new Node(i))
                 .ToArray();
             for (int i = 0; i < vertices.Length; i++)
             {
@@ -80,12 +93,12 @@ namespace UI.Controls
         private void RelocateGraph()
         {
             Children.Clear();
-            
-            if(VerticesLocator == null)
+
+            if (VerticesLocator == null)
                 return;
             VerticesLocator.Locate();
 
-            nodes = VerticesLocator.Nodes.Select(n => new NodeView
+            nodes = VerticesLocator.Nodes.Select(n => new NodeView(n.Number)
             {
                 Center = new Point(n.Location.X, n.Location.Y)
             }).ToList();
@@ -143,9 +156,9 @@ namespace UI.Controls
                 {
                     ArrangeNode(child as NodeView);
                 }
-                else if(child is ArrowView)
+                else if (child is ArrowView)
                 {
-                    ArrangeArrow(child as ArrowView, arrangeSize);                    
+                    ArrangeArrow(child as ArrowView, arrangeSize);
                 }
             }
             return arrangeSize;
@@ -153,7 +166,7 @@ namespace UI.Controls
 
         private void CalculateCurrentVerticeParameters(Size arrangeSize)
         {
-            center = new Point(arrangeSize.Width / 2, arrangeSize.Height / 2);
+            center = new Point(arrangeSize.Width/2, arrangeSize.Height/2);
             verticesScale = CalculateVerticeScale();
             comprasionRatio = CalculateComprasionRatio(arrangeSize);
         }
@@ -161,7 +174,7 @@ namespace UI.Controls
         private void ArrangeNode(NodeView node)
         {
             node.Scale = verticesScale;
-            var topLeftPoint = CalcShiftFor(node.Center, verticesScale / 2);
+            var topLeftPoint = CalcShiftFor(node.Center, verticesScale/2);
             node.Arrange(new Rect(topLeftPoint, new Size(verticesScale, verticesScale)));
         }
 
@@ -185,28 +198,32 @@ namespace UI.Controls
         {
             if (VerticesLocator == null)
                 return 1;
-            var verticalScaleFactor = (arrangeSize.Height - 2 * verticesScale)/VerticesLocator.Size.Height;
-            var horizontalScaleFactor = (arrangeSize.Width - 2 * verticesScale)/VerticesLocator.Size.Width;
+            var verticalScaleFactor = (arrangeSize.Height - 2*verticesScale)/VerticesLocator.Size.Height;
+            var horizontalScaleFactor = (arrangeSize.Width - 2*verticesScale)/VerticesLocator.Size.Width;
             return Math.Min(verticalScaleFactor, horizontalScaleFactor);
         }
 
         private Point CalcShiftFor(Point point, double shift = 0.0D)
         {
-            return new Point(center.X + point.X * comprasionRatio - shift,
-                        center.Y - point.Y * comprasionRatio - shift);
+            return new Point(center.X + point.X*comprasionRatio - shift,
+                center.Y - point.Y*comprasionRatio - shift);
         }
 
         protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             SetChildrenDefaultViews();
+            SelectedVerticeIndex = -1;
             base.OnPreviewMouseLeftButtonDown(e);
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            if(e.Source.GetType() != typeof(NodeView))
-                return;
-            UpdateChildrenView();
+            var nodeView = e.Source as NodeView;
+            if (nodeView != null)
+            {
+                SelectedVerticeIndex = nodeView.Number;
+                UpdateChildrenView();
+            }
             e.Handled = true;
             base.OnMouseLeftButtonDown(e);
         }

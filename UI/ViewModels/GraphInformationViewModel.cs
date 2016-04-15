@@ -9,12 +9,34 @@ namespace UI.ViewModels
 {
     public class GraphInformationViewModel : INotifyPropertyChanged
     {
+        private int verticeCount;
+        private int arrowCount;
         private double clusteringCoef;
         private List<int[]> cycles;
         private int selectedCycleIndex = -1;
         private IEnumerable<int> selectedCycle;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public int VerticeCount
+        {
+            get { return verticeCount; }
+            set
+            {
+                verticeCount = value;
+                OnPropertyChanged(nameof(VerticeCount));
+            }
+        }
+
+        public int ArrowCount
+        {
+            get { return arrowCount; }
+            set
+            {
+                arrowCount = value;
+                OnPropertyChanged(nameof(ArrowCount));
+            }
+        }
 
         public double ClusteringCoefficient
         {
@@ -62,8 +84,11 @@ namespace UI.ViewModels
         {
             if (graph == null)
                 return;
+            VerticeCount = graph.VerticesCount;
+            ArrowCount = graph.ArrowsCount;
             ClusteringCoefficient = graph.ClusteringCoefficient();
             Cycles = graph.FindCycles();
+            
         }
 
 
