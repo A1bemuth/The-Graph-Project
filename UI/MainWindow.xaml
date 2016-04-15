@@ -28,11 +28,45 @@
             </Grid.ColumnDefinitions>
             <controls:GraphCanvas Grid.Column="0" Graph="{Binding Graph}"
                                   SelectedCycle="{Binding GraphInformationModel.SelectedCycle}"/>
-            <StackPanel Grid.Column="1">
-                <TextBlock Text="{Binding GraphInformationModel.ClusteringCoefficient}"/>
-                <ListBox ItemsSource="{Binding GraphInformationModel.Cycles, Converter={StaticResource CycleToStringConverter}}"
-                         SelectedIndex="{Binding GraphInformationModel.SelectedCycleIndex}"/>
-            </StackPanel>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Grid.Row="0" Grid.Column="0"
+                               Text="Количетво вершин"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1"
+                               Text="100"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0"
+                               Text="Количество дуг"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1"
+                               Text="100"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="2"
+                        Text="Коэффициент кластеризации графа" />
+                    <TextBlock Grid.Column="1" Grid.Row="2"
+                        Text="{Binding GraphInformationModel.ClusteringCoefficient}" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0"
+                               Text="Циклы"/>
+                    <ComboBox Grid.Column="1" Grid.Row="3"
+                        ItemsSource="{Binding GraphInformationModel.Cycles, Converter={StaticResource CycleToStringConverter}}"
+                        SelectedIndex="{Binding GraphInformationModel.SelectedCycleIndex}"/>
+                </Grid>
+            </Grid>
         </Grid>
     </Grid>
 </Window>
