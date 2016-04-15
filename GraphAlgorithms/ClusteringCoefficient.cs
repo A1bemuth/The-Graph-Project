@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using GraphDataLayer;
+using System;
 
 namespace GraphAlgorithms
 {
@@ -23,20 +24,25 @@ namespace GraphAlgorithms
                 clusteringCoefficicentGraph += GetClusteringCoefficientForVertex(indexVertex);
             }
             
-            return clusteringCoefficicentGraph/matrixIncidence.GetLength(0);
+            return Math.Round(clusteringCoefficicentGraph/matrixIncidence.GetLength(0),4);
         }
 
         public double GetClusteringCoefficientForVertex(int fIndexVertex)
         {
             double clusteringCoefficientForVertex=0;
-
             var neighbour = Graph.GetConnectedVertices(fIndexVertex);      //соседи для текущей вершины
-            var countNeighbour = neighbour.Count;                   //кол-во соседей
-            
-            var countAdjacentNeighbour = GetCountAdjacentNeighbour(neighbour);
+            var countNeighbour = neighbour.Count;                          //кол-во соседей
 
-            clusteringCoefficientForVertex = (double) 2*countAdjacentNeighbour/(countNeighbour*(countNeighbour - 1));
-            return clusteringCoefficientForVertex;
+            if (countNeighbour != 1)
+            {
+                var countAdjacentNeighbour = GetCountAdjacentNeighbour(neighbour);
+                clusteringCoefficientForVertex = (double)2 * countAdjacentNeighbour / (countNeighbour * (countNeighbour - 1));
+                return Math.Round(clusteringCoefficientForVertex,4);
+            }
+            else
+            {
+                return 0d;
+            }
         }
 
         private int GetCountAdjacentNeighbour(List<int> neighbour)
