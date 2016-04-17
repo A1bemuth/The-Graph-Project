@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9532EBF7-2B2F-41BF-B1E7-0757EAFAB62E}</ProjectGuid>
+    <ProjectGuid>{AE833732-3C80-45D4-851D-72744C6C0D4E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GraphAlgorithms</RootNamespace>
-    <AssemblyName>GraphAlgorithms</AssemblyName>
+    <RootNamespace>Tests</RootNamespace>
+    <AssemblyName>Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -44,31 +44,50 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClusteringCoefficient.cs" />
-    <Compile Include="CycleComparer.cs" />
-    <Compile Include="CyclesSearcher.cs" />
-    <Compile Include="PathSearcher.cs" />
-    <Compile Include="VerticeLocation\ForceVerticesLocator.cs" />
-    <Compile Include="VerticeLocation\Geometry\Point.cs" />
-    <Compile Include="VerticeLocation\Geometry\Size.cs" />
-    <Compile Include="VerticeLocation\Geometry\Vector.cs" />
-    <Compile Include="GraphExtension.cs" />
-    <Compile Include="GraphIterator.cs" />
-    <Compile Include="VerticeLocation\IVerticesLocator.cs" />
-    <Compile Include="LinqExtension.cs" />
-    <Compile Include="VerticeLocation\Node.cs" />
+    <Compile Include="AlgorithmsTests\ClusteringCoefficientTests.cs" />
+    <Compile Include="AlgorithmsTests\CycleComparerTester.cs" />
+    <Compile Include="AlgorithmsTests\CyclesSearcherTester.cs" />
+<<<<<<< HEAD
+    <Compile Include="DataLayerTests\ExcelImportTests.cs" />
+=======
+    <Compile Include="AlgorithmsTests\PathSearcherTester.cs" />
+>>>>>>> 69a5ee028a5514b6e0c68ab701b521aed603c09b
+    <Compile Include="DataLayerTests\DictonaryGraphTester.cs" />
+    <Compile Include="DataLayerTests\GraphTests.cs" />
+    <Compile Include="DataLayerTests\TestExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="TestSamples\1-by-1-empty-spreadsheets.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestSamples\1-by-1.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestSamples\2-by-2-negative-numbers.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestSamples\2-by-2-two-spreadsheets.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestSamples\2-by-2.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestSamples\3-by-3-sparce.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GraphAlgorithms\GraphAlgorithms.csproj">
+      <Project>{9532EBF7-2B2F-41BF-B1E7-0757EAFAB62E}</Project>
+      <Name>GraphAlgorithms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GraphDataLayer\GraphDataLayer.csproj">
       <Project>{c9ea996e-cc78-4e44-887f-c6125d35267f}</Project>
       <Name>GraphDataLayer</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

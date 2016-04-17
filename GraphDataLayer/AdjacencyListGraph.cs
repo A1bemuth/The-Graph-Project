@@ -70,7 +70,7 @@ namespace GraphDataLayer
         {
             if(from == to)
                 throw new ArgumentException("Vertice can not point to itself.");
-            if(!vertices[from].Contains(to))
+            if (!vertices[from].Contains(to))
                 vertices[from].Add(to);
             return this;
         }
