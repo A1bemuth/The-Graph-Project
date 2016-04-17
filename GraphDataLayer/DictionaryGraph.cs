@@ -4,9 +4,11 @@ using System.Linq;
 
 namespace GraphDataLayer
 {
-    public class AdjacencyGraph : IGraph
+    public class AdjacencyGraph : NamedGraph
     {
         private readonly Dictionary<int, Tuple<HashSet<int>, HashSet<int>>> vertices;
+
+        private int arrowsCount;
 
         public AdjacencyGraph(int verticesCount)
         {
@@ -14,11 +16,11 @@ namespace GraphDataLayer
                 .ToDictionary(k => k, v => Tuple.Create(new HashSet<int>(), new HashSet<int>()));
         }
 
-        public int VerticesCount => vertices.Count;
+        public override int VerticesCount => vertices.Count;
 
-        public int ArrowsCount { get; private set; }
+        public override int ArrowsCount => arrowsCount;
 
-        public IGraph AddVertices(int count)
+        public override Graph AddVertices(int count)
         {
             if (count < 0)
                 throw new ArgumentException("Count can't to be negative");
@@ -31,7 +33,7 @@ namespace GraphDataLayer
             return this;
         }
 
-        public IGraph AddArrow(int from, int to)
+        public override Graph AddArrow(int from, int to)
         {
             if (from < 0 || to < 0)
                 throw new ArgumentException("Vetrtex index can't to be negative");
@@ -45,12 +47,12 @@ namespace GraphDataLayer
             if (vertices[from].Item1.Add(to))
             {
                 vertices[to].Item2.Add(from);
-                ArrowsCount++;
+                arrowsCount++;
             }
             return this;
         }
 
-        public List<int> GetNeighbours(int vertice)
+        public override List<int> GetNeighbours(int vertice)
         {
             if (vertice < 0)
                 throw new ArgumentException("Vetrtex index can't to be negative");
@@ -60,7 +62,7 @@ namespace GraphDataLayer
             return vertices[vertice].Item1.ToList();
         }
 
-        public List<int> GetIncomingVertex(int vertice)
+        public override List<int> GetIncomingVertex(int vertice)
         {
             if (vertice < 0)
                 throw new ArgumentException("Vetrtex index can't to be negative");
@@ -70,7 +72,7 @@ namespace GraphDataLayer
             return vertices[vertice].Item2.ToList();
         }
 
-        public List<int> GetConnectedVertices(int vertice)
+        public override List<int> GetConnectedVertices(int vertice)
         {
             var connectedVertices = new List<int>(vertices[vertice].Item1);
             connectedVertices.AddRange(vertices[vertice].Item2
@@ -78,7 +80,7 @@ namespace GraphDataLayer
             return connectedVertices;
         }
 
-        public short[,] GetIncidenceMatrix()
+        public override short[,] GetIncidenceMatrix()
         {
             var matrix = new short[VerticesCount, ArrowsCount];
             var edgeIndex = 0;
@@ -94,7 +96,7 @@ namespace GraphDataLayer
             return matrix;
         }
 
-        public bool HasArrow(int from, int to)
+        public override bool HasArrow(int from, int to)
         {
             if (from < 0 || to < 0)
                 throw new ArgumentException("Vetrtex index can't to be negative");
@@ -108,7 +110,7 @@ namespace GraphDataLayer
             return vertices[from].Item1.Contains(to);
         }
 
-        public bool HasConnection(int firstVertex, int secondVertex)
+        public override bool HasConnection(int firstVertex, int secondVertex)
         {
             return HasArrow(firstVertex, secondVertex)
                    || HasIncomingArrow(firstVertex, secondVertex);
@@ -128,7 +130,7 @@ namespace GraphDataLayer
             return vertices[from].Item2.Contains(to);
         }
 
-        public bool AreReciprocal(int verticeOne, int verticeTwo)
+        public override bool AreReciprocal(int verticeOne, int verticeTwo)
         {
             return HasArrow(verticeOne, verticeTwo)
                 && HasArrow(verticeTwo, verticeOne);

@@ -7,7 +7,7 @@ namespace GraphAlgorithms
 {
     public class PathSearcher
     {
-        private readonly IGraph graph;
+        private readonly Graph graph;
         private readonly bool[] visitedVertices;
         private readonly int[] distance;
         private readonly int[] perent;
@@ -16,7 +16,7 @@ namespace GraphAlgorithms
         private int endVertice;
 
 
-        public PathSearcher(IGraph graph)
+        public PathSearcher(Graph graph)
         {
             if(graph == null)
                 throw new ArgumentNullException(nameof(graph));

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace GraphDataLayer
 {
-    public class AdjacencyListGraph : IGraph
+    public class AdjacencyListGraph : NamedGraph
     {
         public AdjacencyListGraph() : this(0)
         {
@@ -66,7 +66,7 @@ namespace GraphDataLayer
             return new AdjacencyListGraph(new List<int>[0]);
         }
 
-        public IGraph AddArrow(int from, int to)
+        public override Graph AddArrow(int from, int to)
         {
             if(from == to)
                 throw new ArgumentException("Vertice can not point to itself.");
@@ -75,23 +75,23 @@ namespace GraphDataLayer
             return this;
         }
 
-        public IGraph AddVertices(int verticesCount)
+        public override Graph AddVertices(int verticesCount)
         {
             Array.Resize(ref vertices, vertices.Length + verticesCount);
             return this;
         }
 
-        public List<int> GetNeighbours(int vertice)
+        public override List<int> GetNeighbours(int vertice)
         {
             return vertices[vertice];
         }
 
-        public List<int> GetIncomingVertex(int vertice)
+        public override List<int> GetIncomingVertex(int vertice)
         {
             throw new NotImplementedException();
         }
 
-        public List<int> GetConnectedVertices(int vertice)
+        public override List<int> GetConnectedVertices(int vertice)
         {
             var connectedVertices = new HashSet<int>(GetNeighbours(vertice));
             for (var i = 0; i < VerticesCount; i++)
@@ -104,7 +104,7 @@ namespace GraphDataLayer
             return connectedVertices.ToList();
         }
 
-        public short[,] GetIncidenceMatrix()
+        public override short[,] GetIncidenceMatrix()
         {
             var matrix = new short[VerticesCount, ArrowsCount];
             var edgeIndex = 0;
@@ -120,25 +120,25 @@ namespace GraphDataLayer
             return matrix;
         }
 
-        public bool HasArrow(int from, int to)
+        public override bool HasArrow(int from, int to)
         {
             return vertices[from].Contains(to);
         }
 
-        public bool HasConnection(int @from, int to)
+        public override bool HasConnection(int @from, int to)
         {
             throw new NotImplementedException();
         }
 
-        public bool AreReciprocal(int verticeOne, int verticeTwo)
+        public override bool AreReciprocal(int verticeOne, int verticeTwo)
         {
             return HasArrow(verticeOne, verticeTwo) 
                 && HasArrow(verticeTwo, verticeOne);
         }
 
-        public int VerticesCount => vertices.Length;
-        public int ArrowsCount => vertices.Sum(arrows => arrows?.Count ?? 0);
+        public override int VerticesCount => vertices.Length;
 
+        public override int ArrowsCount => vertices.Sum(arrows => arrows?.Count ?? 0);
         private List<int>[] vertices;
     }
 }

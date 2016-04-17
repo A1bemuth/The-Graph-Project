@@ -80,7 +80,7 @@ namespace UI.ViewModels
             }
         }
 
-        public void AnalyzeGraph(IGraph graph)
+        public void AnalyzeGraph(Graph graph)
         {
             if (graph == null)
                 return;

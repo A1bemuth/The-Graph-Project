@@ -6,7 +6,7 @@ namespace Tests.DataLayerTests
     [TestFixture]
     internal class GraphTests
     {
-        private IGraph GetTest3X3Graph()
+        private Graph GetTest3X3Graph()
         {
             return new AdjacencyListGraph(3)
                 .AddArrow(0, 2)

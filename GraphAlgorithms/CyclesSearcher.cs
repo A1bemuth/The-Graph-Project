@@ -9,7 +9,7 @@ namespace GraphAlgorithms
     {
         private List<int[]> cycles;
 
-        public List<int[]> FindCycles(IGraph graph)
+        public List<int[]> FindCycles(Graph graph)
         {
             if (graph == null)
                 throw new ArgumentNullException(nameof(graph));
