@@ -6,7 +6,7 @@
         xmlns:models="clr-namespace:UI.ViewModels"
         xmlns:infra="clr-namespace:UI.Infrastructure"
         mc:Ignorable="d"
-        Title="" Height="400" Width="600" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner">
+        Title="" Height="400" Width="350" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner">
     <Window.DataContext>
         <models:CycleSelectionViewModel/>
     </Window.DataContext>
@@ -48,6 +48,16 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource MainBrush}"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -62,6 +72,6 @@
         <Button Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" 
                 Command="{Binding Source={x:Static infra:CommandEventBinder.SelectCycleCommand}}"
                 CommandParameter="{Binding SelectedCycleIndex}"
-                Margin="0,5,0,5">Показать цикл</Button>
+                >Показать цикл</Button>
     </Grid>
 </Window>
