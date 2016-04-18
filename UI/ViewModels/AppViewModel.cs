@@ -13,6 +13,9 @@ namespace UI.ViewModels
         private GraphInfo graphInfo;
         private int selectedVerticeIndex = -1;
         private bool isMenuOpened;
+        private bool isGraphLoaded;
+        private bool isVerticeSelected;
+        private bool isModalOpened;
         private int[] visitedPath;
 
         private GraphInformationViewModel graphInformationViewModel;
@@ -45,6 +48,7 @@ namespace UI.ViewModels
             {
                 graphInfo = value;
                 OnPropertyChanged();
+                IsGraphLoaded = graphInfo != null;
                 GraphInformationModel = new GraphInformationViewModel(graphInfo);
             }
         }
@@ -62,7 +66,8 @@ namespace UI.ViewModels
 
         private void SelectedVerticeIndexChange()
         {
-            VerticeInformationModel = SelectedVerticeIndex != -1
+            IsVerticeSelected = SelectedVerticeIndex != -1;
+            VerticeInformationModel = IsVerticeSelected
                 ? new VerticeInformationViewModel(SelectedVerticeIndex, graphInfo)
                 : new VerticeInformationViewModel();
         }
@@ -73,6 +78,36 @@ namespace UI.ViewModels
             set
             {
                 isMenuOpened = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsGraphLoaded
+        {
+            get { return isGraphLoaded; }
+            set
+            {
+                isGraphLoaded = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsVerticeSelected
+        {
+            get { return isVerticeSelected; }
+            set
+            {
+                isVerticeSelected = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsModalOpened
+        {
+            get { return isModalOpened; }
+            set
+            {
+                isModalOpened = value;
                 OnPropertyChanged();
             }
         }
@@ -96,12 +131,14 @@ namespace UI.ViewModels
         public void BindEvent()
         {
             CommandEventBinder.LoadGraphCommand.OnExecute += LoadGraph;
-            CommandEventBinder.CloseMenuCommand.OnExecute += CloseMenu;
-            CommandEventBinder.ShowCyclesCommand.OnExecute += ShowCycles;
             CommandEventBinder.SelectCycleCommand.OnExecute += SelectCycle;
-            CommandEventBinder.ShowPathCommand.OnExecute += ShowPath;
             CommandEventBinder.SelectPathCommand.OnExecute += SelectPath;
             CommandEventBinder.RefreshCommand.OnExecute += RefreshGraph;
+            CommandEventBinder.CloseMenuCommand.OnExecute += CloseMenu;
+            CommandEventBinder.ShowCyclesModalCommand.OnExecute += ShowCycles;
+            CommandEventBinder.CloseCyclesModalCommand.OnExecute += CloseModal;
+            CommandEventBinder.ShowPathModalCommand.OnExecute += ShowPath;
+            CommandEventBinder.ClosePathModalCommand.OnExecute += CloseModal;
         }
 
         private void LoadGraph(object parameter)
@@ -146,9 +183,15 @@ namespace UI.ViewModels
 
         private void ShowCycles(object parameter)
         {
+            IsModalOpened = true;
             var model = new CycleSelectionViewModel(graphInfo);
             CommandEventBinder.CloseMenuCommand.Execute();
             Navigator.OpenCycleModal(model);
+        }
+
+        private void CloseModal(object o)
+        {
+            IsModalOpened = false;
         }
 
         private void SelectCycle(object index)
@@ -167,6 +210,7 @@ namespace UI.ViewModels
 
         private void ShowPath(object o)
         {
+            IsModalOpened = true;
             var modal = new PathSelectionViewModel(GraphInfo);
             CommandEventBinder.CloseMenuCommand.Execute();
             Navigator.OpenPathModal(modal);
@@ -195,9 +239,9 @@ namespace UI.ViewModels
         {
             CommandEventBinder.LoadGraphCommand.OnExecute -= LoadGraph;
             CommandEventBinder.CloseMenuCommand.OnExecute -= CloseMenu;
-            CommandEventBinder.ShowCyclesCommand.OnExecute -= ShowCycles;
+            CommandEventBinder.ShowCyclesModalCommand.OnExecute -= ShowCycles;
             CommandEventBinder.SelectCycleCommand.OnExecute -= SelectCycle;
-            CommandEventBinder.ShowPathCommand.OnExecute -= ShowPath;
+            CommandEventBinder.ShowPathModalCommand.OnExecute -= ShowPath;
             CommandEventBinder.SelectPathCommand.OnExecute -= SelectPath;
             CommandEventBinder.RefreshCommand.OnExecute -= RefreshGraph;
         }

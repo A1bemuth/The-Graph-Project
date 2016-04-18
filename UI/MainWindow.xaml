@@ -103,6 +103,19 @@
                                Text="{Binding VerticeInformationModel.IncludedInCyclesCount}" />
                 </Grid>
             </Border>
+            <Border Grid.Row="2" Grid.RowSpan="2" Background="{StaticResource MainBrush}">
+                <TextBlock Text="Выбирите вершину" Foreground="White" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsVerticeSelected}" Value="True">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
         </Grid>
         
         
@@ -111,7 +124,7 @@
                            Panel.ZIndex="15" Background="{StaticResource RadialMenuGray}"
                        >
             <rm:RadialMenu.CentralItem>
-                <rm:RadialMenuCentralItem x:Name="CloseButton" Command="{Binding Source={x:Static infra:CommandEventBinder.CloseMenuCommand}}" >
+                <rm:RadialMenuCentralItem Command="{Binding Source={x:Static infra:CommandEventBinder.CloseMenuCommand}}" >
                         <Rectangle Width="40" Height="40">
                         <Rectangle.Style>
                             <Style TargetType="Rectangle">
@@ -126,7 +139,7 @@
                     </Rectangle>
                 </rm:RadialMenuCentralItem>
             </rm:RadialMenu.CentralItem>
-            <rm:RadialMenuItem x:Name="LoadButton" Command="{Binding Source={x:Static infra:CommandEventBinder.LoadGraphCommand}}">
+            <rm:RadialMenuItem Command="{Binding Source={x:Static infra:CommandEventBinder.LoadGraphCommand}}">
                 <StackPanel>
                     <Rectangle Width="50" Height="50">
                         <Rectangle.Style>
@@ -153,7 +166,7 @@
                     </TextBlock>
                 </StackPanel>
             </rm:RadialMenuItem>
-            <rm:RadialMenuItem x:Name="CycleButton" Command="{Binding Source={x:Static infra:CommandEventBinder.ShowCyclesCommand}}">
+            <rm:RadialMenuItem Command="{Binding Source={x:Static infra:CommandEventBinder.ShowCyclesModalCommand}}" IsEnabled="{Binding IsGraphLoaded}">
                 <StackPanel>
                     <Rectangle Width="50" Height="50">
                         <Rectangle.Style>
@@ -179,7 +192,7 @@
                         </TextBlock.Style></TextBlock>
                 </StackPanel>
             </rm:RadialMenuItem>
-            <rm:RadialMenuItem x:Name="PathButton" Command="{Binding Source={x:Static infra:CommandEventBinder.ShowPathCommand}}">
+            <rm:RadialMenuItem Command="{Binding Source={x:Static infra:CommandEventBinder.ShowPathModalCommand}}" IsEnabled="{Binding IsGraphLoaded}">
                 <StackPanel>
                     <Rectangle Width="50" Height="50">
                         <Rectangle.Style>
@@ -205,7 +218,7 @@
                         </TextBlock.Style></TextBlock>
                 </StackPanel>
             </rm:RadialMenuItem>
-            <rm:RadialMenuItem x:Name="RefreshButton" Command="{Binding Source={x:Static infra:CommandEventBinder.RefreshCommand}}">
+            <rm:RadialMenuItem Command="{Binding Source={x:Static infra:CommandEventBinder.RefreshCommand}}" IsEnabled="{Binding IsGraphLoaded}">
                 <StackPanel>
                     <Rectangle Width="50" Height="50">
                         <Rectangle.Style>
@@ -232,6 +245,32 @@
                 </StackPanel>
             </rm:RadialMenuItem>
         </rm:RadialMenu>
-        <Rectangle Fill="Aquamarine" Grid.Row="1" Grid.ColumnSpan="3"/>
+        <Border Grid.Column="2" Grid.Row="0" Background="{StaticResource MainBrush}">
+            <TextBlock Text="Загрузите граф" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       FontSize="40" Foreground="White" FontWeight="Bold" />
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsGraphLoaded}" Value="True">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+        <Rectangle Fill="{StaticResource MainBrush}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
+        <Rectangle Grid.Row="0" Grid.Column="0" Fill="DarkGray" Opacity=".6" Grid.ColumnSpan="3">
+            <Rectangle.Style>
+                <Style TargetType="Rectangle">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsModalOpened}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Rectangle.Style>
+        </Rectangle>
     </Grid>
 </Window>

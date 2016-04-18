@@ -36,6 +36,7 @@ namespace UI.Infrastructure
                 Owner = mainWindow,
                 DataContext = modal
             };
+            cycleModal.Closed += (sender, args) => CommandEventBinder.CloseCyclesModalCommand.Execute();
             cycleModal.ShowDialog();
         }
 
@@ -52,6 +53,7 @@ namespace UI.Infrastructure
                 Owner = mainWindow,
                 DataContext = modal
             };
+            pathModal.Closed += (sender, args) => CommandEventBinder.ClosePathModalCommand.Execute();
             pathModal.ShowDialog();
         }
 
