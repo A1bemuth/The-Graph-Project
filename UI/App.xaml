@@ -3,6 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Startup="Application_Startup"
              xmlns:converters="clr-namespace:UI.Converters">
     <Application.Resources>
-        <converters:CycleToStringConverter x:Key="CycleToStringConverter"/>
+        <ResourceDictionary>
+            <converters:CycleToStringConverter x:Key="CycleToStringConverter"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/GraphBrushes.xaml"/>
+                <ResourceDictionary Source="Resources/RadiusMenuItemStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -1,5 +1,4 @@
-﻿<!--84,204,187-->
-<Window x:Class="UI.MainWindow"
+﻿<Window x:Class="UI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -98,24 +97,129 @@
             </Grid>
         </Grid>
         <rm:RadialMenu Grid.Column="0" Grid.Row="0" HalfShiftedItems="True"
-                           IsOpen="{Binding IsMenuOpened}" x:Name="RadialMenu" 
-                           Panel.ZIndex="15" Background="White" Margin="150,102,150,86">
+                           IsOpen="{Binding IsMenuOpened}" x:Name="RadialMenu" Height="400" Width="400"
+                           Panel.ZIndex="15" Background="{StaticResource RadialMenuGray}"
+                       >
             <rm:RadialMenu.CentralItem>
-                <rm:RadialMenuCentralItem Command="{Binding Source={x:Static infra:CommandEventBinder.CloseMenuCommand}}">
-                    <TextBlock>Close</TextBlock>
+                <rm:RadialMenuCentralItem x:Name="CloseButton" Command="{Binding Source={x:Static infra:CommandEventBinder.CloseMenuCommand}}" >
+                        <Rectangle Width="40" Height="40">
+                        <Rectangle.Style>
+                            <Style TargetType="Rectangle">
+                                <Setter Property="Fill" Value="{StaticResource CloseImage}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=rm:RadialMenuCentralItem}, Path=IsMouseOver}" Value="True">
+                                        <Setter Property="Fill" Value="{StaticResource CloseImageWhite}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
                 </rm:RadialMenuCentralItem>
             </rm:RadialMenu.CentralItem>
-            <rm:RadialMenuItem Command="{Binding Source={x:Static infra:CommandEventBinder.LoadGraphCommand}}">
-                <TextBlock>LoadGraph</TextBlock>
+            <rm:RadialMenuItem x:Name="LoadButton" Command="{Binding Source={x:Static infra:CommandEventBinder.LoadGraphCommand}}">
+                <StackPanel>
+                    <Rectangle Width="50" Height="50">
+                        <Rectangle.Style>
+                            <Style TargetType="Rectangle">
+                                <Setter Property="Fill" Value="{StaticResource ExcelImage}"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=rm:RadialMenuItem}, Path=IsMouseOver}" Value="True">
+                                        <Setter Property="Fill" Value="{StaticResource ExcelImageWhite}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+                    <TextBlock HorizontalAlignment="Center" FontSize="13.333" Text="Загрузить граф">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=rm:RadialMenuItem}, Path=IsMouseOver}" Value="True">
+                                        <Setter Property="Foreground" Value="White"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
             </rm:RadialMenuItem>
-            <rm:RadialMenuItem Command="{Binding Source={x:Static infra:CommandEventBinder.ShowCyclesCommand}}">
-                <TextBlock>Cycles</TextBlock>
+            <rm:RadialMenuItem x:Name="CycleButton" Command="{Binding Source={x:Static infra:CommandEventBinder.ShowCyclesCommand}}">
+                <StackPanel>
+                    <Rectangle Width="50" Height="50">
+                        <Rectangle.Style>
+                            <Style TargetType="Rectangle">
+                                <Setter Property="Fill" Value="{StaticResource CycelImage}"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=rm:RadialMenuItem}, Path=IsMouseOver}" Value="True">
+                                        <Setter Property="Fill" Value="{StaticResource CycleImageWhite}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+                    <TextBlock HorizontalAlignment="Center" FontSize="13.333">Циклы
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=rm:RadialMenuItem}, Path=IsMouseOver}" Value="True">
+                                        <Setter Property="Foreground" Value="White"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style></TextBlock>
+                </StackPanel>
             </rm:RadialMenuItem>
-            <rm:RadialMenuItem Command="{Binding Source={x:Static infra:CommandEventBinder.ShowPathCommand}}">
-                <TextBlock>Path</TextBlock>
+            <rm:RadialMenuItem x:Name="PathButton" Command="{Binding Source={x:Static infra:CommandEventBinder.ShowPathCommand}}">
+                <StackPanel>
+                    <Rectangle Width="50" Height="50">
+                        <Rectangle.Style>
+                            <Style TargetType="Rectangle">
+                                <Setter Property="Fill" Value="{StaticResource PathImage}"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=rm:RadialMenuItem}, Path=IsMouseOver}" Value="True">
+                                        <Setter Property="Fill" Value="{StaticResource PathImageWihte}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+                    <TextBlock HorizontalAlignment="Center" FontSize="13.333">Путь
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=rm:RadialMenuItem}, Path=IsMouseOver}" Value="True">
+                                        <Setter Property="Foreground" Value="White"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style></TextBlock>
+                </StackPanel>
             </rm:RadialMenuItem>
-            <rm:RadialMenuItem Command="{Binding Source={x:Static infra:CommandEventBinder.RefreshCommand}}">
-                <TextBlock>Refresh</TextBlock>
+            <rm:RadialMenuItem x:Name="RefreshButton" Command="{Binding Source={x:Static infra:CommandEventBinder.RefreshCommand}}">
+                <StackPanel>
+                    <Rectangle Width="50" Height="50">
+                        <Rectangle.Style>
+                            <Style TargetType="Rectangle">
+                                <Setter Property="Fill" Value="{StaticResource RefreshImage}"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=rm:RadialMenuItem}, Path=IsMouseOver}" Value="True">
+                                        <Setter Property="Fill" Value="{StaticResource RefreshImageWhite}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+                    <TextBlock HorizontalAlignment="Center" FontSize="13.333">Обновить
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=rm:RadialMenuItem}, Path=IsMouseOver}" Value="True">
+                                        <Setter Property="Foreground" Value="White"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style></TextBlock>
+                </StackPanel>
             </rm:RadialMenuItem>
         </rm:RadialMenu>
         <Rectangle Fill="Aquamarine" Grid.Row="1" Grid.ColumnSpan="3"/>

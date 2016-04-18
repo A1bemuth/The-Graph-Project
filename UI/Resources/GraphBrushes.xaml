@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:UI.Resources">
+    <SolidColorBrush x:Key="MainBrush" Color="#FF54CCBB"/>
+    <SolidColorBrush x:Key="RadialMenuGray" Color="#FFD6D6D6"/>
+    <ImageBrush x:Key="CloseImage" ImageSource="Images/close.png"/>
+    <ImageBrush x:Key="CloseImageWhite" ImageSource="Images/close_w.png"/>
+    <ImageBrush x:Key="CycelImage" ImageSource="Images/cycle.png"/>
+    <ImageBrush x:Key="CycleImageWhite" ImageSource="Images/cycle_w.png"/>
+    <ImageBrush x:Key="ExcelImage" ImageSource="Images/excel.png"/>
+    <ImageBrush x:Key="ExcelImageWhite" ImageSource="Images/excel_w.png"/>
+    <ImageBrush x:Key="PathImage" ImageSource="Images/path.png"/>
+    <ImageBrush x:Key="PathImageWihte" ImageSource="Images/path_w.png"/>
+    <ImageBrush x:Key="RefreshImage" ImageSource="Images/refresh.png"/>
+    <ImageBrush x:Key="RefreshImageWhite" ImageSource="Images/refresh_w.png"/>
+</ResourceDictionary>
