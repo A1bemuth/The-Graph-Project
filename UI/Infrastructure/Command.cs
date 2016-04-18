@@ -5,29 +5,24 @@ namespace UI.Infrastructure
 {
     public class Command : ICommand
     {
-        private readonly Func<object,bool> canExecutePredicate;
-        private readonly Action<object> commandAction;
+        private bool executable = true;
 
-        public Command(Action<object> commandAction) : this(commandAction, o => true)
-        {
-        }
-
-        public Command(Action<object> commandAction, Func<object, bool> canExecutePredicate)
-        {
-            this.commandAction = commandAction;
-            this.canExecutePredicate = canExecutePredicate;
-        }
+        public event Action<object> OnExecute;
+        public event EventHandler CanExecuteChanged;
 
         public bool CanExecute(object parameter)
         {
-            return canExecutePredicate.Invoke(parameter);
+            return executable;
         }
 
         public void Execute(object parameter)
         {
-            commandAction.Invoke(parameter);
+            OnExecute?.Invoke(parameter);
         }
 
-        public event EventHandler CanExecuteChanged;
+        public void SetExecutable(bool executable)
+        {
+            this.executable = executable;
+        }
     }
 }

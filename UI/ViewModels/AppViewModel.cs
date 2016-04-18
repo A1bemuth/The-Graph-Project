@@ -13,8 +13,6 @@ namespace UI.ViewModels
         private bool isMenuOpened;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public Command LoadGraphCommand { get; }
-        public Command CloseRadialMenuCommand { get; }
         public GraphInformationViewModel GraphInformationModel { get; }
         public VerticeInformationViewModel VerticeInformationModel { get; }
 
@@ -52,8 +50,8 @@ namespace UI.ViewModels
 
         public AppViewModel()
         {
-            LoadGraphCommand = new Command(LoadGraph);
-            CloseRadialMenuCommand = new Command(CloseMenu);
+            CommandEventBinder.LoadGraphCommand.OnExecute += LoadGraph;
+            CommandEventBinder.CloseMenuCommand.OnExecute += CloseMenu;
             GraphInformationModel = new GraphInformationViewModel();
             VerticeInformationModel = new VerticeInformationViewModel();
         }

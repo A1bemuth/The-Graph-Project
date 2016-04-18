@@ -7,6 +7,7 @@
         xmlns:rm="clr-namespace:RadialMenu.Controls;assembly=RadialMenu"
         xmlns:controls="clr-namespace:UI.Controls"
         xmlns:viewModels="clr-namespace:UI.ViewModels"
+        xmlns:infra="clr-namespace:UI.Infrastructure"
         mc:Ignorable="d"
         Title="MainWindow" MinHeight="600" MinWidth="800">
     <Window.DataContext>
@@ -20,7 +21,7 @@
         <Menu Grid.Row="0">
             <MenuItem Header="Файл">
                 <MenuItem Header="Загрузить граф" 
-                          Command="{Binding LoadGraphCommand}"/>
+                          Command="{Binding Source={x:Static infra:CommandEventBinder.LoadGraphCommand}}"/>
             </MenuItem>
         </Menu>
         <Grid Grid.Row="1">
@@ -103,11 +104,11 @@
                            IsOpen="{Binding IsMenuOpened}" x:Name="RadialMenu" 
                            Panel.ZIndex="15" Background="White">
                 <rm:RadialMenu.CentralItem>
-                    <rm:RadialMenuCentralItem Command="{Binding CloseRadialMenuCommand}">
+                    <rm:RadialMenuCentralItem Command="{Binding Source={x:Static infra:CommandEventBinder.CloseMenuCommand}}">
                         <TextBlock>Close</TextBlock>
                     </rm:RadialMenuCentralItem>
                 </rm:RadialMenu.CentralItem>
-                <rm:RadialMenuItem Command="{Binding LoadGraphCommand}">
+                <rm:RadialMenuItem Command="{Binding Source={x:Static infra:CommandEventBinder.LoadGraphCommand}}">
                     <TextBlock>LoadGraph</TextBlock>
                 </rm:RadialMenuItem>
                 <rm:RadialMenuItem>

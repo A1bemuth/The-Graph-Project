@@ -64,6 +64,7 @@
     </Compile>
     <Compile Include="Infrastructure\Command.cs" />
     <Compile Include="Converters\CycleToStringConverter.cs" />
+    <Compile Include="Infrastructure\CommandEventBinder.cs" />
     <Compile Include="ViewModels\AppViewModel.cs" />
     <Compile Include="ViewModels\CycleSelectionViewModel.cs" />
     <Compile Include="ViewModels\GraphInformationViewModel.cs" />
