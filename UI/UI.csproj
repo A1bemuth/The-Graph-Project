@@ -59,9 +59,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CycleModalView.xaml.cs">
+      <DependentUpon>CycleModalView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Infrastructure\Command.cs" />
     <Compile Include="Converters\CycleToStringConverter.cs" />
     <Compile Include="ViewModels\AppViewModel.cs" />
+    <Compile Include="ViewModels\CycleSelectionViewModel.cs" />
     <Compile Include="ViewModels\GraphInformationViewModel.cs" />
     <Compile Include="ViewModels\VerticeInformationViewModel.cs" />
     <Page Include="Controls\ArrowView.xaml">
@@ -69,6 +73,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\NodeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CycleModalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
