@@ -7,14 +7,14 @@ namespace GraphAlgorithms
 {
     public class GraphIterator
     {
-        private readonly IGraph graph;
+        private readonly Graph graph;
         private readonly bool[] visitedVertices;
         private readonly bool[] verticesInSequence;
         private readonly List<int> currentSequence;
 
         internal event Action<int[]> CycleDetected;
 
-        internal GraphIterator(IGraph graph)
+        internal GraphIterator(Graph graph)
         {
             this.graph = graph;
             visitedVertices = new bool[graph.VerticesCount];

@@ -8,7 +8,7 @@ namespace UI.ViewModels
 {
     public class AppViewModel : INotifyPropertyChanged
     {
-        private IGraph graph;
+        private Graph graph;
         private int selectedVerticeIndex = -1;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -16,7 +16,7 @@ namespace UI.ViewModels
         public GraphInformationViewModel GraphInformationModel { get; }
         public VerticeInformationViewModel VerticeInformationModel { get; }
 
-        public IGraph Graph
+        public Graph Graph
         {
             get { return graph; }
             set

@@ -8,9 +8,9 @@ namespace GraphAlgorithms
     {
         private double clusteringCoefficicentGraph;
         private short[,] matrixIncidence;
-        private IGraph Graph;
+        private Graph Graph;
 
-        public ClusteringCoefficient(IGraph graph)
+        public ClusteringCoefficient(Graph graph)
         {
             this.Graph = graph;
             clusteringCoefficicentGraph = 0;

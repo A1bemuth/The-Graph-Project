@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C9EA996E-CC78-4E44-887F-C6125D35267F}</ProjectGuid>
+    <ProjectGuid>{AE833732-3C80-45D4-851D-72744C6C0D4E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GraphDataLayer</RootNamespace>
-    <AssemblyName>GraphDataLayer</AssemblyName>
+    <RootNamespace>Tests</RootNamespace>
+    <AssemblyName>Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,44 +44,49 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DictionaryGraph.cs" />
-    <Compile Include="AdjacencyListGraph.cs" />
-    <Compile Include="ExcelImporter.cs" />
-    <Compile Include="Graph.cs" />
-    <Compile Include="NamedGraph.cs" />
+    <Compile Include="AlgorithmsTests\ClusteringCoefficientTests.cs" />
+    <Compile Include="AlgorithmsTests\CycleComparerTester.cs" />
+    <Compile Include="AlgorithmsTests\CyclesSearcherTester.cs" />
+<<<<<<< HEAD
+    <Compile Include="DataLayerTests\ExcelImportTests.cs" />
+=======
+    <Compile Include="AlgorithmsTests\PathSearcherTester.cs" />
+>>>>>>> 69a5ee028a5514b6e0c68ab701b521aed603c09b
+    <Compile Include="DataLayerTests\DictonaryGraphTester.cs" />
+    <Compile Include="DataLayerTests\GraphTests.cs" />
+    <Compile Include="DataLayerTests\TestExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="TestSamples\1-by-1-empty-spreadsheets.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestSamples\1-by-1.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestSamples\2-by-2-negative-numbers.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestSamples\2-by-2-two-spreadsheets.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestSamples\2-by-2.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestSamples\3-by-3-sparce.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="Microsoft.Office.Core">
-      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
-      <VersionMajor>2</VersionMajor>
-      <VersionMinor>8</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="Microsoft.Office.Interop.Excel">
-      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>9</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="VBIDE">
-      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>5</VersionMajor>
-      <VersionMinor>3</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
+    <ProjectReference Include="..\GraphAlgorithms\GraphAlgorithms.csproj">
+      <Project>{9532EBF7-2B2F-41BF-B1E7-0757EAFAB62E}</Project>
+      <Name>GraphAlgorithms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphDataLayer\GraphDataLayer.csproj">
+      <Project>{c9ea996e-cc78-4e44-887f-c6125d35267f}</Project>
+      <Name>GraphDataLayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

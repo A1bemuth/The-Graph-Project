@@ -6,7 +6,7 @@ namespace GraphAlgorithms
 {
     public static class GraphExtension
     {
-        public static List<int[]> FindCycles(this IGraph graph)
+        public static List<int[]> FindCycles(this Graph graph)
         {
             if(graph == null)
                 throw new ArgumentNullException(nameof(graph));
@@ -15,7 +15,7 @@ namespace GraphAlgorithms
             return searcher.FindCycles(graph);
         }
 
-        public static double ClusteringCoefficient(this IGraph graph)
+        public static double ClusteringCoefficient(this Graph graph)
         {
             if (graph == null)
                 throw new ArgumentNullException(nameof(graph));
@@ -24,7 +24,7 @@ namespace GraphAlgorithms
             return coefCalculator.GetClusteringCoefficientForGraph();
         }
 
-        public static double ClusteringCoefficientFor(this IGraph graph, int verticeIndex)
+        public static double ClusteringCoefficientFor(this Graph graph, int verticeIndex)
         {
             if (graph == null)
                 throw new ArgumentNullException(nameof(graph));
