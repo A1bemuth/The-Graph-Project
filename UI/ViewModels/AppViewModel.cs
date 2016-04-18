@@ -8,6 +8,7 @@ namespace UI.ViewModels
 {
     public class AppViewModel : ViewModel
     {
+        private NamedGraph graph;
         private GraphInfo graphInfo;
         private int selectedVerticeIndex = -1;
         private bool isMenuOpened;
@@ -36,7 +37,7 @@ namespace UI.ViewModels
             }
         }
 
-        public GraphInfo Graph
+        public GraphInfo GraphInfo
         {
             get { return graphInfo; }
             set
@@ -99,12 +100,13 @@ namespace UI.ViewModels
             CommandEventBinder.SelectCycleCommand.OnExecute += SelectCycle;
             CommandEventBinder.ShowPathCommand.OnExecute += ShowPath;
             CommandEventBinder.SelectPathCommand.OnExecute += SelectPath;
+            CommandEventBinder.RefreshCommand.OnExecute += RefreshGraph;
         }
 
         private void LoadGraph(object parameter)
         {
             CommandEventBinder.CloseMenuCommand.Execute();
-            var graph = (NamedGraph) new AdjacencyGraph(12)
+            graph = (NamedGraph) new AdjacencyGraph(12)
                 .AddArrow(0, 6)
                 .AddArrow(0, 7)
                 .AddArrow(1, 0)
@@ -133,7 +135,7 @@ namespace UI.ViewModels
                 .AddArrow(11, 8)
                 .AddArrow(11, 9)
                 .AddArrow(11, 10);
-            Graph = new GraphInfo(graph);
+            GraphInfo = new GraphInfo(graph);
         }
 
         private void CloseMenu(object parameter)
@@ -159,7 +161,7 @@ namespace UI.ViewModels
 
         private void ShowPath(object o)
         {
-            var modal = new PathSelectionViewModel(Graph);
+            var modal = new PathSelectionViewModel(GraphInfo);
             CommandEventBinder.CloseMenuCommand.Execute();
             Navigator.OpenPathModal(modal);
         }
@@ -176,6 +178,13 @@ namespace UI.ViewModels
 
         }
 
+        private void RefreshGraph(object o)
+        {
+            CommandEventBinder.CloseMenuCommand.Execute();
+            GraphInfo = null;
+            GraphInfo = new GraphInfo(graph);
+        }
+
         public override void Dispose()
         {
             CommandEventBinder.LoadGraphCommand.OnExecute -= LoadGraph;
@@ -184,6 +193,7 @@ namespace UI.ViewModels
             CommandEventBinder.SelectCycleCommand.OnExecute -= SelectCycle;
             CommandEventBinder.ShowPathCommand.OnExecute -= ShowPath;
             CommandEventBinder.SelectPathCommand.OnExecute -= SelectPath;
+            CommandEventBinder.RefreshCommand.OnExecute -= RefreshGraph;
         }
     }
 }

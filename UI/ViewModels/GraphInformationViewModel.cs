@@ -15,6 +15,8 @@ namespace UI.ViewModels
 
         public GraphInformationViewModel(GraphInfo graphInfo)
         {
+            if(graphInfo == null)
+                return;
             VerticeCount = graphInfo.VerticeCount;
             ArrowCount = graphInfo.ArrowCount;
             ClusteringCoefficient = graphInfo.ClusteringCoef;

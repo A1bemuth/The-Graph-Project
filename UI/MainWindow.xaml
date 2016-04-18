@@ -29,7 +29,7 @@
             <ColumnDefinition Width="3"/>
             <ColumnDefinition Width="2*" MinWidth="200"/>
         </Grid.ColumnDefinitions>
-        <controls:GraphCanvas Grid.Column="0" Grid.Row="0" Graph="{Binding Graph.Graph}" Background="Transparent"
+        <controls:GraphCanvas Grid.Column="0" Grid.Row="0" Graph="{Binding GraphInfo.Graph}" Background="Transparent"
                                   VisitedPath="{Binding VisitedPath}"
                                   SelectedVerticeIndex="{Binding SelectedVerticeIndex, Mode=OneWayToSource}"
                                   IsOpenedCustomMeun="{Binding IsMenuOpened, Mode=TwoWay}"/>
@@ -114,7 +114,7 @@
             <rm:RadialMenuItem Command="{Binding Source={x:Static infra:CommandEventBinder.ShowPathCommand}}">
                 <TextBlock>Path</TextBlock>
             </rm:RadialMenuItem>
-            <rm:RadialMenuItem>
+            <rm:RadialMenuItem Command="{Binding Source={x:Static infra:CommandEventBinder.RefreshCommand}}">
                 <TextBlock>Refresh</TextBlock>
             </rm:RadialMenuItem>
         </rm:RadialMenu>

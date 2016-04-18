@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Threading;
 using GraphAlgorithms.VerticeLocation;
 using GraphDataLayer;
 using UI.Infrastructure;
@@ -30,7 +29,7 @@ namespace UI.Controls
             DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             var graphCanvas = dependencyObject as GraphCanvas;
-            if (graphCanvas == null)
+            if (graphCanvas?.Graph == null)
                 return;
             graphCanvas.CreateGraphMathModel();
             graphCanvas.RelocateGraph();
@@ -90,7 +89,7 @@ namespace UI.Controls
             var vertices = Enumerable.Range(0, Graph.VerticesCount)
                 .Select(i => new Node(i))
                 .ToArray();
-            for (int i = 0; i < vertices.Length; i++)
+            for (var i = 0; i < vertices.Length; i++)
             {
                 foreach (var neighbour in Graph.GetNeighbours(i))
                 {
@@ -108,7 +107,7 @@ namespace UI.Controls
                 return;
             VerticesLocator.Locate();
 
-            nodes = VerticesLocator.Nodes.Select(n => new NodeView(n.Number, "Test")
+            nodes = VerticesLocator.Nodes.Select(n => new NodeView(n.Number, n.Number.ToString())
             {
                 Center = new Point(n.Location.X, n.Location.Y)
             }).ToList();
