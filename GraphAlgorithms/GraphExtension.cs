@@ -35,7 +35,7 @@ namespace GraphAlgorithms
             return coefCalculator.GetClusteringCoefficientForVertex(verticeIndex);
         }
 
-        public static int[] FindPath(this IGraph graph, int from, int to)
+        public static int[] FindPath(this Graph graph, int from, int to)
         {
             if(graph == null)
                 throw new ArgumentNullException(nameof(graph));

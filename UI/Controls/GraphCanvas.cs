@@ -16,7 +16,7 @@ namespace UI.Controls
             DependencyProperty.Register("SelectedVerticeIndex", typeof (int), typeof (GraphCanvas),
                 new FrameworkPropertyMetadata(-1));
 
-        public static DependencyProperty GraphProperty = DependencyProperty.Register("Graph", typeof (Graph),
+        public static DependencyProperty GraphProperty = DependencyProperty.Register("Graph", typeof (NamedGraph),
             typeof (GraphCanvas), new FrameworkPropertyMetadata(null, GraphChanded));
 
         public static DependencyProperty SelectedCycleProperty = DependencyProperty.Register("SelectedCycle",
@@ -62,9 +62,9 @@ namespace UI.Controls
             set { SetValue(SelectedVerticeIndexProperty, value); }
         }
 
-        public Graph Graph
+        public NamedGraph Graph
         {
-            get { return (Graph) GetValue(GraphProperty); }
+            get { return (NamedGraph) GetValue(GraphProperty); }
             set { SetValue(GraphProperty, value); }
         }
 
