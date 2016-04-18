@@ -67,8 +67,7 @@
         </Grid.RowDefinitions>
         <TextBlock Text="Выбирите цикл:" Margin="15,15" VerticalAlignment="Top" HorizontalAlignment="Left" FontWeight="SemiBold" FontSize="16"
                    Foreground="DarkGray"/>
-        <ListBox Grid.Row="1" ItemsSource="{Binding Cycles}" Margin="15,0" SelectedIndex="{Binding SelectedCycleIndex}">
-        </ListBox>
+        <ListBox Grid.Row="1" ItemsSource="{Binding Cycles}" Margin="15,0" SelectedIndex="{Binding SelectedCycleIndex}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False"/>
         <Button Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" 
                 Command="{Binding Source={x:Static infra:CommandEventBinder.SelectCycleCommand}}"
                 CommandParameter="{Binding SelectedCycleIndex}"

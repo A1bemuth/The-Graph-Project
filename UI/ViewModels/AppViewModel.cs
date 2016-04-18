@@ -144,35 +144,32 @@ namespace UI.ViewModels
         private void LoadGraph(object parameter)
         {
             CommandEventBinder.CloseMenuCommand.Execute();
-            graph = (NamedGraph) new AdjacencyGraph(12)
-                .AddArrow(0, 6)
-                .AddArrow(0, 7)
-                .AddArrow(1, 0)
-                .AddArrow(1, 3)
-                .AddArrow(1, 4)
-                .AddArrow(2, 3)
-                .AddArrow(2, 11)
-                .AddArrow(3, 11)
-                .AddArrow(4, 11)
-                .AddArrow(5, 11)
-                .AddArrow(6, 5)
-                .AddArrow(7, 1)
-                .AddArrow(7, 2)
-                .AddArrow(8, 11)
-                .AddArrow(9, 10)
-                .AddArrow(9, 11)
-                .AddArrow(10, 11)
-                .AddArrow(11, 0)
-                .AddArrow(11, 1)
-                .AddArrow(11, 2)
-                .AddArrow(11, 3)
-                .AddArrow(11, 4)
-                .AddArrow(11, 5)
-                .AddArrow(11, 6)
-                .AddArrow(11, 7)
-                .AddArrow(11, 8)
-                .AddArrow(11, 9)
-                .AddArrow(11, 10);
+            graph = new AdjacencyGraph(15);
+            graph.AddArrow(8, 4);
+            graph.AddArrow(3, 4);
+            graph.AddArrow(5, 10);
+            graph.AddArrow(0, 1);
+            graph.AddArrow(11, 9);
+            graph.AddArrow(9, 11);
+            graph.AddArrow(14, 7);
+            graph.AddArrow(1, 3);
+            graph.AddArrow(10, 6);
+            graph.AddArrow(11, 5);
+            graph.AddArrow(5, 11);
+            graph.AddArrow(8, 13);
+            graph.AddArrow(13, 8);
+            graph.AddArrow(4, 2);
+            graph.AddArrow(2, 0);
+            graph.AddArrow(9, 12);
+            graph.AddArrow(12, 9);
+            graph.AddArrow(12, 8);
+            graph.AddArrow(8, 12);
+            graph.AddArrow(7, 13);
+            graph.AddArrow(1, 6);
+            graph.AddArrow(6, 14);
+            graph.AddArrow(0, 5);
+            graph.AddArrow(9, 2);
+            graph.AddArrow(7, 3);
             GraphInfo = new GraphInfo(graph);
         }
 
