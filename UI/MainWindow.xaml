@@ -121,17 +121,17 @@
         
         <rm:RadialMenu Grid.Column="0" Grid.Row="0" HalfShiftedItems="True"
                            IsOpen="{Binding IsMenuOpened}" x:Name="RadialMenu" Height="400" Width="400"
-                           Panel.ZIndex="15" Background="{StaticResource RadialMenuGray}"
+                           Panel.ZIndex="15" Background="White"
                        >
             <rm:RadialMenu.CentralItem>
                 <rm:RadialMenuCentralItem Command="{Binding Source={x:Static infra:CommandEventBinder.CloseMenuCommand}}" >
                         <Rectangle Width="40" Height="40">
                         <Rectangle.Style>
                             <Style TargetType="Rectangle">
-                                <Setter Property="Fill" Value="{StaticResource CloseImage}"/>
+                                <Setter Property="Fill" Value="{StaticResource CloseImageWhite}"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=rm:RadialMenuCentralItem}, Path=IsMouseOver}" Value="True">
-                                        <Setter Property="Fill" Value="{StaticResource CloseImageWhite}"/>
+                                        <Setter Property="Fill" Value="{StaticResource CloseImage}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
