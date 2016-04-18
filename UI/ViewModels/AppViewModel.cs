@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GraphAlgorithms;
 using GraphDataLayer;
 using UI.Infrastructure;
@@ -156,7 +157,12 @@ namespace UI.ViewModels
             var selectedCycleIndex = (int) index;
             if(selectedCycleIndex == -1)
                 return;
-            VisitedPath = graphInfo.Cycles[selectedCycleIndex];
+            if (graphInfo != null)
+            {
+                var cycle = new List<int>(graphInfo.Cycles[selectedCycleIndex]);
+                cycle.Add(cycle[0]);
+                VisitedPath = cycle.ToArray();
+            }
         }
 
         private void ShowPath(object o)

@@ -43,16 +43,16 @@ namespace UI.Controls
 
         public static DependencyProperty VisitedPathProperty = DependencyProperty.Register("VisitedPath",
             typeof (IEnumerable<int>), typeof (GraphCanvas),
-            new FrameworkPropertyMetadata(new List<int>(), SelectedCycleChanged));
+            new FrameworkPropertyMetadata(new List<int>(), VisitedPathChanged));
 
-        private static void SelectedCycleChanged(DependencyObject dependencyObject,
+        private static void VisitedPathChanged(DependencyObject dependencyObject,
             DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             var graphCanvas = dependencyObject as GraphCanvas;
             if (graphCanvas == null)
                 return;
             graphCanvas.SetChildrenDefaultViews();
-            graphCanvas.PickOutCycle();
+            graphCanvas.PickOutPath();
             graphCanvas.UpdateChildrenView();
         }
 
@@ -137,13 +137,14 @@ namespace UI.Controls
             }
         }
 
-        private void PickOutCycle()
+        private void PickOutPath()
         {
             if (VisitedPath == null)
                 return;
             for (var i = 0; i < VisitedPath.Length; i++)
             {
-                nodes[VisitedPath[i]].IncludeView(nodes[VisitedPath[(i + 1)%VisitedPath.Length]]);
+                var nextNode = i + 1 != VisitedPath.Length ? nodes[VisitedPath[i + 1]] : null;
+                nodes[VisitedPath[i]].IncludeView(nextNode);
             }
         }
 
