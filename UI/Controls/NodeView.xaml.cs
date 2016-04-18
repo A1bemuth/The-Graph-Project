@@ -103,10 +103,12 @@ namespace UI.Controls
             }
         }
 
-        public void IncludeInCycle(NodeView nextNode)
+        public void IncludeView(NodeView nextNode)
         {
             Status = NodeStatus.InCycle;
-            Arrows.First(a => a.EndNode.Equals(nextNode)).Status = NodeStatus.InCycle;
+            var edge = Arrows.FirstOrDefault(a => a.EndNode.Equals(nextNode));
+            if (edge != null)
+                edge.Status = NodeStatus.InCycle;
         }
 
         public void ChangeViewToDefault()

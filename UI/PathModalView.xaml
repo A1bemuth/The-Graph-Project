@@ -1,0 +1,34 @@
+﻿<Window x:Class="UI.PathModalView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:model="clr-namespace:UI.ViewModels"
+        xmlns:infra="clr-namespace:UI.Infrastructure"
+        mc:Ignorable="d"
+        Title="" Height="200" Width="400" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner">
+    <Window.DataContext>
+       <model:PathSelectionViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="63*"/>
+            <RowDefinition Height="53*"/>
+            <RowDefinition Height="54*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="40*"/>
+            <ColumnDefinition Width="100*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Выбирите начальную вершину" VerticalAlignment="Bottom" Grid.Row="0" Grid.Column="0"/>
+        <TextBlock Text="Выбирите конечную вершину" VerticalAlignment="Bottom" Grid.Row="0" Grid.Column="2"/>
+        <ComboBox Grid.Column="0" VerticalAlignment="Center" Margin="10,11,10,20" Grid.Row="1" ItemsSource="{Binding VerticeNames}" SelectedIndex="{Binding StartVerticeIndex}"/>
+        <ComboBox Grid.Column="2" VerticalAlignment="Center" Margin="10,11,10,20" Grid.Row="1" ItemsSource="{Binding VerticeNames}" SelectedIndex="{Binding EndVerticeIndex}"/>
+        <Button VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="2"
+                Command="{Binding Source={x:Static infra:CommandEventBinder.SelectPathCommand}}"
+                CommandParameter="{Binding VerticePair}">
+            Выбрать вершины
+        </Button>
+    </Grid>
+</Window>

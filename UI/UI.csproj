@@ -68,9 +68,13 @@
     <Compile Include="Infrastructure\Navigator.cs" />
     <Compile Include="Infrastructure\ViewModel.cs" />
     <Compile Include="Models\GraphInfo.cs" />
+    <Compile Include="PathModalView.xaml.cs">
+      <DependentUpon>PathModalView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\AppViewModel.cs" />
     <Compile Include="ViewModels\CycleSelectionViewModel.cs" />
     <Compile Include="ViewModels\GraphInformationViewModel.cs" />
+    <Compile Include="ViewModels\PathSelectionViewModel.cs" />
     <Compile Include="ViewModels\VerticeInformationViewModel.cs" />
     <Page Include="Controls\ArrowView.xaml">
       <SubType>Designer</SubType>
@@ -104,6 +108,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PathModalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\NodeStatus.cs" />

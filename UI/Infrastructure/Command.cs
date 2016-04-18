@@ -15,14 +15,9 @@ namespace UI.Infrastructure
             return executable;
         }
 
-        public void Execute(object parameter)
+        public void Execute(object parameter = null)
         {
             OnExecute?.Invoke(parameter);
-        }
-
-        public void SetExecutable(bool executable)
-        {
-            this.executable = executable;
         }
     }
 }

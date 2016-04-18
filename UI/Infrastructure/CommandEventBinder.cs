@@ -6,5 +6,7 @@
         public static Command CloseMenuCommand = new Command();
         public static Command ShowCyclesCommand = new Command();
         public static Command SelectCycleCommand = new Command();
+        public static Command ShowPathCommand = new Command();
+        public static Command SelectPathCommand = new Command();
     }
 }

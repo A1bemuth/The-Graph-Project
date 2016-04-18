@@ -144,7 +144,7 @@ namespace UI.Controls
                 return;
             for (var i = 0; i < VisitedPath.Length; i++)
             {
-                nodes[VisitedPath[i]].IncludeInCycle(nodes[VisitedPath[(i + 1)%VisitedPath.Length]]);
+                nodes[VisitedPath[i]].IncludeView(nodes[VisitedPath[(i + 1)%VisitedPath.Length]]);
             }
         }
 

@@ -8,6 +8,7 @@ namespace UI.Infrastructure
     {
         private static readonly MainWindow mainWindow;
         private static CycleModalView cycleModal;
+        private static PathModalView pathModal;
 
         static Navigator()
         {
@@ -42,6 +43,22 @@ namespace UI.Infrastructure
         {
             cycleModal.Close();
             cycleModal = null;
+        }
+
+        public static void OpenPathModal(PathSelectionViewModel modal)
+        {
+            pathModal = new PathModalView
+            {
+                Owner = mainWindow,
+                DataContext = modal
+            };
+            pathModal.ShowDialog();
+        }
+
+        public static void ClosePathModal()
+        {
+            pathModal.Close();
+            pathModal = null;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using GraphDataLayer;
+﻿using System;
+using GraphAlgorithms;
+using GraphDataLayer;
 using UI.Infrastructure;
 using UI.Models;
 
@@ -95,11 +97,13 @@ namespace UI.ViewModels
             CommandEventBinder.CloseMenuCommand.OnExecute += CloseMenu;
             CommandEventBinder.ShowCyclesCommand.OnExecute += ShowCycles;
             CommandEventBinder.SelectCycleCommand.OnExecute += SelectCycle;
+            CommandEventBinder.ShowPathCommand.OnExecute += ShowPath;
+            CommandEventBinder.SelectPathCommand.OnExecute += SelectPath;
         }
 
         private void LoadGraph(object parameter)
         {
-            CommandEventBinder.CloseMenuCommand.Execute(null);
+            CommandEventBinder.CloseMenuCommand.Execute();
             var graph = (NamedGraph) new AdjacencyGraph(12)
                 .AddArrow(0, 6)
                 .AddArrow(0, 7)
@@ -140,7 +144,7 @@ namespace UI.ViewModels
         private void ShowCycles(object parameter)
         {
             var model = new CycleSelectionViewModel(graphInfo);
-            CommandEventBinder.CloseMenuCommand.Execute(null);
+            CommandEventBinder.CloseMenuCommand.Execute();
             Navigator.OpenCycleModal(model);
         }
 
@@ -153,12 +157,33 @@ namespace UI.ViewModels
             VisitedPath = graphInfo.Cycles[selectedCycleIndex];
         }
 
+        private void ShowPath(object o)
+        {
+            var modal = new PathSelectionViewModel(Graph);
+            CommandEventBinder.CloseMenuCommand.Execute();
+            Navigator.OpenPathModal(modal);
+        }
+
+        private void SelectPath(object o)
+        {
+            Navigator.ClosePathModal();
+            var selectedIndexes = (Tuple<int, int>)o;
+            if(selectedIndexes.Item1 == -1 || selectedIndexes.Item2 == -1)
+                return;
+            if(selectedIndexes.Item1 == selectedIndexes.Item2)
+                return;
+            VisitedPath = graphInfo.Graph.FindPath(selectedIndexes.Item1, selectedIndexes.Item2);
+
+        }
+
         public override void Dispose()
         {
             CommandEventBinder.LoadGraphCommand.OnExecute -= LoadGraph;
             CommandEventBinder.CloseMenuCommand.OnExecute -= CloseMenu;
             CommandEventBinder.ShowCyclesCommand.OnExecute -= ShowCycles;
             CommandEventBinder.SelectCycleCommand.OnExecute -= SelectCycle;
+            CommandEventBinder.ShowPathCommand.OnExecute -= ShowPath;
+            CommandEventBinder.SelectPathCommand.OnExecute -= SelectPath;
         }
     }
 }
