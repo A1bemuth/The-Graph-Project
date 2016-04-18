@@ -12,6 +12,16 @@
     <Window.DataContext>
         <viewModels:AppViewModel/>
     </Window.DataContext>
+    <Window.Resources>
+        <Style TargetType="Border" x:Key="Placeholder">
+            <Setter Property="Visibility" Value="Visible"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsGraphLoaded}" Value="True">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -22,6 +32,10 @@
             <ColumnDefinition Width="2"/>
             <ColumnDefinition Width="2*" MinWidth="200"/>
         </Grid.ColumnDefinitions>
+        <Border Grid.Column="0" Style="{DynamicResource Placeholder}">
+            <TextBlock Text="Нажмите на правую кнопку мыши" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Foreground="{StaticResource RadialMenuGray}" FontSize="20" TextAlignment="Center" FontWeight="Bold"/>
+        </Border>
         <controls:GraphCanvas Grid.Column="0" Grid.Row="0" Graph="{Binding GraphInfo.Graph}" Background="Transparent"
                                   VisitedPath="{Binding VisitedPath}"
                                   SelectedVerticeIndex="{Binding SelectedVerticeIndex, Mode=OneWayToSource}"
@@ -245,19 +259,9 @@
                 </StackPanel>
             </rm:RadialMenuItem>
         </rm:RadialMenu>
-        <Border Grid.Column="2" Grid.Row="0" Background="{StaticResource MainBrush}">
+        <Border Grid.Column="2" Grid.Row="0" Background="{StaticResource MainBrush}" Style="{DynamicResource Placeholder}">
             <TextBlock Text="Загрузите граф" HorizontalAlignment="Center" VerticalAlignment="Center"
                        FontSize="40" Foreground="White" FontWeight="Bold" />
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="Visibility" Value="Visible"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsGraphLoaded}" Value="True">
-                            <Setter Property="Visibility" Value="Hidden"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>
         </Border>
         <Rectangle Fill="{StaticResource MainBrush}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
         <Rectangle Grid.Row="0" Grid.Column="0" Fill="DarkGray" Opacity=".6" Grid.ColumnSpan="3">

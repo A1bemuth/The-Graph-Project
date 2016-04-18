@@ -222,8 +222,8 @@ namespace UI.Controls
         {
             if (VerticesLocator == null)
                 return 1;
-            var verticalScaleFactor = (arrangeSize.Height - 2*verticesScale)/VerticesLocator.Size.Height;
-            var horizontalScaleFactor = (arrangeSize.Width - 2*verticesScale)/VerticesLocator.Size.Width;
+            var verticalScaleFactor = (arrangeSize.Height - 2*verticesScale - 20)/VerticesLocator.Size.Height;
+            var horizontalScaleFactor = (arrangeSize.Width - 2*verticesScale - 20)/VerticesLocator.Size.Width;
             return Math.Min(verticalScaleFactor, horizontalScaleFactor);
         }
 
