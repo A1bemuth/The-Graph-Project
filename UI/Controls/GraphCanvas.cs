@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 using GraphAlgorithms.VerticeLocation;
 using GraphDataLayer;
 using UI.Infrastructure;
@@ -16,12 +17,14 @@ namespace UI.Controls
             DependencyProperty.Register("SelectedVerticeIndex", typeof (int), typeof (GraphCanvas),
                 new FrameworkPropertyMetadata(-1));
 
+        public int SelectedVerticeIndex
+        {
+            get { return (int) GetValue(SelectedVerticeIndexProperty); }
+            set { SetValue(SelectedVerticeIndexProperty, value); }
+        }
+
         public static DependencyProperty GraphProperty = DependencyProperty.Register("Graph", typeof (NamedGraph),
             typeof (GraphCanvas), new FrameworkPropertyMetadata(null, GraphChanded));
-
-        public static DependencyProperty SelectedCycleProperty = DependencyProperty.Register("SelectedCycle",
-            typeof (IEnumerable<int>), typeof (GraphCanvas),
-            new FrameworkPropertyMetadata(new List<int>(), SelectedCycleChanged));
 
         private static void GraphChanded(DependencyObject dependencyObject,
             DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
@@ -33,6 +36,16 @@ namespace UI.Controls
             graphCanvas.RelocateGraph();
         }
 
+        public NamedGraph Graph
+        {
+            get { return (NamedGraph) GetValue(GraphProperty); }
+            set { SetValue(GraphProperty, value); }
+        }
+
+        public static DependencyProperty SelectedCycleProperty = DependencyProperty.Register("SelectedCycle",
+            typeof (IEnumerable<int>), typeof (GraphCanvas),
+            new FrameworkPropertyMetadata(new List<int>(), SelectedCycleChanged));
+
         private static void SelectedCycleChanged(DependencyObject dependencyObject,
             DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
@@ -42,6 +55,21 @@ namespace UI.Controls
             graphCanvas.SetChildrenDefaultViews();
             graphCanvas.PickOutCycle();
             graphCanvas.UpdateChildrenView();
+        }
+
+        public int[] SelectedCycle
+        {
+            get { return (int[]) GetValue(SelectedCycleProperty); }
+            set { SetValue(SelectedCycleProperty, value); }
+        }
+
+        public static DependencyProperty IsOpenedCustomMenuProperty =
+            DependencyProperty.Register("IsOpenedCustomMeun", typeof (bool), typeof (GraphCanvas));
+
+        public bool IsOpenedCustomMeun
+        {
+            get { return (bool) GetValue(IsOpenedCustomMenuProperty); }
+            set { SetValue(IsOpenedCustomMenuProperty, value); }
         }
 
         private Point center;
@@ -55,24 +83,6 @@ namespace UI.Controls
         private List<ArrowView> arrows;
 
         public IVerticesLocator VerticesLocator { get; } = new ForceVerticesLocator();
-
-        public int SelectedVerticeIndex
-        {
-            get { return (int) GetValue(SelectedVerticeIndexProperty); }
-            set { SetValue(SelectedVerticeIndexProperty, value); }
-        }
-
-        public NamedGraph Graph
-        {
-            get { return (NamedGraph) GetValue(GraphProperty); }
-            set { SetValue(GraphProperty, value); }
-        }
-
-        public int[] SelectedCycle
-        {
-            get { return (int[]) GetValue(SelectedCycleProperty); }
-            set { SetValue(SelectedCycleProperty, value); }
-        }
 
         private void CreateGraphMathModel()
         {
@@ -232,6 +242,7 @@ namespace UI.Controls
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
+            IsOpenedCustomMeun = false;
             var nodeView = e.Source as NodeView;
             if (nodeView != null)
             {
@@ -240,6 +251,12 @@ namespace UI.Controls
             }
             e.Handled = true;
             base.OnMouseLeftButtonDown(e);
+        }
+
+        protected override void OnMouseRightButtonUp(MouseButtonEventArgs e)
+        {
+            IsOpenedCustomMeun = !IsOpenedCustomMeun;
+            base.OnMouseRightButtonDown(e);
         }
     }
 }

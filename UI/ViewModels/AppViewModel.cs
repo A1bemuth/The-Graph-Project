@@ -10,9 +10,11 @@ namespace UI.ViewModels
     {
         private NamedGraph graph;
         private int selectedVerticeIndex = -1;
+        private bool isMenuOpened;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public Command LoadGraphCommand { get; }
+        public Command CloseRadialMenuCommand { get; }
         public GraphInformationViewModel GraphInformationModel { get; }
         public VerticeInformationViewModel VerticeInformationModel { get; }
 
@@ -22,7 +24,7 @@ namespace UI.ViewModels
             set
             {
                 graph = value;
-                OnPropertyChanged(nameof(Graph));
+                OnPropertyChanged();
                 GraphInformationModel.AnalyzeGraph(value);
             }
         }
@@ -33,14 +35,25 @@ namespace UI.ViewModels
             set
             {
                 selectedVerticeIndex = value;
-                OnPropertyChanged(nameof(SelectedVerticeIndex));
+                OnPropertyChanged();
                 VerticeInformationModel.UpdateVerticeInformation(this);
+            }
+        }
+
+        public bool IsMenuOpened
+        {
+            get { return isMenuOpened; }
+            set
+            {
+                isMenuOpened = value;
+                OnPropertyChanged();
             }
         }
 
         public AppViewModel()
         {
             LoadGraphCommand = new Command(LoadGraph);
+            CloseRadialMenuCommand = new Command(CloseMenu);
             GraphInformationModel = new GraphInformationViewModel();
             VerticeInformationModel = new VerticeInformationViewModel();
         }
@@ -76,6 +89,11 @@ namespace UI.ViewModels
                 .AddArrow(11, 8)
                 .AddArrow(11, 9)
                 .AddArrow(11, 10);
+        }
+
+        private void CloseMenu(object parameter)
+        {
+            IsMenuOpened = false;
         }
 
         [NotifyPropertyChangedInvocator]
