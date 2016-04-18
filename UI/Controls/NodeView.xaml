@@ -23,10 +23,11 @@
                  Fill="Transparent"
                  StrokeThickness="10"/>
         <Grid Grid.Row="0" Grid.Column="1" x:Name="TitlePlace">
-            <Rectangle Fill="White" Opacity=".3" RadiusY="12" RadiusX="12"/>
+            <Rectangle Fill="White" Opacity=".7" RadiusY="12" RadiusX="12"/>
             <TextBlock Foreground="Black" 
                        FontSize="13.333" FontWeight="SemiBold" 
-                       Margin="3">Иван Пупкин</TextBlock>
+                       Margin="3"
+                       Text="{Binding ElementName=This, Path=Title}"/>
         </Grid>
     </Grid>
     <UserControl.Style>

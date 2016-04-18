@@ -44,6 +44,15 @@ namespace UI.Controls
             }
         }
 
+        public static DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof (string),
+            typeof (NodeView));
+
+        public string Title
+        {
+            get { return (string) GetValue(TitleProperty); }
+            private set { SetValue(TitleProperty, value); }
+        }
+
         public NodeStatus Status { get; private set; }
 
         public List<ArrowView> Arrows { get; }
@@ -56,9 +65,10 @@ namespace UI.Controls
             Arrows = new List<ArrowView>();
         }
 
-        public NodeView(int number) : this()
+        public NodeView(int number, string title) : this()
         {
             Number = number;
+            Title = title;
         }
 
         public Point ShiftPointFromTitle(Point topLeftPoint)
