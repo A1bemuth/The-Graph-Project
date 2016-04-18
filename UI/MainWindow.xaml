@@ -12,12 +12,6 @@
     <Window.DataContext>
         <viewModels:AppViewModel/>
     </Window.DataContext>
-    <Window.Resources>
-        <Style TargetType="TextBlock">
-            <Setter Property="TextWrapping" Value="Wrap"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        </Style>
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -25,77 +19,93 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*" MinWidth="600"/>
-            <ColumnDefinition Width="3"/>
+            <ColumnDefinition Width="2"/>
             <ColumnDefinition Width="2*" MinWidth="200"/>
         </Grid.ColumnDefinitions>
         <controls:GraphCanvas Grid.Column="0" Grid.Row="0" Graph="{Binding GraphInfo.Graph}" Background="Transparent"
                                   VisitedPath="{Binding VisitedPath}"
                                   SelectedVerticeIndex="{Binding SelectedVerticeIndex, Mode=OneWayToSource}"
                                   IsOpenedCustomMeun="{Binding IsMenuOpened, Mode=TwoWay}"/>
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="0"/>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="0" Background="{StaticResource MainBrush}"/>
         <Grid Grid.Column="2" Grid.Row="0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Информаци о графе"
+                               Background="{StaticResource MainBrush}" Foreground="White"
+                               FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Stretch" TextAlignment="Center"
+                               Padding="3" />
+            <Border Grid.Row="1" BorderThickness="0,0,2,0" BorderBrush="{StaticResource MainBrush}" Padding="3,0" Background="{StaticResource RadialMenuGray}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0"
+                               Text="Количетво вершин" Background="White" />
+                    <TextBlock Grid.Row="0" Grid.Column="1"
+                               Text="{Binding GraphInformationModel.VerticeCount}" Background="White" Margin="1,0,0,0" Padding="5,0,0,0"/>
 
-                <TextBlock Grid.Row="0" Grid.Column="0"
-                               Text="Количетво вершин"/>
-                <TextBlock Grid.Row="0" Grid.Column="1"
-                               Text="{Binding GraphInformationModel.VerticeCount}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0"
+                               Text="Количество дуг" />
+                    <TextBlock Grid.Row="1" Grid.Column="1"
+                               Text="{Binding GraphInformationModel.ArrowCount}" />
 
-                <TextBlock Grid.Row="1" Grid.Column="0"
-                               Text="Количество дуг"/>
-                <TextBlock Grid.Row="1" Grid.Column="1"
-                               Text="{Binding GraphInformationModel.ArrowCount}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0"
+                               Text="Коэффициент кластеризации графа" />
+                    <TextBlock Grid.Row="2" Grid.Column="1"
+                               Text="{Binding GraphInformationModel.ClusteringCoefficient}" />
 
-                <TextBlock Grid.Column="0" Grid.Row="2"
-                        Text="Коэффициент кластеризации графа" />
-                <TextBlock Grid.Column="1" Grid.Row="2"
-                        Text="{Binding GraphInformationModel.ClusteringCoefficient}" />
+                    <TextBlock Grid.Row="3" Grid.Column="0"
+                               Text="Количество циклов" />
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding GraphInformationModel.CyclesCount}" />
+                </Grid>
+            </Border>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Информаци о вершине"
+                               Background="{StaticResource MainBrush}" Foreground="White"
+                               FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Stretch" TextAlignment="Center"
+                               Padding="3"/>
 
-                <TextBlock Grid.Row="3" Grid.Column="0"
-                               Text="Количество циклов"/>
-                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding GraphInformationModel.CyclesCount}"></TextBlock>
-            </Grid>
-            <Grid Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+            <Border Grid.Row="3" BorderThickness="0,0,2,2" BorderBrush="{StaticResource MainBrush}" Padding="3,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0"
-                        Text="Индекс выбранной вершины"/>
-                <TextBlock Grid.Row="0" Grid.Column="1"
-                               Text="{Binding VerticeInformationModel.Index}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="0"
+                               Text="Индекс выбранной вершины"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1"
+                               Text="{Binding VerticeInformationModel.Index}" />
 
-                <TextBlock Grid.Row="1" Grid.Column="0"
-                        Text="Коэффициент кластеризации вершины"/>
-                <TextBlock Grid.Row="1" Grid.Column="1"
-                               Text="{Binding VerticeInformationModel.ClusteringCoefficient}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0"
+                               Text="Коэффициент кластеризации вершины" />
+                    <TextBlock Grid.Row="1" Grid.Column="1"
+                               Text="{Binding VerticeInformationModel.ClusteringCoefficient}" />
 
-                <TextBlock Grid.Row="2" Grid.Column="0"
-                               Text="Количество циклов с вершиной"/>
-                <TextBlock Grid.Row="2" Grid.Column="1"
-                               Text="{Binding VerticeInformationModel.IncludedInCyclesCount}"/>
-            </Grid>
+                    <TextBlock Grid.Row="2" Grid.Column="0"
+                               Text="Количество циклов с вершиной" />
+                    <TextBlock Grid.Row="2" Grid.Column="1"
+                               Text="{Binding VerticeInformationModel.IncludedInCyclesCount}" />
+                </Grid>
+            </Border>
         </Grid>
+        
+        
         <rm:RadialMenu Grid.Column="0" Grid.Row="0" HalfShiftedItems="True"
                            IsOpen="{Binding IsMenuOpened}" x:Name="RadialMenu" Height="400" Width="400"
                            Panel.ZIndex="15" Background="{StaticResource RadialMenuGray}"
