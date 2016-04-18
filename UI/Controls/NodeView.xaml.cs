@@ -1,13 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using UI.Annotations;
 using UI.Infrastructure;
 
 namespace UI.Controls
 {
-    public partial class NodeView : UserControl, IGraphObject
+    public partial class NodeView : UserControl, IGraphObject, INotifyPropertyChanged
     {
         public static DependencyProperty NumberProperty = DependencyProperty.Register("Number", typeof (int), typeof (NodeView));
 
@@ -17,20 +21,43 @@ namespace UI.Controls
             private set { SetValue(NumberProperty, value); }
         }
 
+        public static DependencyProperty RadiusProperty = DependencyProperty.Register("Radis", typeof(double), typeof(NodeView),
+            new FrameworkPropertyMetadata(25.0, RadiusChanged));
+
+        private static void RadiusChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            var nodeView = dependencyObject as NodeView;
+            if (nodeView != null)
+            {
+                nodeView.Ellipse.Height = nodeView.Radius*2;
+                nodeView.Ellipse.Width = nodeView.Radius*2;
+            }
+        }
+
+        public double Radius
+        {
+            get { return (double) GetValue(RadiusProperty); }
+            set
+            {
+                SetValue(RadiusProperty, value);
+                OnPropertyChanged();
+            }
+        }
+
+        public static DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof (string),
+            typeof (NodeView));
+
+        public string Title
+        {
+            get { return (string) GetValue(TitleProperty); }
+            private set { SetValue(TitleProperty, value); }
+        }
+
         public NodeStatus Status { get; private set; }
 
         public List<ArrowView> Arrows { get; }
         
         public Point Center { get; set; }
-
-        public double Scale
-        {
-            set
-            {
-                Height = value;
-                Width = value;
-            }
-        }
 
         public NodeView()
         {
@@ -38,9 +65,24 @@ namespace UI.Controls
             Arrows = new List<ArrowView>();
         }
 
-        public NodeView(int number) : this()
+        public NodeView(int number, string title) : this()
         {
             Number = number;
+            Title = title;
+        }
+
+        public Point ShiftPointFromTitle(Point topLeftPoint)
+        {
+            var y = topLeftPoint.Y - TitlePlace.DesiredSize.Height;
+            return new Point(topLeftPoint.X, y);
+        }
+
+        protected override Size MeasureOverride(Size constraint)
+        {
+            TitlePlace.Measure(constraint);
+            var height = Radius*2 + TitlePlace.DesiredSize.Height;
+            var width = Math.Max(Radius*2, Radius + TitlePlace.DesiredSize.Width);
+            return new Size(width, height);
         }
 
         private void UserControl_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -96,6 +138,14 @@ namespace UI.Controls
                     BorderBrush = Brushes.Gainsboro;
                     break;
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
