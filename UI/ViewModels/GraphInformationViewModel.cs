@@ -1,30 +1,32 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using GraphAlgorithms;
-using GraphDataLayer;
-using UI.Annotations;
+﻿using UI.Infrastructure;
+using UI.Models;
 
 namespace UI.ViewModels
 {
-    public class GraphInformationViewModel : INotifyPropertyChanged
+    public class GraphInformationViewModel : ViewModel
     {
         private int verticeCount;
         private int arrowCount;
         private double clusteringCoef;
-        private List<int[]> cycles;
-        private int selectedCycleIndex = -1;
-        private IEnumerable<int> selectedCycle;
+        private int cyclesCount;
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
+        public GraphInformationViewModel() { }
+
+        public GraphInformationViewModel(GraphInfo graphInfo)
+        {
+            VerticeCount = graphInfo.VerticeCount;
+            ArrowCount = graphInfo.ArrowCount;
+            ClusteringCoefficient = graphInfo.ClusteringCoef;
+            CyclesCount = graphInfo.Cycles.Count;
+        }
         public int VerticeCount
         {
             get { return verticeCount; }
             set
             {
                 verticeCount = value;
-                OnPropertyChanged(nameof(VerticeCount));
+                OnPropertyChanged();
             }
         }
 
@@ -34,7 +36,7 @@ namespace UI.ViewModels
             set
             {
                 arrowCount = value;
-                OnPropertyChanged(nameof(ArrowCount));
+                OnPropertyChanged();
             }
         }
 
@@ -44,58 +46,23 @@ namespace UI.ViewModels
             private set
             {
                 clusteringCoef = value;
-                OnPropertyChanged(nameof(ClusteringCoefficient));
+                OnPropertyChanged();
             }
         }
 
-        public List<int[]> Cycles
+        public int CyclesCount
         {
-            get { return cycles; }
+            get { return cyclesCount; }
             set
             {
-                cycles = value;
-                OnPropertyChanged(nameof(Cycles));
+                cyclesCount = value;
+                OnPropertyChanged();
             }
 
         }
 
-        public int SelectedCycleIndex
+        public override void Dispose()
         {
-            get { return selectedCycleIndex; }
-            set
-            {
-                selectedCycleIndex = value;
-                OnPropertyChanged(nameof(SelectedCycleIndex));
-                SelectedCycle = cycles[selectedCycleIndex];
-            }
-        }
-
-        public IEnumerable<int> SelectedCycle
-        {
-            get { return selectedCycle; }
-            set
-            {
-                selectedCycle = value;
-                OnPropertyChanged(nameof(SelectedCycle));
-            }
-        }
-
-        public void AnalyzeGraph(Graph graph)
-        {
-            if (graph == null)
-                return;
-            VerticeCount = graph.VerticesCount;
-            ArrowCount = graph.ArrowsCount;
-            ClusteringCoefficient = graph.ClusteringCoefficient();
-            Cycles = graph.FindCycles();
-            
-        }
-
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

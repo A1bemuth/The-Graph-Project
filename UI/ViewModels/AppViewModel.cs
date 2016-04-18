@@ -1,29 +1,47 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using GraphDataLayer;
-using UI.Annotations;
+﻿using GraphDataLayer;
 using UI.Infrastructure;
+using UI.Models;
 
 namespace UI.ViewModels
 {
-    public class AppViewModel : INotifyPropertyChanged
+    public class AppViewModel : ViewModel
     {
-        private NamedGraph graph;
+        private GraphInfo graphInfo;
         private int selectedVerticeIndex = -1;
         private bool isMenuOpened;
+        private int[] visitedPath;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public GraphInformationViewModel GraphInformationModel { get; }
-        public VerticeInformationViewModel VerticeInformationModel { get; }
+        private GraphInformationViewModel graphInformationViewModel;
+        private VerticeInformationViewModel verticeInformationViewModel;
 
-        public NamedGraph Graph
+        public GraphInformationViewModel GraphInformationModel
         {
-            get { return graph; }
+            get { return graphInformationViewModel; }
+            private set
+            {
+                graphInformationViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public VerticeInformationViewModel VerticeInformationModel
+        {
+            get { return verticeInformationViewModel; }
+            private set
+            {
+                verticeInformationViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public GraphInfo Graph
+        {
+            get { return graphInfo; }
             set
             {
-                graph = value;
+                graphInfo = value;
                 OnPropertyChanged();
-                GraphInformationModel.AnalyzeGraph(value);
+                GraphInformationModel = new GraphInformationViewModel(graphInfo);
             }
         }
 
@@ -34,8 +52,15 @@ namespace UI.ViewModels
             {
                 selectedVerticeIndex = value;
                 OnPropertyChanged();
-                VerticeInformationModel.UpdateVerticeInformation(this);
+                SelectedVerticeIndexChange();
             }
+        }
+
+        private void SelectedVerticeIndexChange()
+        {
+            VerticeInformationModel = SelectedVerticeIndex != -1
+                ? new VerticeInformationViewModel(SelectedVerticeIndex, graphInfo)
+                : new VerticeInformationViewModel();
         }
 
         public bool IsMenuOpened
@@ -48,17 +73,34 @@ namespace UI.ViewModels
             }
         }
 
+        public int[] VisitedPath
+        {
+            get { return visitedPath; }
+            set
+            {
+                visitedPath = value;
+                OnPropertyChanged();
+            }
+        }
+
         public AppViewModel()
         {
-            CommandEventBinder.LoadGraphCommand.OnExecute += LoadGraph;
-            CommandEventBinder.CloseMenuCommand.OnExecute += CloseMenu;
             GraphInformationModel = new GraphInformationViewModel();
             VerticeInformationModel = new VerticeInformationViewModel();
         }
 
+        public void BindEvent()
+        {
+            CommandEventBinder.LoadGraphCommand.OnExecute += LoadGraph;
+            CommandEventBinder.CloseMenuCommand.OnExecute += CloseMenu;
+            CommandEventBinder.ShowCyclesCommand.OnExecute += ShowCycles;
+            CommandEventBinder.SelectCycleCommand.OnExecute += SelectCycle;
+        }
+
         private void LoadGraph(object parameter)
         {
-            Graph = (NamedGraph) new AdjacencyGraph(12)
+            CommandEventBinder.CloseMenuCommand.Execute(null);
+            var graph = (NamedGraph) new AdjacencyGraph(12)
                 .AddArrow(0, 6)
                 .AddArrow(0, 7)
                 .AddArrow(1, 0)
@@ -87,6 +129,7 @@ namespace UI.ViewModels
                 .AddArrow(11, 8)
                 .AddArrow(11, 9)
                 .AddArrow(11, 10);
+            Graph = new GraphInfo(graph);
         }
 
         private void CloseMenu(object parameter)
@@ -94,10 +137,28 @@ namespace UI.ViewModels
             IsMenuOpened = false;
         }
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void ShowCycles(object parameter)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            var model = new CycleSelectionViewModel(graphInfo);
+            CommandEventBinder.CloseMenuCommand.Execute(null);
+            Navigator.OpenCycleModal(model);
+        }
+
+        private void SelectCycle(object index)
+        {
+            Navigator.CloseCycleModal();
+            var selectedCycleIndex = (int) index;
+            if(selectedCycleIndex == -1)
+                return;
+            VisitedPath = graphInfo.Cycles[selectedCycleIndex];
+        }
+
+        public override void Dispose()
+        {
+            CommandEventBinder.LoadGraphCommand.OnExecute -= LoadGraph;
+            CommandEventBinder.CloseMenuCommand.OnExecute -= CloseMenu;
+            CommandEventBinder.ShowCyclesCommand.OnExecute -= ShowCycles;
+            CommandEventBinder.SelectCycleCommand.OnExecute -= SelectCycle;
         }
     }
 }

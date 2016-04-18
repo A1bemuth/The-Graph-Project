@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using UI.ViewModels;
+using UI.Infrastructure;
 
 namespace UI
 {
@@ -10,10 +10,7 @@ namespace UI
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            var mainWindow = new MainWindow();
-            var appModel = new AppViewModel();
-            mainWindow.DataContext = appModel;
-            mainWindow.Show();
+            Navigator.OpenStartWindow();
         }
     }
 }

@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:models="clr-namespace:UI.ViewModels"
+        xmlns:infra="clr-namespace:UI.Infrastructure"
         mc:Ignorable="d"
-        Title="" Height="300" Width="300" WindowStyle="ToolWindow">
+        Title="" Height="400" Width="600" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner">
     <Window.DataContext>
         <models:CycleSelectionViewModel/>
     </Window.DataContext>
@@ -18,6 +19,8 @@
         <TextBlock Text="Выбирите цикл:" Margin="15,15" VerticalAlignment="Top" HorizontalAlignment="Left"></TextBlock>
         <ListBox ItemsSource="{Binding Cycles}" Grid.Row="1" Margin="15,0" SelectedIndex="{Binding SelectedCycleIndex}"/>
         <Button Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" 
+                Command="{Binding Source={x:Static infra:CommandEventBinder.SelectCycleCommand}}"
+                CommandParameter="{Binding SelectedCycleIndex}"
                 Margin="0,5,0,5">Показать цикл</Button>
     </Grid>
 </Window>

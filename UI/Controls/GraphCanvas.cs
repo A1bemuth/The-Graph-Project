@@ -42,7 +42,7 @@ namespace UI.Controls
             set { SetValue(GraphProperty, value); }
         }
 
-        public static DependencyProperty SelectedCycleProperty = DependencyProperty.Register("SelectedCycle",
+        public static DependencyProperty VisitedPathProperty = DependencyProperty.Register("VisitedPath",
             typeof (IEnumerable<int>), typeof (GraphCanvas),
             new FrameworkPropertyMetadata(new List<int>(), SelectedCycleChanged));
 
@@ -57,10 +57,10 @@ namespace UI.Controls
             graphCanvas.UpdateChildrenView();
         }
 
-        public int[] SelectedCycle
+        public int[] VisitedPath
         {
-            get { return (int[]) GetValue(SelectedCycleProperty); }
-            set { SetValue(SelectedCycleProperty, value); }
+            get { return (int[]) GetValue(VisitedPathProperty); }
+            set { SetValue(VisitedPathProperty, value); }
         }
 
         public static DependencyProperty IsOpenedCustomMenuProperty =
@@ -140,11 +140,11 @@ namespace UI.Controls
 
         private void PickOutCycle()
         {
-            if (SelectedCycle == null)
+            if (VisitedPath == null)
                 return;
-            for (var i = 0; i < SelectedCycle.Length; i++)
+            for (var i = 0; i < VisitedPath.Length; i++)
             {
-                nodes[SelectedCycle[i]].IncludeInCycle(nodes[SelectedCycle[(i + 1)%SelectedCycle.Length]]);
+                nodes[VisitedPath[i]].IncludeInCycle(nodes[VisitedPath[(i + 1)%VisitedPath.Length]]);
             }
         }
 

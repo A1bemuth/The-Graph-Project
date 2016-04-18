@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using GraphDataLayer;
-using UI.Annotations;
+using UI.Infrastructure;
+using UI.Models;
 
 namespace UI.ViewModels
 {
-    public class CycleSelectionViewModel : INotifyPropertyChanged
+    public class CycleSelectionViewModel : ViewModel
     {
         private IEnumerable<string> cycles;
         private int selectedCycleIndex = -1;
@@ -35,19 +33,16 @@ namespace UI.ViewModels
             }
         }
 
-        public CycleSelectionViewModel(NamedGraph graph, IEnumerable<int[]> cycles)
+        public CycleSelectionViewModel() { }
+
+        public CycleSelectionViewModel(GraphInfo graphInfo)
         {
             //Cycles = cycles.Select(c => string.Join(",", c.Select(v => graph[v])));
-            Cycles = cycles.Select(c => string.Join(",", c.Select(v => "Test")));
+            Cycles = graphInfo.Cycles.Select(c => string.Join(",", c.Select(v => "Test")));
         }
 
-        public CycleSelectionViewModel() { }
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public override void Dispose()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -1,17 +1,24 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
+﻿using System.Linq;
 using GraphAlgorithms;
-using UI.Annotations;
+using UI.Infrastructure;
+using UI.Models;
 
 namespace UI.ViewModels
 {
-    public class VerticeInformationViewModel : INotifyPropertyChanged
+    public class VerticeInformationViewModel : ViewModel
     {
         private int index;
         private double clusteringCoef;
-        private IEnumerable<IEnumerable<int>> includedInCycles;
+        private int includedInCyclesCount;
+
+        public VerticeInformationViewModel() { }
+
+        public VerticeInformationViewModel(int selectedIndex, GraphInfo graphInfo)
+        {
+            Index = selectedIndex;
+            ClusteringCoefficient = graphInfo.Graph.ClusteringCoefficientFor(Index);
+            IncludedInCyclesCount = graphInfo.Cycles.Count(c => c.Contains(Index));
+        }
 
         public int Index
         {
@@ -19,17 +26,17 @@ namespace UI.ViewModels
             set
             {
                 index = value;
-                OnPropertyChanged(nameof(Index));
+                OnPropertyChanged();
             }
         }
 
-        public IEnumerable<IEnumerable<int>> IncludedInCycles
+        public int IncludedInCyclesCount
         {
-            get { return includedInCycles; }
+            get { return includedInCyclesCount; }
             set
             {
-                includedInCycles = value;
-                OnPropertyChanged(nameof(IncludedInCycles));
+                includedInCyclesCount = value;
+                OnPropertyChanged();
             }
         }
 
@@ -39,36 +46,13 @@ namespace UI.ViewModels
             set
             {
                 clusteringCoef = value;
-                OnPropertyChanged(nameof(ClusteringCoefficient));
+                OnPropertyChanged();
             }
         }
 
-        public void UpdateVerticeInformation(AppViewModel appModel)
-        {
-            if(appModel.Graph == null)
-                return;
-            Index = appModel.SelectedVerticeIndex;
-            SetDefaultValues();
-            if (Index != -1)
-            {
-                IncludedInCycles = appModel.GraphInformationModel.Cycles
-                    .Where(c => c.Contains(Index));
-                ClusteringCoefficient = appModel.Graph.ClusteringCoefficientFor(Index);
-            }
-        }
 
-        private void SetDefaultValues()
+        public override void Dispose()
         {
-            IncludedInCycles = null;
-            ClusteringCoefficient = 0;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
