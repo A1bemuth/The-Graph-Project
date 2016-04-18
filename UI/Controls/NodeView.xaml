@@ -8,15 +8,31 @@
              d:DesignHeight="300" d:DesignWidth="300" MouseDown="UserControl_MouseDown" 
              Cursor="Hand">
     <Grid>
-        <Ellipse Stroke="{Binding ElementName=This, Path=BorderBrush}"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding ElementName=This, Path=Radius}"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Ellipse x:Name="Ellipse" VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                 Grid.Row="1" Grid.ColumnSpan="2"
+            Stroke="{Binding ElementName=This, Path=BorderBrush}"
                  Opacity="{Binding ElementName=This, Path=Opacity}"
                  Fill="Transparent"
-                 StrokeThickness="10" />
-        <TextBlock Text="{Binding ElementName=This, Path=Number}"
-                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        </Grid>    <UserControl.Style>
+                 StrokeThickness="10"/>
+        <Grid Grid.Row="0" Grid.Column="1" x:Name="TitlePlace">
+            <Rectangle Fill="White" Opacity=".3" RadiusY="12" RadiusX="12"/>
+            <TextBlock Foreground="Black" 
+                       FontSize="13.333" FontWeight="SemiBold" 
+                       Margin="3">Иван Пупкин</TextBlock>
+        </Grid>
+    </Grid>
+    <UserControl.Style>
         <Style TargetType="UserControl">
             <Setter Property="BorderBrush" Value="DarkGray"/>
         </Style>
     </UserControl.Style>
 </UserControl>
+

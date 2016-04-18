@@ -146,10 +146,24 @@ namespace UI.Controls
             }
         }
 
+        protected override Size MeasureOverride(Size availableSize)
+        {
+            CalculateCurrentVerticeParameters(availableSize);
+
+            foreach (UIElement child in Children)
+            {
+                if (child is NodeView)
+                {
+                    var node = child as NodeView;
+                    node.Radius = verticesScale/2;
+                }
+                child.Measure(availableSize);
+            }
+            return availableSize;
+        }
+
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            CalculateCurrentVerticeParameters(arrangeSize);
-
             foreach (UIElement child in Children)
             {
                 if (child is NodeView)
@@ -173,9 +187,9 @@ namespace UI.Controls
 
         private void ArrangeNode(NodeView node)
         {
-            node.Scale = verticesScale;
+            node.Radius = verticesScale/2;
             var topLeftPoint = CalcShiftFor(node.Center, verticesScale/2);
-            node.Arrange(new Rect(topLeftPoint, new Size(verticesScale, verticesScale)));
+            node.Arrange(new Rect(node.ShiftPointFromTitle(topLeftPoint), node.DesiredSize));
         }
 
         private void ArrangeArrow(ArrowView arrowView, Size arrangeSize)
