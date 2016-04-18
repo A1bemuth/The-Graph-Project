@@ -10,14 +10,55 @@
     <Window.DataContext>
         <models:CycleSelectionViewModel/>
     </Window.DataContext>
+    <Window.Resources>
+        <Style TargetType="ListBoxItem">
+            <Setter Property="Background" Value="{StaticResource RadialMenuGray}"/>
+            <Setter Property="BorderBrush" Value="DarkGray"/>
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Padding" Value="10,5,5,5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="_Border"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1"
+                                SnapsToDevicePixels="true">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="_Border" Property="Background" Value="{StaticResource MainBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter TargetName="_Border" Property="Background" Value="{StaticResource MainBrushDirt}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Выбирите цикл:" Margin="15,15" VerticalAlignment="Top" HorizontalAlignment="Left"></TextBlock>
-        <ListBox ItemsSource="{Binding Cycles}" Grid.Row="1" Margin="15,0" SelectedIndex="{Binding SelectedCycleIndex}"/>
+        <TextBlock Text="Выбирите цикл:" Margin="15,15" VerticalAlignment="Top" HorizontalAlignment="Left" FontWeight="SemiBold" FontSize="16"
+                   Foreground="DarkGray"/>
+        <ListBox Grid.Row="1" ItemsSource="{Binding Cycles}" Margin="15,0" SelectedIndex="{Binding SelectedCycleIndex}">
+        </ListBox>
         <Button Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" 
                 Command="{Binding Source={x:Static infra:CommandEventBinder.SelectCycleCommand}}"
                 CommandParameter="{Binding SelectedCycleIndex}"

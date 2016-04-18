@@ -38,7 +38,7 @@
                                Background="{StaticResource MainBrush}" Foreground="White"
                                FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Stretch" TextAlignment="Center"
                                Padding="3" />
-            <Border Grid.Row="1" BorderThickness="0,0,2,0" BorderBrush="{StaticResource MainBrush}" Padding="3,0" Background="{StaticResource RadialMenuGray}">
+            <Border Grid.Row="1" BorderThickness="0,0,2,0" BorderBrush="{StaticResource MainBrush}" Padding="3,0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -51,9 +51,9 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Row="0" Grid.Column="0"
-                               Text="Количетво вершин" Background="White" />
+                               Text="Количетво вершин" />
                     <TextBlock Grid.Row="0" Grid.Column="1"
-                               Text="{Binding GraphInformationModel.VerticeCount}" Background="White" Margin="1,0,0,0" Padding="5,0,0,0"/>
+                               Text="{Binding GraphInformationModel.VerticeCount}" />
 
                     <TextBlock Grid.Row="1" Grid.Column="0"
                                Text="Количество дуг" />
