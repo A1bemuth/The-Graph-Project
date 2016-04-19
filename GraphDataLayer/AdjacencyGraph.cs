@@ -27,7 +27,7 @@ namespace GraphDataLayer
         public override Graph AddVertices(int count)
         {
             if (count < 0)
-                throw new ArgumentException("Count can't to be negative");
+                throw new ArgumentException("Count can not be negative.");
             
             var startIndex = VerticesCount;
             for (var i = startIndex; i < startIndex + count; i++)
@@ -40,13 +40,13 @@ namespace GraphDataLayer
         public override Graph AddArrow(int from, int to)
         {
             if (from < 0 || to < 0)
-                throw new ArgumentException("Vetrtex index can't to be negative");
+                throw new ArgumentException("Vertex index can not be negative.");
             if (from == to)
                 throw new ArgumentException("Vertice can not point to itself.");
             if(!vertices.ContainsKey(from))
-                throw new ArgumentException("Arrow start vertex is not exists");
+                throw new ArgumentException("Arrow start vertex does not exist.");
             if(!vertices.ContainsKey(to))
-                throw new ArgumentException("Arrow end vertex is not exists");
+                throw new ArgumentException("Arrow end vertex does not exist.");
 
             if (vertices[from].Item1.Add(to))
             {
@@ -59,9 +59,9 @@ namespace GraphDataLayer
         public override List<int> GetNeighbours(int vertice)
         {
             if (vertice < 0)
-                throw new ArgumentException("Vetrtex index can't to be negative");
+                throw new ArgumentException("Vertex index can not be negative.");
             if (!vertices.ContainsKey(vertice))
-                throw new ArgumentException("Vertex is not exists");
+                throw new ArgumentException("Vertex does not exist.");
 
             return vertices[vertice].Item1.ToList();
         }
@@ -69,9 +69,9 @@ namespace GraphDataLayer
         public override List<int> GetIncomingVertex(int vertice)
         {
             if (vertice < 0)
-                throw new ArgumentException("Vetrtex index can't to be negative");
+                throw new ArgumentException("Vertex index can not be negative.");
             if (!vertices.ContainsKey(vertice))
-                throw new ArgumentException("Vertex is not exists");
+                throw new ArgumentException("Arrow start vertex does not exist.");
 
             return vertices[vertice].Item2.ToList();
         }
@@ -103,13 +103,13 @@ namespace GraphDataLayer
         public override bool HasArrow(int from, int to)
         {
             if (from < 0 || to < 0)
-                throw new ArgumentException("Vetrtex index can't to be negative");
+                throw new ArgumentException("Vertex index can not be negative.");
             if (from == to)
                 throw new ArgumentException("Vertice can not point to itself.");
             if (!vertices.ContainsKey(from))
-                throw new ArgumentException("Arrow start vertex is not exists");
+                throw new ArgumentException("Arrow start vertex does not exist.");
             if (!vertices.ContainsKey(to))
-                throw new ArgumentException("Arrow end vertex is not exists");
+                throw new ArgumentException("Arrow end vertex does not exist.");
 
             return vertices[from].Item1.Contains(to);
         }
@@ -123,13 +123,13 @@ namespace GraphDataLayer
         public bool HasIncomingArrow(int from, int to)
         {
             if (from < 0 || to < 0)
-                throw new ArgumentException("Vetrtex index can't to be negative");
+                throw new ArgumentException("Vertex index can not be negative.");
             if (from == to)
                 throw new ArgumentException("Vertice can not point to itself.");
             if (!vertices.ContainsKey(from))
-                throw new ArgumentException("Arrow start vertex is not exists");
+                throw new ArgumentException("Arrow start vertex does not exist.");
             if (!vertices.ContainsKey(to))
-                throw new ArgumentException("Arrow end vertex is not exists");
+                throw new ArgumentException("Arrow end vertex does not exist.");
 
             return vertices[from].Item2.Contains(to);
         }
