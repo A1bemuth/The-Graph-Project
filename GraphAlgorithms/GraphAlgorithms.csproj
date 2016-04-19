@@ -49,6 +49,7 @@
     <Compile Include="CyclesSearcher.cs" />
     <Compile Include="DegreeCentrality.cs" />
     <Compile Include="PathSearcher.cs" />
+    <Compile Include="Reciprocity.cs" />
     <Compile Include="VerticeLocation\ForceVerticesLocator.cs" />
     <Compile Include="VerticeLocation\Geometry\Point.cs" />
     <Compile Include="VerticeLocation\Geometry\Size.cs" />

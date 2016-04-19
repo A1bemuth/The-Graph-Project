@@ -43,5 +43,17 @@ namespace GraphAlgorithms
             var searcher = new PathSearcher(graph);
             return searcher.FindPath(from, to);
         }
+
+        public static double CalcFirstReciprocity(this Graph graph)
+        {
+            var calculator = new Reciprocity(graph);
+            return calculator.GetFirstReciprocity();
+        }
+
+        public static double CalcSecondReciprocity(this Graph graph)
+        {
+            var calculator = new Reciprocity(graph);
+            return calculator.GetSecondReciprocity();
+        }
     }
 }

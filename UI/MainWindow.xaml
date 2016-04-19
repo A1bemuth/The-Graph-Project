@@ -59,6 +59,8 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -82,6 +84,15 @@
                     <TextBlock Grid.Row="3" Grid.Column="0"
                                Text="Количество циклов" />
                     <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding GraphInformationModel.CyclesCount}" />
+
+                    <TextBlock Grid.Row="4" Grid.Column="0"
+                               Text="Коэффициент взаимности №1" />
+                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding GraphInformationModel.FirstReciprocity}" />
+
+                    <TextBlock Grid.Row="5" Grid.Column="0"
+                               Text="Коэффициент взаимности №2" />
+                    <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding GraphInformationModel.SecondReciprocity}" />
+
                 </Grid>
             </Border>
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Информаци о вершине"

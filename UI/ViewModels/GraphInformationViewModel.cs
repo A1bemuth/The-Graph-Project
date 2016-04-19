@@ -1,4 +1,5 @@
-﻿using UI.Infrastructure;
+﻿using GraphAlgorithms;
+using UI.Infrastructure;
 using UI.Models;
 
 namespace UI.ViewModels
@@ -9,6 +10,8 @@ namespace UI.ViewModels
         private int arrowCount;
         private double clusteringCoef;
         private int cyclesCount;
+        private double firstReciprocity;
+        private double secondReciprocity;
 
 
         public GraphInformationViewModel() { }
@@ -21,6 +24,8 @@ namespace UI.ViewModels
             ArrowCount = graphInfo.ArrowCount;
             ClusteringCoefficient = graphInfo.ClusteringCoef;
             CyclesCount = graphInfo.Cycles.Count;
+            FirstReciprocity = graphInfo.Graph.CalcFirstReciprocity();
+            SecondReciprocity = graphInfo.Graph.CalcSecondReciprocity();
         }
         public int VerticeCount
         {
@@ -60,7 +65,26 @@ namespace UI.ViewModels
                 cyclesCount = value;
                 OnPropertyChanged();
             }
+        }
 
+        public double FirstReciprocity
+        {
+            get { return firstReciprocity; }
+            set
+            {
+                firstReciprocity = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double SecondReciprocity
+        {
+            get { return secondReciprocity; }
+            set
+            {
+                secondReciprocity = value;
+                OnPropertyChanged();
+            }
         }
 
         public override void Dispose()
