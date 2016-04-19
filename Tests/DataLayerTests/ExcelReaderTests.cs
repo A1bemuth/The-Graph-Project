@@ -5,14 +5,14 @@ using GraphDataLayer;
 namespace Tests.DataLayerTests
 {
     [TestFixture]
-    class ExcelImportTests
+    class ExcelReaderTests
     {
         private List<int[,]> GetRangesFromFile(string filename)
         {
             List<int[,]> ranges;
             var path = $"{System.AppDomain.CurrentDomain.BaseDirectory}\\TestSamples\\{filename}";
 
-            using (var importer = new ExcelImporter(path))
+            using (var importer = new ExcelReader(path))
             {
                 ranges = importer.GetRanges();
             }

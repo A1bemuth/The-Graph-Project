@@ -47,7 +47,8 @@
     <Compile Include="AlgorithmsTests\ClusteringCoefficientTests.cs" />
     <Compile Include="AlgorithmsTests\CycleComparerTester.cs" />
     <Compile Include="AlgorithmsTests\CyclesSearcherTester.cs" />
-    <Compile Include="DataLayerTests\ExcelImportTests.cs" />
+    <Compile Include="DataLayerTests\ExcelImporterTests.cs" />
+    <Compile Include="DataLayerTests\ExcelReaderTests.cs" />
     <Compile Include="AlgorithmsTests\PathSearcherTester.cs" />
     <Compile Include="DataLayerTests\DictonaryGraphTester.cs" />
     <Compile Include="DataLayerTests\GraphTests.cs" />
@@ -72,6 +73,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="TestSamples\3-by-3-sparce.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestSamples\complex-graph.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestSamples\incidence-and-adjacency.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

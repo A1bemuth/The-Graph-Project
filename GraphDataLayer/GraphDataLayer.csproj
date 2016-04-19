@@ -45,9 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DictionaryGraph.cs" />
+    <Compile Include="AdjacencyGraph.cs" />
     <Compile Include="AdjacencyListGraph.cs" />
     <Compile Include="ExcelImporter.cs" />
+    <Compile Include="ExcelReader.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="NamedGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
