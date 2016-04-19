@@ -89,7 +89,7 @@
                                FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Stretch" TextAlignment="Center"
                                Padding="3"/>
 
-            <Border Grid.Row="3" BorderThickness="0,0,2,2" BorderBrush="{StaticResource MainBrush}" Padding="3,0">
+            <Border Grid.Row="3" BorderThickness="0,0,2,0" BorderBrush="{StaticResource MainBrush}" Padding="3,0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -118,7 +118,7 @@
                 </Grid>
             </Border>
             <Border Grid.Row="2" Grid.RowSpan="2" Background="{StaticResource MainBrush}">
-                <TextBlock Text="Выбирите вершину" Foreground="White" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Text="Выберите вершину" Foreground="White" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <Border.Style>
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Visible"/>
@@ -263,7 +263,9 @@
             <TextBlock Text="Загрузите граф" HorizontalAlignment="Center" VerticalAlignment="Center"
                        FontSize="40" Foreground="White" FontWeight="Bold" />
         </Border>
-        <Rectangle Fill="{StaticResource MainBrush}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
+        <Border Background="{StaticResource MainBrush}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+            <TextBlock Text="{Binding Status}" Foreground="White" Margin="15,5,5,5" FontSize="13.333" FontWeight="DemiBold"/>
+        </Border>
         <Rectangle Grid.Row="0" Grid.Column="0" Fill="DarkGray" Opacity=".6" Grid.ColumnSpan="3">
             <Rectangle.Style>
                 <Style TargetType="Rectangle">

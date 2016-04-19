@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Microsoft.Win32;
 using UI.ViewModels;
 
 namespace UI.Infrastructure
@@ -19,6 +20,23 @@ namespace UI.Infrastructure
         private static void ShutdownApplication(object sender, EventArgs eventArgs)
         {
             Application.Current.Shutdown();
+        }
+
+        public static string OpenFile()
+        {
+            var fileDailog = new OpenFileDialog
+            {
+                CheckFileExists = true,
+                CheckPathExists = true,
+                Multiselect = false,
+                Filter = "Файлы Excel(*.xl;*.xlsx;*.xlsm;*.xlsb;*.xlam;*.xltx;*.xltm;*.xls;*.xla;*.xlt;*.xlm;*.xlw)|" +
+                        "*.xl;*.xlsx;*.xlsm;*.xlsb;*.xlam;*.xltx;*.xltm;*.xls;*.xla;*.xlt;*.xlm;*.xlw"
+            };
+            if (fileDailog.ShowDialog(mainWindow) == true)
+            {
+                return fileDailog.FileName;
+            }
+            return null;
         }
 
         public static void OpenStartWindow()

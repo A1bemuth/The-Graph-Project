@@ -13,5 +13,7 @@
         public static Command CloseCyclesModalCommand = new Command();
         public static Command ShowPathModalCommand = new Command();
         public static Command ClosePathModalCommand = new Command();
+
+        public static Command CathedExcaptionCommand = new Command();
     }
 }
