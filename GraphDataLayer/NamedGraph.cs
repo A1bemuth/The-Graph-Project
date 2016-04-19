@@ -19,14 +19,18 @@ namespace GraphDataLayer
         {
             get
             {
-                if (index < 0 || index > names.Count)
+                if (index < 0 || index > VerticesCount)
                     throw new ArgumentOutOfRangeException($"Value of {nameof(index)} must be positive and should not exceed vertice count.");
+                if (names.Capacity < VerticesCount)
+                    names.Capacity = VerticesCount;
                 return names[index];
             }
             set
             {
-                if (index < 0 || index > names.Count)
+                if (index < 0 || index > VerticesCount)
                     throw new ArgumentOutOfRangeException($"Value of {nameof(index)} must be positive and should not exceed vertice count.");
+                if (names.Capacity < VerticesCount)
+                    names.Capacity = VerticesCount;
                 names[index] = value;
             }
         }

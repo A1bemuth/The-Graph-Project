@@ -10,6 +10,10 @@ namespace GraphDataLayer
 
         private int arrowsCount;
 
+        public AdjacencyGraph() : this(0)
+        {
+        }
+
         public AdjacencyGraph(int verticesCount)
         {
             vertices = Enumerable.Range(0, verticesCount)

@@ -17,55 +17,6 @@ namespace GraphDataLayer
                 .ToArray();
         }
 
-        private AdjacencyListGraph(List<int>[] vertices)
-        {
-            this.vertices = vertices;
-        }
-
-        
-        ///<param name="matrix">Матрица инцидентности по которой будет построен граф.</param>
-        ///<exception cref="ArgumentException">Матрица инцидентности некорректна.</exception>
-        public static AdjacencyListGraph FromIncidenceMatrix(int[,] matrix)
-        {
-            var graph = new AdjacencyListGraph(matrix.GetLength(0));
-            int? from = null, to = null;
-            for (int i = 0; i < matrix.GetLength(1); i++)
-            {
-                for (int j = 0; j < matrix.GetLength(0); j++)
-                {
-                    switch (matrix[j, i])
-                    {
-                        case 0:
-                            continue;
-                        case -1:
-                        {
-                            if (from != null)
-                                throw new ArgumentException(
-                                    "Матрица инцидентности содержит более одного значения -1 в одном столбце.");
-                            from = j;
-                            break;
-                        }
-                        case 1:
-                        {
-                            if (to != null)
-                                throw new ArgumentException(
-                                    "Матрица инцидентности содержит более одного значения 1 в одном столбце.");
-                            to = j;
-                            break;
-                        }
-                        default:
-                        {
-                            throw new ArgumentException("Матрица инцидентности содержит недопустимые значения.");
-                        }
-                    }
-                }
-                if (from == null || to == null)
-                    throw new ArgumentException("Матрица инцидентности содержит некорректные столбцы.");
-                graph.AddArrow((int)from, (int)to);
-            }
-            return new AdjacencyListGraph(new List<int>[0]);
-        }
-
         public override Graph AddArrow(int from, int to)
         {
             if(from == to)
@@ -77,7 +28,11 @@ namespace GraphDataLayer
 
         public override Graph AddVertices(int verticesCount)
         {
-            Array.Resize(ref vertices, vertices.Length + verticesCount);
+            var initialCount = vertices.Length;
+            Array.Resize(ref vertices, initialCount + verticesCount);
+
+            for (int i = initialCount; i < verticesCount; i++)
+                vertices[i] = new List<int>();
             return this;
         }
 
