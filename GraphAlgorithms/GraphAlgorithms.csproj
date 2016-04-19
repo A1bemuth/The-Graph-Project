@@ -47,6 +47,7 @@
     <Compile Include="ClusteringCoefficient.cs" />
     <Compile Include="CycleComparer.cs" />
     <Compile Include="CyclesSearcher.cs" />
+    <Compile Include="DegreeCentrality.cs" />
     <Compile Include="PathSearcher.cs" />
     <Compile Include="VerticeLocation\ForceVerticesLocator.cs" />
     <Compile Include="VerticeLocation\Geometry\Point.cs" />
