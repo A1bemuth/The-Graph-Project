@@ -51,7 +51,7 @@ namespace UI.ViewModels
         {
             VerticeNames = Enumerable.Range(0, graphInfo.VerticeCount)
                 //.Select(v => graphInfo.Graph[v]);
-                .Select(v => "Test");
+                .Select(v => v.ToString());
         }
 
         public override void Dispose()

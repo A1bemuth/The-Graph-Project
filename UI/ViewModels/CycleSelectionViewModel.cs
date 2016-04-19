@@ -38,7 +38,7 @@ namespace UI.ViewModels
         public CycleSelectionViewModel(GraphInfo graphInfo)
         {
             //Cycles = cycles.Select(c => string.Join(",", c.Select(v => graph[v])));
-            Cycles = graphInfo.Cycles.Select(c => string.Join(",", c.Select(v => "Test")));
+            Cycles = graphInfo.Cycles.Select(c => string.Join(",", c.Select(v => v.ToString())));
         }
 
         public override void Dispose()

@@ -53,6 +53,7 @@
                                FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Stretch" TextAlignment="Center"
                                Padding="3" />
             <Border Grid.Row="1" BorderThickness="0,0,2,0" BorderBrush="{StaticResource MainBrush}" Padding="3,0">
+                <!-- Информация о графе -->
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -87,11 +88,11 @@
 
                     <TextBlock Grid.Row="4" Grid.Column="0"
                                Text="Коэффициент взаимности №1" />
-                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding GraphInformationModel.FirstReciprocity}" />
+                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding GraphInformationModel.FirstReciprocity, StringFormat={}{0}%}" />
 
                     <TextBlock Grid.Row="5" Grid.Column="0"
                                Text="Коэффициент взаимности №2" />
-                    <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding GraphInformationModel.SecondReciprocity}" />
+                    <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding GraphInformationModel.SecondReciprocity, StringFormat={}{0}%}"/>
 
                 </Grid>
             </Border>
@@ -99,7 +100,8 @@
                                Background="{StaticResource MainBrush}" Foreground="White"
                                FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Stretch" TextAlignment="Center"
                                Padding="3"/>
-
+            
+            <!-- Информация о вершине -->
             <Border Grid.Row="3" BorderThickness="0,0,2,0" BorderBrush="{StaticResource MainBrush}" Padding="3,0">
                 <Grid>
                     <Grid.RowDefinitions>
