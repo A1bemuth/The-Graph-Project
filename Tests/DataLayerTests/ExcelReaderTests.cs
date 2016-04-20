@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using GraphDataLayer;
+using GraphDataLayer.ExcelImport;
 
 namespace Tests.DataLayerTests
 {
@@ -10,13 +10,18 @@ namespace Tests.DataLayerTests
         private List<int[,]> GetRangesFromFile(string filename)
         {
             List<int[,]> ranges;
-            var path = $"{System.AppDomain.CurrentDomain.BaseDirectory}\\TestSamples\\{filename}";
+            var path = Path(filename);
 
             using (var importer = new ExcelReader(path))
             {
                 ranges = importer.GetRanges();
             }
             return ranges;
+        }
+
+        private static string Path(string filename)
+        {
+            return $"{System.AppDomain.CurrentDomain.BaseDirectory}\\TestSamples\\{filename}";
         }
 
         [Test]
@@ -100,6 +105,18 @@ namespace Tests.DataLayerTests
                 {0, 5, 0},
                 {7, 0, 0}
             }));
+        }
+
+        [Test]
+        public void NamedFileOpenTest() //Нужно больше. Просто проверил, что работает.
+        {
+            var path = Path("named-graph.xlsx");
+            List<ExcelGraphInfo> graphInfos;
+            using (var reader = new ExcelReader(path))
+            {
+                graphInfos = reader.GetGraphInfos();
+            }
+            Assert.That(graphInfos, Is.Not.Null);
         }
     }
 }

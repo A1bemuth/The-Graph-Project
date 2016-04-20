@@ -1,5 +1,6 @@
 ﻿using System;
 using GraphDataLayer;
+using GraphDataLayer.ExcelImport;
 using NUnit.Framework;
 
 namespace Tests.DataLayerTests
@@ -75,6 +76,33 @@ namespace Tests.DataLayerTests
                     Assert.That(graphFromIncidence.HasArrow(i, j), Is.EqualTo(graphFromAdjacency.HasArrow(i, j)));
                 }
             }
+        }
+
+        [Test]
+        public void NamedGraphTest()
+        {
+            var importer = new NamedExcelImporter<AdjacencyListGraph>();
+
+            var graphs = importer.GetGraphs(Filename("named-graph"));
+
+            Assert.That(graphs.Count, Is.EqualTo(2));
+
+            var graph1 = graphs[0];
+
+            Assert.That(graph1.Name, Is.EqualTo("Graph1"));
+            Assert.That(graph1["Hello"], Is.EqualTo(0));
+            Assert.That(graph1["world"], Is.EqualTo(1));
+            Assert.That(graph1.HasArrow("Hello", "world"));
+
+            var graph2 = graphs[1];
+
+            Assert.That(graph2.Name, Is.EqualTo("Graph2"));
+            Assert.That(graph2["John"], Is.EqualTo(0));
+            Assert.That(graph2["Jack"], Is.EqualTo(1));
+            Assert.That(graph2["Jane"], Is.EqualTo(2));
+            Assert.That(graph2.HasArrow("John", "Jane"));
+            Assert.That(graph2.HasArrow("Jane", "Jack"));
+            Assert.That(graph2.HasArrow("Jack", "John"));
         }
 
         private void Print(int[,] matrix)

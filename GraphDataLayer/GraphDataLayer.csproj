@@ -47,8 +47,11 @@
   <ItemGroup>
     <Compile Include="AdjacencyGraph.cs" />
     <Compile Include="AdjacencyListGraph.cs" />
-    <Compile Include="ExcelImporter.cs" />
-    <Compile Include="ExcelReader.cs" />
+    <Compile Include="ExcelImport\ExcelImporter.cs" />
+    <Compile Include="ExcelImport\ExcelGraphInfo.cs" />
+    <Compile Include="ExcelImport\NamedExcelImporter.cs" />
+    <Compile Include="ExcelImport\ExcelReader.cs" />
+    <Compile Include="ExcelImport\MatrixType.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="NamedGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

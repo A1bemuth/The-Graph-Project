@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GraphDataLayer
+namespace GraphDataLayer.ExcelImport
 {
     public class ExcelImporter<TGraph> where TGraph : Graph, new()
     {
-        public List<TGraph> GetGraphs(string filename)
+        public virtual List<TGraph> GetGraphs(string filename)
         {
             List<int[,]> matrices;
             using (var reader = new ExcelReader(filename))
@@ -63,7 +63,7 @@ namespace GraphDataLayer
             }
         }
 
-        private TGraph FillFromIncidenceMatrix(int[,] matrix)
+        protected virtual TGraph FillFromIncidenceMatrix(int[,] matrix)
         {
             var graph = new TGraph();
             graph.AddVertices(matrix.GetLength(0));
@@ -106,7 +106,7 @@ namespace GraphDataLayer
             return graph;
         }
 
-        private TGraph FillFromAdjacencyMatrix(int[,] matrix)
+        protected virtual TGraph FillFromAdjacencyMatrix(int[,] matrix)
         {
             var rows = matrix.GetLength(0);
             var cols = matrix.GetLength(1);
@@ -133,13 +133,6 @@ namespace GraphDataLayer
                 }
             }
             return graph;
-        }
-
-        private enum MatrixType
-        {
-            AdjacencyMatrix,
-            IncidenceMatrix,
-            Invalid
         }
     }
 }
