@@ -12,6 +12,10 @@ namespace UI.ViewModels
         private int cyclesCount;
         private double firstReciprocity;
         private double secondReciprocity;
+        private double prestige;
+        private double influence;
+        private double indegreeStandartDeviation;
+        private double outdegreeStandartDeviation;
 
 
         public GraphInformationViewModel() { }
@@ -26,6 +30,11 @@ namespace UI.ViewModels
             CyclesCount = graphInfo.Cycles.Count;
             FirstReciprocity = graphInfo.Graph.CalcFirstReciprocity();
             SecondReciprocity = graphInfo.Graph.CalcSecondReciprocity();
+            Prestige = graphInfo.Graph.GetGraphPrestige();
+            Influence = graphInfo.Graph.GetGraphInfluence();
+            IndegreeStandartDeviation = graphInfo.Graph.GetIndegreesStandartDeviation();
+            OutdegreeStandartDeviation = graphInfo.Graph.GetOutdegreesStandartDeviation();
+
         }
         public int VerticeCount
         {
@@ -87,6 +96,45 @@ namespace UI.ViewModels
             }
         }
 
+        public double Prestige
+        {
+            get { return prestige; }
+            set
+            {
+                prestige = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double Influence
+        {
+            get { return influence; }
+            set
+            {
+                influence = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double IndegreeStandartDeviation
+        {
+            get { return indegreeStandartDeviation; }
+            set
+            {
+                indegreeStandartDeviation = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double OutdegreeStandartDeviation
+        {
+            get { return outdegreeStandartDeviation; }
+            set
+            {
+                outdegreeStandartDeviation = value;
+                OnPropertyChanged();
+            }
+        }
         public override void Dispose()
         {
         }

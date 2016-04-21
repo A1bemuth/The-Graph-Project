@@ -10,6 +10,8 @@ namespace UI.ViewModels
         private int index;
         private double clusteringCoef;
         private int includedInCyclesCount;
+        private double verticePrestige;
+        private double verticeInfluence;
 
         public VerticeInformationViewModel() { }
 
@@ -18,6 +20,8 @@ namespace UI.ViewModels
             Index = selectedIndex;
             ClusteringCoefficient = graphInfo.Graph.ClusteringCoefficientFor(Index);
             IncludedInCyclesCount = graphInfo.Cycles.Count(c => c.Contains(Index));
+            VerticePerstige = graphInfo.Graph.GetPrestigeFor(index);
+            VerticeInfluence = graphInfo.Graph.GetInfluenceFor(index);
         }
 
         public int Index
@@ -46,6 +50,26 @@ namespace UI.ViewModels
             set
             {
                 clusteringCoef = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double VerticePerstige
+        {
+            get { return verticePrestige; }
+            set
+            {
+                verticePrestige = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double VerticeInfluence
+        {
+            get { return verticeInfluence; }
+            set
+            {
+                verticeInfluence = value;
                 OnPropertyChanged();
             }
         }

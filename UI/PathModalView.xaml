@@ -6,15 +6,17 @@
         xmlns:model="clr-namespace:UI.ViewModels"
         xmlns:infra="clr-namespace:UI.Infrastructure"
         mc:Ignorable="d" ResizeMode="NoResize"
-        Title="" Height="300" Width="200" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner">
+        Title="" Height="375" Width="275" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner">
     <Window.DataContext>
         <model:PathSelectionViewModel/>
     </Window.DataContext>
     <Window.Resources>
         <Style TargetType="ComboBox">
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Width" Value="200"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="15,10"/>
+            <Setter Property="Margin" Value="15,20"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="13.33"/>
@@ -54,11 +56,12 @@
         </Style>
         <Style TargetType="Button">
             <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Background" Value="{StaticResource MainBrush}"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="Padding" Value="15,10"/>
+            <Setter Property="FontSize" Value="17"/>
+            <Setter Property="Padding" Value="25,20"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="FontWeight" Value="DemiBold"/>
             <Setter Property="Margin" Value="10"/>
@@ -67,11 +70,11 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Выбирите начальную и конечную вершины"
+        <TextBlock Grid.Row="0" Text="Выберите начальную и конечную вершины"
                    Foreground="DarkGray" Margin="10" FontSize="15"/>
         <ComboBox Grid.Row="1" ItemsSource="{Binding VerticeNames}" SelectedIndex="{Binding StartVerticeIndex}"/>
         <ComboBox Grid.Row="2" ItemsSource="{Binding VerticeNames}" SelectedIndex="{Binding EndVerticeIndex}"/>

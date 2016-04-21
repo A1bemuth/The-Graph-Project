@@ -55,5 +55,42 @@ namespace GraphAlgorithms
             var calculator = new Reciprocity(graph);
             return calculator.GetSecondReciprocity();
         }
+
+        public static double GetPrestigeFor(this Graph graph, int vertice)
+        {
+            var calculator = new DegreeCentrality(graph);
+            return calculator.GetVerticeIndegreeCentrality(vertice);
+        }
+
+        public static double GetInfluenceFor(this Graph graph, int vertice)
+        {
+            var calculator = new DegreeCentrality(graph);
+            return calculator.GetVerticeOutdegreeCentrality(vertice);
+        }
+
+        public static double GetGraphPrestige(this Graph graph)
+        {
+            var calculator = new DegreeCentrality(graph);
+            return calculator.GetGraphIndegreeCentrality();
+        }
+
+        public static double GetGraphInfluence(this Graph graph)
+        {
+            var calculator = new DegreeCentrality(graph);
+            return calculator.GetGraphOutdegreeCentrality();
+        }
+
+        public static double GetIndegreesStandartDeviation(this Graph graph)
+        {
+            var calculator = new DegreeCentrality(graph);
+            return calculator.GetIndegreeStandartDeviation();
+        }
+
+        public static double GetOutdegreesStandartDeviation(this Graph graph)
+        {
+            var calculator = new DegreeCentrality(graph);
+            return calculator.GetOutdegreeStandartDeviation();
+        }
+
     }
 }

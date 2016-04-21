@@ -47,7 +47,7 @@ namespace GraphAlgorithms
         {
             var avg = MeanCentrality(getVerticeCentrality);
             var dispersion = (double) 1/vertices.Count * vertices.Sum(c => Math.Pow(c - avg, 2));
-            return Math.Sqrt(dispersion);
+            return Math.Round(Math.Sqrt(dispersion), 4);
         }
 
         private double MeanCentrality(Func<int, int> getVerticeCentrality)

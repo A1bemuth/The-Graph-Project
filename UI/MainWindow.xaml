@@ -48,7 +48,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Информаци о графе"
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Информация о графе"
                                Background="{StaticResource MainBrush}" Foreground="White"
                                FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Stretch" TextAlignment="Center"
                                Padding="3" />
@@ -56,6 +56,10 @@
                 <!-- Информация о графе -->
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -93,10 +97,29 @@
                     <TextBlock Grid.Row="5" Grid.Column="0"
                                Text="Коэффициент взаимности №2" />
                     <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding GraphInformationModel.SecondReciprocity, StringFormat={}{0}%}"/>
+                    
+                    <TextBlock Grid.Row="6" Grid.Column="0"
+                               Text="Престиж графа"/>
+                    <TextBlock Grid.Row="6" Grid.Column="1"
+                               Text="{Binding GraphInformationModel.Prestige}"/>
+                    
+                    <TextBlock Grid.Row="7" Grid.Column="0"
+                               Text="Влияние графа"/>
+                    <TextBlock Grid.Row="7" Grid.Column="1"
+                               Text="{Binding GraphInformationModel.Influence}"/>
+                    
+                    <TextBlock Grid.Row="8" Grid.Column="0"
+                               Text="Отклонение по вхождениям"/>
+                    <TextBlock Grid.Row="8" Grid.Column="1"
+                               Text="{Binding GraphInformationModel.IndegreeStandartDeviation}"/>
 
+                    <TextBlock Grid.Row="9" Grid.Column="0"
+                               Text="Отклонение по выходам"/>
+                    <TextBlock Grid.Row="9" Grid.Column="1"
+                               Text="{Binding GraphInformationModel.OutdegreeStandartDeviation}"/>
                 </Grid>
             </Border>
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Информаци о вершине"
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Информация о вершине"
                                Background="{StaticResource MainBrush}" Foreground="White"
                                FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Stretch" TextAlignment="Center"
                                Padding="3"/>
@@ -105,6 +128,8 @@
             <Border Grid.Row="3" BorderThickness="0,0,2,0" BorderBrush="{StaticResource MainBrush}" Padding="3,0">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -128,6 +153,16 @@
                                Text="Количество циклов с вершиной" />
                     <TextBlock Grid.Row="2" Grid.Column="1"
                                Text="{Binding VerticeInformationModel.IncludedInCyclesCount}" />
+                    
+                    <TextBlock Grid.Row="3" Grid.Column="0"
+                               Text="Престиж вершины"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1"
+                               Text="{Binding VerticeInformationModel.VerticePerstige}"/>
+                    
+                    <TextBlock Grid.Row="4" Grid.Column="0"
+                               Text="Влияние вершины"/>
+                    <TextBlock Grid.Row="4" Grid.Column="1"
+                               Text="{Binding VerticeInformationModel.VerticeInfluence}"/>
                 </Grid>
             </Border>
             <Border Grid.Row="2" Grid.RowSpan="2" Background="{StaticResource MainBrush}">

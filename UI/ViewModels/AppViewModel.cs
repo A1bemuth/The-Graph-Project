@@ -159,7 +159,7 @@ namespace UI.ViewModels
             var fileName = Navigator.OpenFile();
             if (fileName == null)
                 return;
-            graph = new ExcelImporter<AdjacencyGraph>().GetGraphs(fileName)[0];
+            graph = new NamedExcelImporter<AdjacencyGraph>().GetGraphs(fileName)[0];
             GraphInfo = new GraphInfo(graph);
             Status = "Граф успешно загружен";
         }

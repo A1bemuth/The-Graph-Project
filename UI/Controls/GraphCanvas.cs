@@ -107,7 +107,7 @@ namespace UI.Controls
                 return;
             VerticesLocator.Locate();
 
-            nodes = VerticesLocator.Nodes.Select(n => new NodeView(n.Number, n.Number.ToString())
+            nodes = VerticesLocator.Nodes.Select(n => new NodeView(n.Number, Graph[n.Number])
             {
                 Center = new Point(n.Location.X, n.Location.Y)
             }).ToList();
