@@ -147,8 +147,9 @@ namespace UI.Controls
         public void ChangeViewToDefault()
         {
             Status = NodeStatus.NotInclude;
-            BorderBrush = Brushes.DarkGray;
+            BorderBrush = Brushes.Gainsboro;
             Panel.SetZIndex(this, 0);
+            Opacity = 1.0;
         }
 
         public void ChangeView()
@@ -168,7 +169,7 @@ namespace UI.Controls
                     Panel.SetZIndex(this, 5);
                     break;
                 default:
-                    BorderBrush = Brushes.Gainsboro;
+                    Opacity = 0.8;
                     break;
             }
         }

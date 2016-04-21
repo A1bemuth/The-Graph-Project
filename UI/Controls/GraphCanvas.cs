@@ -215,7 +215,7 @@ namespace UI.Controls
         {
             var side = Math.Min(ActualHeight, ActualWidth);
             var verticesCount = VerticesLocator?.Nodes.Count ?? 0;
-            return Math.Min(side/verticesCount, side/15);
+            return Math.Min(side/verticesCount, 40.0);
         }
 
         private double CalculateComprasionRatio(Size arrangeSize)

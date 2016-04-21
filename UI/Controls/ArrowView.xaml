@@ -14,8 +14,9 @@
           Fill="{Binding ElementName=This, Path=BorderBrush}"/>
     <UserControl.Style>
         <Style TargetType="UserControl">
-            <Setter Property="BorderBrush" Value="DarkGray"/>
+            <Setter Property="BorderBrush" Value="Gainsboro"/>
             <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Opacity" Value="1"/>
         </Style>
     </UserControl.Style>
 </UserControl>
