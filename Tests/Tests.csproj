@@ -47,6 +47,7 @@
     <Compile Include="AlgorithmsTests\ClusteringCoefficientTests.cs" />
     <Compile Include="AlgorithmsTests\CycleComparerTester.cs" />
     <Compile Include="AlgorithmsTests\CyclesSearcherTester.cs" />
+    <Compile Include="AlgorithmsTests\DegreeCentralityTests.cs" />
     <Compile Include="DataLayerTests\ExcelImporterTests.cs" />
     <Compile Include="DataLayerTests\ExcelReaderTests.cs" />
     <Compile Include="AlgorithmsTests\PathSearcherTester.cs" />
@@ -79,6 +80,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="TestSamples\incidence-and-adjacency.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestSamples\named-graph.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
