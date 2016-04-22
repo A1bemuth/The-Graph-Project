@@ -65,8 +65,9 @@
     <Compile Include="Infrastructure\Command.cs" />
     <Compile Include="Converters\CycleToStringConverter.cs" />
     <Compile Include="Infrastructure\CommandEventBinder.cs" />
+    <Compile Include="Infrastructure\GraphLoader.cs" />
     <Compile Include="Infrastructure\Navigator.cs" />
-    <Compile Include="Infrastructure\ViewModel.cs" />
+    <Compile Include="Infrastructure\PropertyNotifier.cs" />
     <Compile Include="Models\GraphInfo.cs" />
     <Compile Include="PathModalView.xaml.cs">
       <DependentUpon>PathModalView.xaml</DependentUpon>

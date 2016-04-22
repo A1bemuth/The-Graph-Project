@@ -6,38 +6,24 @@ using UI.Models;
 
 namespace UI.ViewModels
 {
-    public class PathSelectionViewModel : ViewModel
+    public class PathSelectionViewModel : PropertyNotifier
     {
-        private Tuple<int, int> verticePair;
-
         public Tuple<int, int> VerticePair
         {
-            get { return verticePair; }
-            set
-            {
-                verticePair = value;
-                OnPropertyChanged();
-            }
+            get { return Get<Tuple<int, int>>(nameof(VerticePair)); }
+            set { Set(nameof(VerticePair), value); }
         }
 
         public int StartVerticeIndex
         {
             get { return VerticePair.Item1; }
-            set
-            {
-                VerticePair = Tuple.Create(value, VerticePair.Item2);
-                OnPropertyChanged();
-            }
+            set { VerticePair = Tuple.Create(value, VerticePair.Item2); }
         }
 
         public int EndVerticeIndex
         {
             get { return VerticePair.Item2; }
-            set
-            {
-                VerticePair = Tuple.Create(VerticePair.Item1, value);
-                OnPropertyChanged();
-            }
+            set { VerticePair = Tuple.Create(VerticePair.Item1, value); }
         }
 
         public IEnumerable<string> VerticeNames { get; set; }
@@ -51,10 +37,6 @@ namespace UI.ViewModels
         {
             VerticeNames = Enumerable.Range(0, graphInfo.VerticeCount)
                 .Select(v => graphInfo.Graph[v]);
-        }
-
-        public override void Dispose()
-        {
         }
     }
 }

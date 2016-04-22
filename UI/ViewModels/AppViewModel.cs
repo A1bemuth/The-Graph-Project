@@ -1,67 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using GraphAlgorithms;
-using GraphDataLayer;
-using GraphDataLayer.ExcelImport;
 using UI.Infrastructure;
 using UI.Models;
 
 namespace UI.ViewModels
 {
-    public class AppViewModel : ViewModel
+    public class AppViewModel : PropertyNotifier
     {
-        private NamedGraph graph;
-        private GraphInfo graphInfo;
-        private int selectedVerticeIndex = -1;
-        private bool isMenuOpened;
-        private bool isGraphLoaded;
-        private bool isVerticeSelected;
-        private bool isModalOpened;
-        private int[] visitedPath;
-        private string status;
-
-        private GraphInformationViewModel graphInformationViewModel;
-        private VerticeInformationViewModel verticeInformationViewModel;
-
         public GraphInformationViewModel GraphInformationModel
         {
-            get { return graphInformationViewModel; }
-            private set
-            {
-                graphInformationViewModel = value;
-                OnPropertyChanged();
-            }
+            get { return Get<GraphInformationViewModel>(nameof(GraphInformationModel)); }
+            set { Set(nameof(GraphInformationModel), value); }
         }
 
         public VerticeInformationViewModel VerticeInformationModel
         {
-            get { return verticeInformationViewModel; }
-            private set
-            {
-                verticeInformationViewModel = value;
-                OnPropertyChanged();
-            }
+            get { return Get<VerticeInformationViewModel>(nameof(VerticeInformationModel)); }
+            private set { Set(nameof(VerticeInformationModel), value); }
         }
 
         public GraphInfo GraphInfo
         {
-            get { return graphInfo; }
+            get { return Get<GraphInfo>(nameof(GraphInfo)); }
             set
             {
-                graphInfo = value;
-                OnPropertyChanged();
-                IsGraphLoaded = graphInfo != null;
-                GraphInformationModel = new GraphInformationViewModel(graphInfo);
+                Set(nameof(GraphInfo), value);
+                IsGraphLoaded = GraphInfo != null;
+                GraphInformationModel = new GraphInformationViewModel(GraphInfo);
             }
         }
 
         public int SelectedVerticeIndex
         {
-            get { return selectedVerticeIndex; }
+            get { return Get<int>(nameof(SelectedVerticeIndex)); }
             set
             {
-                selectedVerticeIndex = value;
-                OnPropertyChanged();
+                Set(nameof(SelectedVerticeIndex), value);
                 SelectedVerticeIndexChange();
             }
         }
@@ -70,68 +45,44 @@ namespace UI.ViewModels
         {
             IsVerticeSelected = SelectedVerticeIndex != -1;
             VerticeInformationModel = IsVerticeSelected
-                ? new VerticeInformationViewModel(SelectedVerticeIndex, graphInfo)
+                ? new VerticeInformationViewModel(SelectedVerticeIndex, GraphInfo)
                 : new VerticeInformationViewModel();
         }
 
         public bool IsMenuOpened
         {
-            get { return isMenuOpened; }
-            set
-            {
-                isMenuOpened = value;
-                OnPropertyChanged();
-            }
+            get { return Get<bool>(nameof(IsMenuOpened)); }
+            set { Set(nameof(IsMenuOpened), value); }
         }
 
         public bool IsGraphLoaded
         {
-            get { return isGraphLoaded; }
-            set
-            {
-                isGraphLoaded = value;
-                OnPropertyChanged();
-            }
+            get { return Get<bool>(nameof(IsGraphLoaded)); }
+            set { Set(nameof(IsGraphLoaded), value); }
         }
 
         public bool IsVerticeSelected
         {
-            get { return isVerticeSelected; }
-            set
-            {
-                isVerticeSelected = value;
-                OnPropertyChanged();
-            }
+            get { return Get<bool>(nameof(IsVerticeSelected)); }
+            set { Set(nameof(IsVerticeSelected), value);}
         }
 
         public bool IsModalOpened
         {
-            get { return isModalOpened; }
-            set
-            {
-                isModalOpened = value;
-                OnPropertyChanged();
-            }
+            get { return Get<bool>(nameof(IsModalOpened)); }
+            set { Set(nameof(IsModalOpened), value);}
         }
 
         public int[] VisitedPath
         {
-            get { return visitedPath; }
-            set
-            {
-                visitedPath = value;
-                OnPropertyChanged();
-            }
+            get { return Get<int[]>(nameof(VisitedPath)); }
+            set { Set(nameof(VisitedPath), value);}
         }
 
         public string Status
         {
-            get { return status; }
-            set
-            {
-                status = value;
-                OnPropertyChanged();
-            }
+            get { return Get<string>(nameof(Status)); }
+            set { Set(nameof(Status), value);}
         }
 
         public AppViewModel()
@@ -157,10 +108,9 @@ namespace UI.ViewModels
         {
             CommandEventBinder.CloseMenuCommand.Execute();
             var fileName = Navigator.OpenFile();
-            if (fileName == null)
+            if(fileName == null)
                 return;
-            graph = new NamedExcelImporter<AdjacencyGraph>().GetGraphs(fileName)[0];
-            GraphInfo = new GraphInfo(graph);
+            GraphInfo = GraphLoader.Instance.LoadGraph(fileName);
             Status = "Граф успешно загружен";
         }
 
@@ -172,7 +122,7 @@ namespace UI.ViewModels
         private void ShowCycles(object parameter)
         {
             IsModalOpened = true;
-            var model = new CycleSelectionViewModel(graphInfo);
+            var model = new CycleSelectionViewModel(GraphInfo);
             CommandEventBinder.CloseMenuCommand.Execute();
             Navigator.OpenCycleModal(model);
         }
@@ -191,9 +141,9 @@ namespace UI.ViewModels
                 Status = "Цикл не был выбран.";
                 return;
             }
-            if (graphInfo != null)
+            if (GraphInfo != null)
             {
-                var cycle = new List<int>(graphInfo.Cycles[selectedCycleIndex]);
+                var cycle = new List<int>(GraphInfo.Cycles[selectedCycleIndex]);
                 cycle.Add(cycle[0]);
                 VisitedPath = cycle.ToArray();
                 Status = "Цикл успешно отображен";
@@ -222,27 +172,17 @@ namespace UI.ViewModels
                 Status = "Начальная и конечная вершины совпадают";
                 return;
             }
-            VisitedPath = graphInfo.Graph.FindPath(selectedIndexes.Item1, selectedIndexes.Item2);
+            VisitedPath = GraphInfo.Graph.FindPath(selectedIndexes.Item1, selectedIndexes.Item2);
             Status = VisitedPath != null ? "Путь успешно построен" : "Между вершинами нет пути";
         }
 
         private void RefreshGraph(object o)
         {
             CommandEventBinder.CloseMenuCommand.Execute();
+            var graph = GraphInfo.Graph;
             GraphInfo = null;
             GraphInfo = new GraphInfo(graph);
             Status = "Граф обновлен.";
-        }
-
-        public override void Dispose()
-        {
-            CommandEventBinder.LoadGraphCommand.OnExecute -= LoadGraph;
-            CommandEventBinder.CloseMenuCommand.OnExecute -= CloseMenu;
-            CommandEventBinder.ShowCyclesModalCommand.OnExecute -= ShowCycles;
-            CommandEventBinder.SelectCycleCommand.OnExecute -= SelectCycle;
-            CommandEventBinder.ShowPathModalCommand.OnExecute -= ShowPath;
-            CommandEventBinder.SelectPathCommand.OnExecute -= SelectPath;
-            CommandEventBinder.RefreshCommand.OnExecute -= RefreshGraph;
         }
     }
 }

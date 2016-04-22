@@ -19,7 +19,7 @@ namespace UI.Models
             VerticeCount = graph.VerticesCount;
             ArrowCount = graph.ArrowsCount;
             ClusteringCoef = graph.ClusteringCoefficient();
-            Cycles = new List<int[]>();//graph.FindCycles();
+            Cycles = graph.FindCycles();
         }
     }
 }

@@ -4,25 +4,15 @@ using UI.Models;
 
 namespace UI.ViewModels
 {
-    public class GraphInformationViewModel : ViewModel
+    public class GraphInformationViewModel : PropertyNotifier
     {
-        private int verticeCount;
-        private int arrowCount;
-        private double clusteringCoef;
-        private int cyclesCount;
-        private double firstReciprocity;
-        private double secondReciprocity;
-        private double prestige;
-        private double influence;
-        private double indegreeStandartDeviation;
-        private double outdegreeStandartDeviation;
-
-
-        public GraphInformationViewModel() { }
+        public GraphInformationViewModel()
+        {
+        }
 
         public GraphInformationViewModel(GraphInfo graphInfo)
         {
-            if(graphInfo == null)
+            if (graphInfo == null)
                 return;
             VerticeCount = graphInfo.VerticeCount;
             ArrowCount = graphInfo.ArrowCount;
@@ -36,107 +26,65 @@ namespace UI.ViewModels
             OutdegreeStandartDeviation = graphInfo.Graph.GetOutdegreesStandartDeviation();
 
         }
+
         public int VerticeCount
         {
-            get { return verticeCount; }
-            set
-            {
-                verticeCount = value;
-                OnPropertyChanged();
-            }
+            get { return Get<int>(nameof(VerticeCount)); }
+            set { Set(nameof(VerticeCount), value); }
         }
 
         public int ArrowCount
         {
-            get { return arrowCount; }
-            set
-            {
-                arrowCount = value;
-                OnPropertyChanged();
-            }
+            get { return Get<int>(nameof(ArrowCount)); }
+            set { Set(nameof(ArrowCount), value); }
         }
 
         public double ClusteringCoefficient
         {
-            get { return clusteringCoef; }
-            private set
-            {
-                clusteringCoef = value;
-                OnPropertyChanged();
-            }
+            get { return Get<double>(nameof(ClusteringCoefficient)); }
+            set { Set(nameof(ClusteringCoefficient), value); }
         }
 
         public int CyclesCount
         {
-            get { return cyclesCount; }
-            set
-            {
-                cyclesCount = value;
-                OnPropertyChanged();
-            }
+            get { return Get<int>(nameof(CyclesCount)); }
+            set { Set(nameof(CyclesCount), value); }
         }
 
         public double FirstReciprocity
         {
-            get { return firstReciprocity; }
-            set
-            {
-                firstReciprocity = value;
-                OnPropertyChanged();
-            }
+            get { return Get<double>(nameof(FirstReciprocity)); }
+            set { Set(nameof(FirstReciprocity), value); }
         }
 
         public double SecondReciprocity
         {
-            get { return secondReciprocity; }
-            set
-            {
-                secondReciprocity = value;
-                OnPropertyChanged();
-            }
+            get { return Get<double>(nameof(SecondReciprocity)); }
+            set { Set(nameof(SecondReciprocity), value); }
         }
 
         public double Prestige
         {
-            get { return prestige; }
-            set
-            {
-                prestige = value;
-                OnPropertyChanged();
-            }
+            get { return Get<double>(nameof(Prestige)); }
+            set { Set(nameof(Prestige), value); }
         }
 
         public double Influence
         {
-            get { return influence; }
-            set
-            {
-                influence = value;
-                OnPropertyChanged();
-            }
+            get { return Get<double>(nameof(Influence)); }
+            set { Set(nameof(Influence), value); }
         }
 
         public double IndegreeStandartDeviation
         {
-            get { return indegreeStandartDeviation; }
-            set
-            {
-                indegreeStandartDeviation = value;
-                OnPropertyChanged();
-            }
+            get { return Get<double>(nameof(IndegreeStandartDeviation)); }
+            set { Set(nameof(IndegreeStandartDeviation), value); }
         }
 
         public double OutdegreeStandartDeviation
         {
-            get { return outdegreeStandartDeviation; }
-            set
-            {
-                outdegreeStandartDeviation = value;
-                OnPropertyChanged();
-            }
-        }
-        public override void Dispose()
-        {
+            get { return Get<double>(nameof(OutdegreeStandartDeviation)); }
+            set { Set(nameof(OutdegreeStandartDeviation), value); }
         }
     }
 }

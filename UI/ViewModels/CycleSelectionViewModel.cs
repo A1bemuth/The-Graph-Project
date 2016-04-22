@@ -5,32 +5,18 @@ using UI.Models;
 
 namespace UI.ViewModels
 {
-    public class CycleSelectionViewModel : ViewModel
+    public class CycleSelectionViewModel : PropertyNotifier
     {
-        private IEnumerable<string> cycles;
-        private int selectedCycleIndex = -1;
-
         public IEnumerable<string> Cycles
         {
-            get
-            {
-                return cycles;
-            }
-            set
-            {
-                cycles = value;
-                OnPropertyChanged();
-            }
+            get { return Get<IEnumerable<string>>(nameof(Cycles)); }
+            set { Set(nameof(Cycles), value); }
         }
 
         public int SelectedCycleIndex
         {
-            get { return selectedCycleIndex; }
-            set
-            {
-                selectedCycleIndex = value;
-                OnPropertyChanged();
-            }
+            get { return Get<int>(nameof(SelectedCycleIndex)); }
+            set { Set(nameof(SelectedCycleIndex), value); }
         }
 
         public CycleSelectionViewModel() { }
@@ -38,10 +24,6 @@ namespace UI.ViewModels
         public CycleSelectionViewModel(GraphInfo graphInfo)
         {
             Cycles = graphInfo.Cycles.Select(c => string.Join(",", c.Select(v => graphInfo.Graph[v])));
-        }
-
-        public override void Dispose()
-        {
         }
     }
 }
