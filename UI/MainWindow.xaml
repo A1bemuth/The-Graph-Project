@@ -72,7 +72,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Row="0" Grid.Column="0"
-                               Text="Количетво вершин" />
+                               Text="Количество вершин" />
                     <TextBlock Grid.Row="0" Grid.Column="1"
                                Text="{Binding GraphInformationModel.VerticeCount}" />
 
@@ -99,17 +99,17 @@
                     <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding GraphInformationModel.SecondReciprocity, StringFormat={}{0}%}"/>
                     
                     <TextBlock Grid.Row="6" Grid.Column="0"
-                               Text="Престиж графа"/>
+                               Text="Центральность графа по входам"/>
                     <TextBlock Grid.Row="6" Grid.Column="1"
                                Text="{Binding GraphInformationModel.Prestige}"/>
                     
                     <TextBlock Grid.Row="7" Grid.Column="0"
-                               Text="Влияние графа"/>
+                               Text="Центральность графа по выходам"/>
                     <TextBlock Grid.Row="7" Grid.Column="1"
                                Text="{Binding GraphInformationModel.Influence}"/>
                     
                     <TextBlock Grid.Row="8" Grid.Column="0"
-                               Text="Отклонение по вхождениям"/>
+                               Text="Отклонение по входам"/>
                     <TextBlock Grid.Row="8" Grid.Column="1"
                                Text="{Binding GraphInformationModel.IndegreeStandartDeviation}"/>
 
@@ -314,9 +314,9 @@
         <Border Background="{StaticResource MainBrush}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
             <TextBlock Text="{Binding Status}" Foreground="White" Margin="15,5,5,5" FontSize="13.333" FontWeight="DemiBold"/>
         </Border>
-        <Rectangle Grid.Row="0" Grid.Column="0" Fill="DarkGray" Opacity=".6" Grid.ColumnSpan="3">
-            <Rectangle.Style>
-                <Style TargetType="Rectangle">
+        <Border Grid.Row="0" Grid.Column="0" Background="DarkGray" Opacity=".9" Grid.ColumnSpan="3" Cursor="Wait">
+            <Border.Style>
+                <Style TargetType="Border">
                     <Setter Property="Visibility" Value="Hidden"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsModalOpened}" Value="True">
@@ -324,7 +324,27 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </Rectangle.Style>
-        </Rectangle>
+            </Border.Style>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <controls:CircularProgressBar Grid.Row="0" Width="60" Height="60" Foreground="White" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="1" Text="{Binding LoadingStatus}" 
+                           FontSize="15" FontWeight="DemiBold" Foreground="White"
+                           HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Hidden"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsGraphLoading}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+            </Grid>
+        </Border>
     </Grid>
 </Window>

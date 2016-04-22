@@ -23,12 +23,12 @@ namespace GraphAlgorithms
             return graph.GetNeighbours(index).Count;
         }
 
-        public int GetGraphIndegreeCentrality()
+        public double GetGraphIndegreeCentrality()
         {
             return Centrality(GetVerticeIndegreeCentrality);
         }
 
-        public int GetGraphOutdegreeCentrality()
+        public double GetGraphOutdegreeCentrality()
         {
             return Centrality(GetVerticeOutdegreeCentrality);
         }
@@ -55,7 +55,7 @@ namespace GraphAlgorithms
             return vertices.Average();
         }
 
-        private int Centrality(Func<int, int> getVerticeCentrality)
+        private double Centrality(Func<int, int> getVerticeCentrality)
         {
             var verticesCount = graph.VerticesCount;
             var centralities = vertices
@@ -66,7 +66,7 @@ namespace GraphAlgorithms
             var sum = centralities.Sum(c => mostCentral - c);
             var denominator = (verticesCount - 1)*(verticesCount - 2);
 
-            return sum/denominator;
+            return Math.Round((double) sum/denominator, 4);
         }
 
         private List<int> vertices;

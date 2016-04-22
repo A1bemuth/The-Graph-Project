@@ -73,6 +73,18 @@ namespace UI.ViewModels
             set { Set(nameof(IsModalOpened), value);}
         }
 
+        public bool IsGraphLoading
+        {
+            get { return Get<bool>(nameof(IsGraphLoading)); }
+            set { Set(nameof(IsGraphLoading), value); }
+        }
+
+        public string LoadingStatus
+        {
+            get { return Get<string>(nameof(LoadingStatus)); }
+            set { Set(nameof(LoadingStatus), value); }
+        }
+
         public int[] VisitedPath
         {
             get { return Get<int[]>(nameof(VisitedPath)); }
@@ -94,6 +106,7 @@ namespace UI.ViewModels
         public void BindEvent()
         {
             CommandEventBinder.LoadGraphCommand.OnExecute += LoadGraph;
+            CommandEventBinder.LoadingComplited.OnExecute += GraphLoadedHandling;
             CommandEventBinder.SelectCycleCommand.OnExecute += SelectCycle;
             CommandEventBinder.SelectPathCommand.OnExecute += SelectPath;
             CommandEventBinder.RefreshCommand.OnExecute += RefreshGraph;
@@ -102,16 +115,36 @@ namespace UI.ViewModels
             CommandEventBinder.CloseCyclesModalCommand.OnExecute += CloseModal;
             CommandEventBinder.ShowPathModalCommand.OnExecute += ShowPath;
             CommandEventBinder.ClosePathModalCommand.OnExecute += CloseModal;
+            GraphLoader.Instance.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName.Equals("IsLoadStarted"))
+                    IsGraphLoading = GraphLoader.Instance.IsLoadStarted;
+                if (args.PropertyName.Equals("LoadStatus"))
+                    LoadingStatus = GraphLoader.Instance.LoadStatus;
+            };
         }
 
         private void LoadGraph(object parameter)
         {
             CommandEventBinder.CloseMenuCommand.Execute();
+            IsModalOpened = true;
+            IsGraphLoading = true;
             var fileName = Navigator.OpenFile();
-            if(fileName == null)
+            if (fileName == null)
+            {
+                IsModalOpened = false;
                 return;
-            GraphInfo = GraphLoader.Instance.LoadGraph(fileName);
+            }
+            GraphLoader.Instance.LoadGraph(fileName);
+        }
+
+        private void GraphLoadedHandling(object result)
+        {
+            GraphInfo = result as GraphInfo;
             Status = "Граф успешно загружен";
+            IsModalOpened = false;
+            IsGraphLoading = true;
+
         }
 
         private void CloseMenu(object parameter)

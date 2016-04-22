@@ -3,6 +3,8 @@
     public static class CommandEventBinder
     {
         public static Command LoadGraphCommand = new Command();
+        public static Command LoadingComplited = new Command();
+
         public static Command SelectCycleCommand = new Command();
         public static Command SelectPathCommand = new Command();
         public static Command RefreshCommand = new Command();
