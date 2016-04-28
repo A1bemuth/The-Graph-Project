@@ -50,8 +50,8 @@ namespace UI.Infrastructure
             LoadStatus = "Расчет коэффициента кластеризации";
             graphInfo.ClusteringCoef = graph.ClusteringCoefficient();
 
-            LoadStatus = "Поиск циклов";
-            graphInfo.Cycles = graph.FindCycles();
+            //LoadStatus = "Поиск циклов";
+            //graphInfo.Cycles = graph.FindCycles();
 
             doWorkEventArgs.Result = graphInfo;
         }

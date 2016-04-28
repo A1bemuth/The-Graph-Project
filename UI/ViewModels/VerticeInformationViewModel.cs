@@ -13,7 +13,7 @@ namespace UI.ViewModels
         {
             Index = selectedIndex;
             ClusteringCoefficient = graphInfo.Graph.ClusteringCoefficientFor(Index);
-            IncludedInCyclesCount = graphInfo.Cycles.Count(c => c.Contains(Index));
+            //IncludedInCyclesCount = graphInfo.Cycles.Count(c => c.Contains(Index));
             VerticePerstige = graphInfo.Graph.GetPrestigeFor(Index);
             VerticeInfluence = graphInfo.Graph.GetInfluenceFor(Index);
         }

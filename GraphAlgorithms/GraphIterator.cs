@@ -42,7 +42,8 @@ namespace GraphAlgorithms
             {
                 var previousIndex = FindPreviousIndex(vertex);
                 var cycle = currentSequence.Skip(previousIndex).ToArray();
-                OnCycleDetected(cycle);
+                if (cycle.Length > 2)
+                    OnCycleDetected(cycle);
             }
             else
             {

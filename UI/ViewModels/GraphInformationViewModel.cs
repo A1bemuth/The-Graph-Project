@@ -1,4 +1,6 @@
-﻿using GraphAlgorithms;
+﻿using System;
+using System.Threading;
+using GraphAlgorithms;
 using UI.Infrastructure;
 using UI.Models;
 
@@ -17,13 +19,14 @@ namespace UI.ViewModels
             VerticeCount = graphInfo.VerticeCount;
             ArrowCount = graphInfo.ArrowCount;
             ClusteringCoefficient = graphInfo.ClusteringCoef;
-            CyclesCount = graphInfo.Cycles.Count;
             FirstReciprocity = graphInfo.Graph.CalcFirstReciprocity();
             SecondReciprocity = graphInfo.Graph.CalcSecondReciprocity();
             Prestige = graphInfo.Graph.GetGraphPrestige();
             Influence = graphInfo.Graph.GetGraphInfluence();
             IndegreeStandartDeviation = graphInfo.Graph.GetIndegreesStandartDeviation();
             OutdegreeStandartDeviation = graphInfo.Graph.GetOutdegreesStandartDeviation();
+
+            graphInfo.Graph.FindCyclesAsync(new Progress<int[]>(cycle => CyclesCount++), CancellationToken.None);
 
         }
 

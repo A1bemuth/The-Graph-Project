@@ -8,13 +8,14 @@
         xmlns:viewModels="clr-namespace:UI.ViewModels"
         xmlns:infra="clr-namespace:UI.Infrastructure"
         mc:Ignorable="d"
-        Title="MainWindow" MinHeight="600" MinWidth="800">
+        Title="MainWindow" MinHeight="600" MinWidth="800"
+        d:DesignHeight="1024" d:DesignWidth="1280">
     <Window.DataContext>
         <viewModels:AppViewModel/>
     </Window.DataContext>
     <Window.Resources>
         <Style TargetType="Border" x:Key="Placeholder">
-            <Setter Property="Visibility" Value="Visible"/>
+            <Setter Property="Visibility" Value="Hidden"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsGraphLoaded}" Value="True">
                     <Setter Property="Visibility" Value="Hidden"/>
