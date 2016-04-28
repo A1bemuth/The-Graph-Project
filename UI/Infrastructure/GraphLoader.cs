@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Threading.Tasks;
 using GraphAlgorithms;
 using GraphDataLayer;
 using GraphDataLayer.ExcelImport;
@@ -46,7 +45,7 @@ namespace UI.Infrastructure
             LoadStatus = "Оределение параметров графа";
             var graphInfo = new GraphInfo(graph);
             graphInfo.ArrowCount = graph.ArrowsCount;
-            graphInfo.VerticeCount = graphInfo.VerticeCount;
+            graphInfo.VerticeCount = graph.VerticesCount;
 
             LoadStatus = "Расчет коэффициента кластеризации";
             graphInfo.ClusteringCoef = graph.ClusteringCoefficient();

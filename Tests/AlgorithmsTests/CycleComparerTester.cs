@@ -113,7 +113,6 @@ namespace Tests.AlgorithmsTests
 
             Assert.True(result);
             Console.WriteLine(timer.Elapsed);
-            //Быстро :)
         }
     }
 }

@@ -157,7 +157,7 @@ namespace GraphDataLayer.ExcelImport
 
         public void Dispose()
         {
-            xlWorkbook.Close();
+            xlWorkbook.Close(false);
             xlApplication.Quit();
             xlWorkbook = null;
             xlApplication = null;

@@ -36,7 +36,8 @@ namespace UI.ViewModels
         public PathSelectionViewModel(GraphInfo graphInfo) : this()
         {
             VerticeNames = Enumerable.Range(0, graphInfo.VerticeCount)
-                .Select(v => graphInfo.Graph[v]);
+                .Select(v => graphInfo.Graph[v])
+                .ToList();
         }
     }
 }

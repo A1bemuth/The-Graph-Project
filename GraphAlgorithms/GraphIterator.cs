@@ -10,7 +10,7 @@ namespace GraphAlgorithms
         private readonly Graph graph;
         private readonly bool[] visitedVertices;
         private readonly bool[] verticesInSequence;
-        private readonly List<int> currentSequence;
+        private readonly LinkedList<int> currentSequence;
 
         internal event Action<int[]> CycleDetected;
 
@@ -19,7 +19,7 @@ namespace GraphAlgorithms
             this.graph = graph;
             visitedVertices = new bool[graph.VerticesCount];
             verticesInSequence = new bool[graph.VerticesCount];
-            currentSequence = new List<int>();
+            currentSequence = new LinkedList<int>();
         }
 
         internal void Iterate()
@@ -64,13 +64,13 @@ namespace GraphAlgorithms
         {
             visitedVertices[vertex] = true;
             verticesInSequence[vertex] = true;
-            currentSequence.Add(vertex);
+            currentSequence.AddLast(vertex);
         }
 
         private int FindPreviousIndex(int vertex)
         {
             return currentSequence
-                .IndexOf((v, index) => v == vertex && index < currentSequence.Count - 1);
+                .IndexOf(v => v == vertex);
         }
 
         private void OnCycleDetected(int[] cycle)
@@ -80,7 +80,7 @@ namespace GraphAlgorithms
 
         private void ExcludeVertexFromSequence(int vertex)
         {
-            currentSequence.RemoveAt(currentSequence.Count - 1);
+            currentSequence.RemoveLast();
             verticesInSequence[vertex] = false;
         }
     }

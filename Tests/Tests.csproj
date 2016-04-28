@@ -85,6 +85,9 @@
     <None Include="TestSamples\named-graph.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="TestSamples\муниципалитет.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphAlgorithms\GraphAlgorithms.csproj">
