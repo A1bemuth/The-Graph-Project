@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using GraphDataLayer;
 
 namespace GraphAlgorithms
@@ -31,6 +33,39 @@ namespace GraphAlgorithms
         {
             var comparer = new CycleComparer();
             return cycles.All(intse => !comparer.Equals(cycle, intse));
+        }
+
+        private bool IsNewCycle(int[] cycle, IEnumerable<int[]> foundCycles)
+        {
+            var comparer = new CycleComparer();
+            //return foundCycles.Contains(cycle, comparer);
+            return foundCycles.All(foundCycle => !comparer.Equals(cycle, foundCycle));
+        }
+
+        public async Task<List<int[]>> FindCyclesAsync(Graph graph, IProgress<int[]> progress, CancellationToken ct)
+        {
+            if (graph == null)
+                throw new ArgumentNullException(nameof(graph));
+            if(progress == null)
+                throw  new ArgumentNullException(nameof(progress));
+            if (ct == null)
+                throw new ArgumentNullException(nameof(ct));
+
+            return await Task.Run(() => 
+            {
+                var cyclesAsync = new List<int[]>();
+                var iterator = new GraphIterator(graph);
+                iterator.CycleDetected += cycle =>
+                {
+                    if (IsNewCycle(cycle, cyclesAsync))
+                    {
+                        cyclesAsync.Add(cycle);
+                        progress.Report(cycle);
+                    }
+                };
+                iterator.Iterate();
+                return cyclesAsync;
+            }, ct);
         }
     }
 }

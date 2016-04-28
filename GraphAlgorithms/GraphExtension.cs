@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using GraphDataLayer;
 
 namespace GraphAlgorithms
@@ -13,6 +15,15 @@ namespace GraphAlgorithms
 
             var searcher = new CyclesSearcher();
             return searcher.FindCycles(graph);
+        }
+
+        public static async Task<List<int[]>> FindCyclesAsync(this Graph graph, IProgress<int[]> progress, CancellationToken ct)
+        {
+            if (graph == null)
+                throw new ArgumentNullException(nameof(graph));
+
+            var searcher = new CyclesSearcher();
+            return await searcher.FindCyclesAsync(graph, progress, ct);
         }
 
         public static double ClusteringCoefficient(this Graph graph)
