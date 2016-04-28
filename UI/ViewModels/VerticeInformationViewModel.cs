@@ -20,32 +20,32 @@ namespace UI.ViewModels
 
         public int Index
         {
-            get { return Get<int>(nameof(Index)); }
-            set { Set(nameof(Index), value); }
+            get { return Get<int>(); }
+            set { Set(value); }
         }
 
         public int IncludedInCyclesCount
         {
-            get { return Get<int>(nameof(IncludedInCyclesCount)); }
-            set { Set(nameof(IncludedInCyclesCount), value); }
+            get { return Get<int>(); }
+            set { Set(value); }
         }
 
         public double ClusteringCoefficient
         {
-            get { return Get<double>(nameof(ClusteringCoefficient)); }
-            set { Set(nameof(ClusteringCoefficient), value); }
+            get { return Get<double>(); }
+            set { Set(value); }
         }
 
         public double VerticePerstige
         {
-            get { return Get<double>(nameof(VerticePerstige)); }
-            set { Set(nameof(VerticePerstige), value); }
+            get { return Get<double>(); }
+            set { Set(value); }
         }
 
         public double VerticeInfluence
         {
-            get { return Get<double>(nameof(VerticeInfluence)); }
-            set { Set(nameof(VerticeInfluence), value); }
+            get { return Get<double>(); }
+            set { Set(value); }
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using UI.Annotations;
 
 namespace UI.Infrastructure
@@ -27,14 +29,18 @@ namespace UI.Infrastructure
             }
         }
 
-        public TValue Get<TValue>(string propertyName)
+        public TValue Get<TValue>([CallerMemberName] string propertyName = null)
         {
+            if (propertyName == null)
+                throw new ArgumentNullException(nameof(propertyName));
             var propertyValue = this[propertyName];
             return propertyValue != null ? (TValue) propertyValue : default(TValue);
         }
 
-        public void Set<TValue>(string propertyName, TValue value)
+        public void Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
         {
+            if(propertyName == null)
+                throw new ArgumentNullException(nameof(propertyName));
             this[propertyName] = value;
         }
 

@@ -15,14 +15,14 @@ namespace UI.Infrastructure
 
         public bool IsLoadStarted
         {
-            get { return Get<bool>(nameof(IsLoadStarted)); }
-            set { Set(nameof(IsLoadStarted), value); }
+            get { return Get<bool>(); }
+            set { Set(value); }
         }
 
         public string LoadStatus
         {
-            get { return Get<string>(nameof(LoadStatus)); }
-            set { Set(nameof(LoadStatus), value); }
+            get { return Get<string>(); }
+            set { Set(value); }
         }
 
         public void LoadGraph(string fileName)

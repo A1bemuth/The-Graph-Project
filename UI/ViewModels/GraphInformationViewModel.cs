@@ -29,62 +29,62 @@ namespace UI.ViewModels
 
         public int VerticeCount
         {
-            get { return Get<int>(nameof(VerticeCount)); }
-            set { Set(nameof(VerticeCount), value); }
+            get { return Get<int>(); }
+            set { Set(value); }
         }
 
         public int ArrowCount
         {
-            get { return Get<int>(nameof(ArrowCount)); }
-            set { Set(nameof(ArrowCount), value); }
+            get { return Get<int>(); }
+            set { Set(value); }
         }
 
         public double ClusteringCoefficient
         {
-            get { return Get<double>(nameof(ClusteringCoefficient)); }
-            set { Set(nameof(ClusteringCoefficient), value); }
+            get { return Get<double>(); }
+            set { Set(value); }
         }
 
         public int CyclesCount
         {
-            get { return Get<int>(nameof(CyclesCount)); }
-            set { Set(nameof(CyclesCount), value); }
+            get { return Get<int>(); }
+            set { Set(value); }
         }
 
         public double FirstReciprocity
         {
-            get { return Get<double>(nameof(FirstReciprocity)); }
-            set { Set(nameof(FirstReciprocity), value); }
+            get { return Get<double>(); }
+            set { Set(value); }
         }
 
         public double SecondReciprocity
         {
-            get { return Get<double>(nameof(SecondReciprocity)); }
-            set { Set(nameof(SecondReciprocity), value); }
+            get { return Get<double>(); }
+            set { Set(value); }
         }
 
         public double Prestige
         {
-            get { return Get<double>(nameof(Prestige)); }
-            set { Set(nameof(Prestige), value); }
+            get { return Get<double>(); }
+            set { Set(value); }
         }
 
         public double Influence
         {
-            get { return Get<double>(nameof(Influence)); }
-            set { Set(nameof(Influence), value); }
+            get { return Get<double>(); }
+            set { Set(value); }
         }
 
         public double IndegreeStandartDeviation
         {
-            get { return Get<double>(nameof(IndegreeStandartDeviation)); }
-            set { Set(nameof(IndegreeStandartDeviation), value); }
+            get { return Get<double>(); }
+            set { Set(value); }
         }
 
         public double OutdegreeStandartDeviation
         {
-            get { return Get<double>(nameof(OutdegreeStandartDeviation)); }
-            set { Set(nameof(OutdegreeStandartDeviation), value); }
+            get { return Get<double>(); }
+            set { Set(value); }
         }
     }
 }

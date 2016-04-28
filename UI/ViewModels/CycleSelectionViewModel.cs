@@ -9,14 +9,14 @@ namespace UI.ViewModels
     {
         public IEnumerable<string> Cycles
         {
-            get { return Get<IEnumerable<string>>(nameof(Cycles)); }
-            set { Set(nameof(Cycles), value); }
+            get { return Get<IEnumerable<string>>(); }
+            set { Set(value); }
         }
 
         public int SelectedCycleIndex
         {
-            get { return Get<int>(nameof(SelectedCycleIndex)); }
-            set { Set(nameof(SelectedCycleIndex), value); }
+            get { return Get<int>(); }
+            set { Set(value); }
         }
 
         public CycleSelectionViewModel() { }

@@ -10,8 +10,8 @@ namespace UI.ViewModels
     {
         public Tuple<int, int> VerticePair
         {
-            get { return Get<Tuple<int, int>>(nameof(VerticePair)); }
-            set { Set(nameof(VerticePair), value); }
+            get { return Get<Tuple<int, int>>(); }
+            set { Set(value); }
         }
 
         public int StartVerticeIndex

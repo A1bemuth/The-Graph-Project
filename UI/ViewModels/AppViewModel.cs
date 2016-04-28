@@ -10,22 +10,22 @@ namespace UI.ViewModels
     {
         public GraphInformationViewModel GraphInformationModel
         {
-            get { return Get<GraphInformationViewModel>(nameof(GraphInformationModel)); }
-            set { Set(nameof(GraphInformationModel), value); }
+            get { return Get<GraphInformationViewModel>(); }
+            set { Set(value); }
         }
 
         public VerticeInformationViewModel VerticeInformationModel
         {
-            get { return Get<VerticeInformationViewModel>(nameof(VerticeInformationModel)); }
-            private set { Set(nameof(VerticeInformationModel), value); }
+            get { return Get<VerticeInformationViewModel>(); }
+            private set { Set(value); }
         }
 
         public GraphInfo GraphInfo
         {
-            get { return Get<GraphInfo>(nameof(GraphInfo)); }
+            get { return Get<GraphInfo>(); }
             set
             {
-                Set(nameof(GraphInfo), value);
+                Set(value);
                 IsGraphLoaded = GraphInfo != null;
                 GraphInformationModel = new GraphInformationViewModel(GraphInfo);
             }
@@ -33,10 +33,10 @@ namespace UI.ViewModels
 
         public int SelectedVerticeIndex
         {
-            get { return Get<int>(nameof(SelectedVerticeIndex)); }
+            get { return Get<int>(); }
             set
             {
-                Set(nameof(SelectedVerticeIndex), value);
+                Set(value);
                 SelectedVerticeIndexChange();
             }
         }
@@ -51,50 +51,50 @@ namespace UI.ViewModels
 
         public bool IsMenuOpened
         {
-            get { return Get<bool>(nameof(IsMenuOpened)); }
-            set { Set(nameof(IsMenuOpened), value); }
+            get { return Get<bool>(); }
+            set { Set(value); }
         }
 
         public bool IsGraphLoaded
         {
-            get { return Get<bool>(nameof(IsGraphLoaded)); }
-            set { Set(nameof(IsGraphLoaded), value); }
+            get { return Get<bool>(); }
+            set { Set(value); }
         }
 
         public bool IsVerticeSelected
         {
-            get { return Get<bool>(nameof(IsVerticeSelected)); }
-            set { Set(nameof(IsVerticeSelected), value);}
+            get { return Get<bool>(); }
+            set { Set(value);}
         }
 
         public bool IsModalOpened
         {
-            get { return Get<bool>(nameof(IsModalOpened)); }
-            set { Set(nameof(IsModalOpened), value);}
+            get { return Get<bool>(); }
+            set { Set(value);}
         }
 
         public bool IsGraphLoading
         {
-            get { return Get<bool>(nameof(IsGraphLoading)); }
-            set { Set(nameof(IsGraphLoading), value); }
+            get { return Get<bool>(); }
+            set { Set(value); }
         }
 
         public string LoadingStatus
         {
-            get { return Get<string>(nameof(LoadingStatus)); }
-            set { Set(nameof(LoadingStatus), value); }
+            get { return Get<string>(); }
+            set { Set(value); }
         }
 
         public int[] VisitedPath
         {
-            get { return Get<int[]>(nameof(VisitedPath)); }
-            set { Set(nameof(VisitedPath), value);}
+            get { return Get<int[]>(); }
+            set { Set(value);}
         }
 
         public string Status
         {
-            get { return Get<string>(nameof(Status)); }
-            set { Set(nameof(Status), value);}
+            get { return Get<string>(); }
+            set { Set(value);}
         }
 
         public AppViewModel()
