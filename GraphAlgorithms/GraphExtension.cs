@@ -103,5 +103,10 @@ namespace GraphAlgorithms
             return calculator.GetOutdegreeStandartDeviation();
         }
 
+        public static double GetDensity(this Graph graph)
+        {
+            var calculator = new DegreeCentrality(graph);
+            return calculator.Density();
+        }
     }
 }

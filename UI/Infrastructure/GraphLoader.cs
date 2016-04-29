@@ -46,6 +46,7 @@ namespace UI.Infrastructure
             var graphInfo = new GraphInfo(graph);
             graphInfo.ArrowCount = graph.ArrowsCount;
             graphInfo.VerticeCount = graph.VerticesCount;
+            graphInfo.Density = graph.GetDensity();
 
             LoadStatus = "Расчет коэффициента кластеризации";
             graphInfo.ClusteringCoef = graph.ClusteringCoefficient();

@@ -25,9 +25,7 @@ namespace UI.ViewModels
             Influence = graphInfo.Graph.GetGraphInfluence();
             IndegreeStandartDeviation = graphInfo.Graph.GetIndegreesStandartDeviation();
             OutdegreeStandartDeviation = graphInfo.Graph.GetOutdegreesStandartDeviation();
-
-            graphInfo.Graph.FindCyclesAsync(new Progress<int[]>(cycle => CyclesCount++), CancellationToken.None);
-
+            Density = graphInfo.Density;
         }
 
         public int VerticeCount
@@ -88,6 +86,12 @@ namespace UI.ViewModels
         {
             get { return Get<double>(); }
             set { Set(value); }
+        }
+
+        public double Density
+        {
+            get { return Get<double>(); }
+            set { Set(value);}
         }
     }
 }

@@ -69,6 +69,15 @@ namespace GraphAlgorithms
             return Math.Round((double) sum/denominator, 4);
         }
 
+        public double Density()
+        {
+            if (graph.VerticesCount == 1)
+                return 0;
+            var denominator = graph.VerticesCount*(graph.VerticesCount - 1);
+
+            return Math.Round((double)graph.ArrowsCount/denominator, 4);
+        }
+
         private List<int> vertices;
 
         private readonly Graph graph;

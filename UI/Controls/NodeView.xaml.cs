@@ -68,7 +68,7 @@ namespace UI.Controls
         public NodeView(int number, string title) : this()
         {
             Number = number;
-            Title = title;
+            Title = title.Trim();
         }
 
         public Point ShiftPointFromTitle(Point topLeftPoint)
@@ -81,7 +81,7 @@ namespace UI.Controls
         {
             TitlePlace.Measure(constraint);
             var height = Radius*2 + TitlePlace.DesiredSize.Height;
-            var width = Math.Max(Radius*2, Radius + TitlePlace.DesiredSize.Width);
+            var width = Math.Max(Radius*2, Radius + TitlePlace.DesiredSize.Width+2);
             return new Size(width, height);
         }
 
