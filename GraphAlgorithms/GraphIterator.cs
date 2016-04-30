@@ -52,6 +52,12 @@ namespace GraphAlgorithms
                 {
                     InspectVertex(neighbor);
                 }
+
+//                var tasks = graph
+//                    .GetNeighbours(vertex)
+//                    .Select(n => Task.Run(() => InspectVertex(n)))
+//                    .ToArray();
+//                Task.WaitAll(tasks);
                 ExcludeVertexFromSequence(vertex);
             }
         }

@@ -43,6 +43,7 @@ namespace UI.Models
         public GraphInfo(NamedGraph graph)
         {
             Graph = graph;
+            Cycles = new List<int[]>();
         }
 
         public void StartSearching()

@@ -10,12 +10,14 @@ namespace UI.ViewModels
     {
         public GraphInformationViewModel()
         {
+            GraphInfo = new GraphInfo();
         }
 
         public GraphInformationViewModel(GraphInfo graphInfo)
         {
             if (graphInfo == null)
                 return;
+            GraphInfo = graphInfo;
             VerticeCount = graphInfo.VerticeCount;
             ArrowCount = graphInfo.ArrowCount;
             ClusteringCoefficient = graphInfo.ClusteringCoef;
@@ -26,6 +28,14 @@ namespace UI.ViewModels
             IndegreeStandartDeviation = graphInfo.Graph.GetIndegreesStandartDeviation();
             OutdegreeStandartDeviation = graphInfo.Graph.GetOutdegreesStandartDeviation();
             Density = graphInfo.Density;
+
+            //graphInfo.Graph.FindCyclesAsync(new Progress<int[]>(ints => CyclesCount++), CancellationToken.None);
+        }
+
+        public GraphInfo GraphInfo
+        {
+            get { return Get<GraphInfo>(); }
+            private set { Set(value); }
         }
 
         public int VerticeCount
@@ -48,7 +58,7 @@ namespace UI.ViewModels
 
         public int CyclesCount
         {
-            get { return Get<int>(); }
+            get { return GraphInfo.CyclesCount; }
             set { Set(value); }
         }
 

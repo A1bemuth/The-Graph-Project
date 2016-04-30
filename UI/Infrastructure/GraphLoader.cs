@@ -53,6 +53,7 @@ namespace UI.Infrastructure
 
             //LoadStatus = "Поиск циклов";
             //graphInfo.Cycles = graph.FindCycles();
+            graphInfo.StartSearching();
 
             doWorkEventArgs.Result = graphInfo;
         }

@@ -37,12 +37,12 @@ namespace Tests.AlgorithmsTests
             var graph = new AdjacencyListGraph(2);
             graph.AddArrow(0, 1);
             graph.AddArrow(1, 0);
-            var expectedResult = new[] {new[] {1, 0}};
+//            var expectedResult = new[] {new[] {1, 0}};
 
             var result = searcher.FindCycles(graph);
 
-            Assert.That(result.Count, Is.EqualTo(1));
-            Assert.That(CompareResult(expectedResult, result));
+            Assert.That(result.Count, Is.EqualTo(0));
+           // Assert.That(CompareResult(expectedResult, result));
         }
 
         private bool CompareResult(IEnumerable<int[]> expectedResult, IEnumerable<int[]> actualResult)
@@ -59,12 +59,12 @@ namespace Tests.AlgorithmsTests
             graph.AddArrow(0, 1);
             graph.AddArrow(1, 2);
             graph.AddArrow(2, 1);
-            var expectedResult = new[] {new[] {1, 2}};
+//            var expectedResult = new[] {new[] {1, 2}};
 
             var result = searcher.FindCycles(graph);
 
-            Assert.That(result.Count, Is.EqualTo(1));
-            Assert.That(CompareResult(expectedResult, result));
+            Assert.That(result.Count, Is.EqualTo(0));
+//            Assert.That(CompareResult(expectedResult, result));
         }
 
         // 0 ↔ 1 ← 2
@@ -75,13 +75,13 @@ namespace Tests.AlgorithmsTests
             graph.AddArrow(0, 1);
             graph.AddArrow(1, 0);
             graph.AddArrow(2, 1);
-            var expectedResult = new[] {new[] {0, 1}};
+            //var expectedResult = new[] {new[] {0, 1}};
 
 
             var result = searcher.FindCycles(graph);
 
-            Assert.That(result.Count, Is.EqualTo(1));
-            Assert.That(CompareResult(expectedResult, result));
+            Assert.That(result.Count, Is.EqualTo(0));
+            //Assert.That(CompareResult(expectedResult, result));
         }
 
         // 0 ← 3 ↔ 2
@@ -99,9 +99,9 @@ namespace Tests.AlgorithmsTests
 
             var result = searcher.FindCycles(graph);
 
-            Assert.That(result.Count, Is.EqualTo(2));
+            Assert.That(result.Count, Is.EqualTo(1));
             Assert.That(result[0], Is.EquivalentTo(new[] { 3, 2, 1, 0 }));
-            Assert.That(result[1], Is.EquivalentTo(new[] { 3, 2 }));
+            //Assert.That(result[1], Is.EquivalentTo(new[] { 3, 2 }));
         }
 
         // 3 ← 0 → 1
@@ -139,10 +139,10 @@ namespace Tests.AlgorithmsTests
 
             var result = searcher.FindCycles(graph);
 
-            Assert.That(result.Count, Is.EqualTo(3));
+            Assert.That(result.Count, Is.EqualTo(2));
             Assert.That(result[0], Is.EquivalentTo(new[] {0, 4, 3, 1}));
-            Assert.That(result[1], Is.EquivalentTo(new[] {2, 1}));
-            Assert.That(result[2], Is.EquivalentTo(new[] {0, 4, 3, 2, 1}));
+//            Assert.That(result[1], Is.EquivalentTo(new[] {2, 1}));
+            Assert.That(result[1], Is.EquivalentTo(new[] {0, 4, 3, 2, 1}));
         }
 
         [Test]
@@ -172,15 +172,15 @@ namespace Tests.AlgorithmsTests
 
             var result = searcher.FindCycles(graph);
 
-            Assert.That(result.Count, Is.EqualTo(8));
+            Assert.That(result.Count, Is.EqualTo(6));
             Assert.That(result[0], Is.EquivalentTo(new[] { 0, 5, 4, 2 }));
-            Assert.That(result[1], Is.EquivalentTo(new[] { 2, 3 }));
-            Assert.That(result[2], Is.EquivalentTo(new[] { 5, 4, 2, 3 }));
-            Assert.That(result[3], Is.EquivalentTo(new[] { 0, 5, 4, 3, 2 }));
-            Assert.That(result[4], Is.EquivalentTo(new[] { 5, 4, 3 }));
-            Assert.That(result[5], Is.EquivalentTo(new[] { 12, 9, 10 }));
-            Assert.That(result[6], Is.EquivalentTo(new[] { 11, 12, 9 }));
-            Assert.That(result[7], Is.EquivalentTo(new[] { 7, 8 }));
+//            Assert.That(result[1], Is.EquivalentTo(new[] { 2, 3 }));
+            Assert.That(result[1], Is.EquivalentTo(new[] { 5, 4, 2, 3 }));
+            Assert.That(result[2], Is.EquivalentTo(new[] { 0, 5, 4, 3, 2 }));
+            Assert.That(result[3], Is.EquivalentTo(new[] { 5, 4, 3 }));
+            Assert.That(result[4], Is.EquivalentTo(new[] { 12, 9, 10 }));
+            Assert.That(result[5], Is.EquivalentTo(new[] { 11, 12, 9 }));
+//            Assert.That(result[7], Is.EquivalentTo(new[] { 7, 8 }));
         }
 
         [Test]
@@ -202,7 +202,7 @@ namespace Tests.AlgorithmsTests
 
             var result = searcher.FindCycles(graph);
 
-            Assert.That(result.Count, Is.EqualTo(3));
+            Assert.That(result.Count, Is.EqualTo(1));
             //CollectionAssert.AreEqual(new[] {0, 1, 2}, result[0]);
             //CollectionAssert.AreEqual(new[] {3, 4}, result[1]);
             //CollectionAssert.AreEqual(new[] {5, 6}, result[2]);
@@ -240,7 +240,7 @@ namespace Tests.AlgorithmsTests
 
             var result = searcher.FindCycles(graph);
 
-            Assert.That(result.Count, Is.EqualTo(15));
+            Assert.That(result.Count, Is.EqualTo(10));
         }
 
         [Test]
@@ -262,7 +262,7 @@ namespace Tests.AlgorithmsTests
 
             var result = graph.FindCycles();
 
-            Assert.That(result.Count, Is.EqualTo(3));
+            Assert.That(result.Count, Is.EqualTo(1));
             //CollectionAssert.AreEqual(new[] { 0, 1, 2 }, result[0]);
             //CollectionAssert.AreEqual(new[] { 3, 4 }, result[1]);
             //CollectionAssert.AreEqual(new[] { 5, 6 }, result[2]);
@@ -369,8 +369,8 @@ namespace Tests.AlgorithmsTests
                     }),
                         CancellationToken.None);
 
-            Assert.That(result.Count, Is.EqualTo(15));
-            Assert.That(progressChangedInvockingCount, Is.EqualTo(15));
+            Assert.That(result.Count, Is.EqualTo(10));
+            Assert.That(progressChangedInvockingCount, Is.EqualTo(10));
         }
     }
 }
