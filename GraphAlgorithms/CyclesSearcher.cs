@@ -9,37 +9,17 @@ namespace GraphAlgorithms
 {
     public class CyclesSearcher
     {
-        private List<int[]> cycles;
-
         public List<int[]> FindCycles(Graph graph)
         {
             if (graph == null)
                 throw new ArgumentNullException(nameof(graph));
 
-            cycles = new List<int[]>();
+            var cycles = new HashSet<int[]>(new CycleComparer());
+
             var iterator = new GraphIterator(graph);
-            iterator.CycleDetected += DefineNewCycle;
+            iterator.CycleDetected += c => cycles.Add(c);
             iterator.Iterate();
-            return cycles;
-        }
-
-        private void DefineNewCycle(int[] cycle)
-        {
-            if (IsNewCycle(cycle))
-                cycles.Add(cycle);
-        }
-
-        private bool IsNewCycle(int[] cycle)
-        {
-            var comparer = new CycleComparer();
-            return cycles.All(intse => !comparer.Equals(cycle, intse));
-        }
-
-        private bool IsNewCycle(int[] cycle, IEnumerable<int[]> foundCycles)
-        {
-            var comparer = new CycleComparer();
-            //return foundCycles.Contains(cycle, comparer);
-            return foundCycles.All(foundCycle => !comparer.Equals(cycle, foundCycle));
+            return cycles.ToList();
         }
 
         public async Task<List<int[]>> FindCyclesAsync(Graph graph, IProgress<int[]> progress, CancellationToken ct)
@@ -53,18 +33,17 @@ namespace GraphAlgorithms
 
             return await Task.Run(() => 
             {
-                var cyclesAsync = new List<int[]>();
+                var cycles = new ConcurrentHashSet<int[]>(new CycleComparer());
                 var iterator = new GraphIterator(graph);
                 iterator.CycleDetected += cycle =>
                 {
-                    if (IsNewCycle(cycle, cyclesAsync))
+                    if (cycles.Add(cycle))
                     {
-                        cyclesAsync.Add(cycle);
                         progress.Report(cycle);
-                    }
+                    }                    
                 };
                 iterator.Iterate();
-                return cyclesAsync;
+                return cycles.ToList();
             }, ct);
         }
     }

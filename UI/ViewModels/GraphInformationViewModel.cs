@@ -29,7 +29,7 @@ namespace UI.ViewModels
             OutdegreeStandartDeviation = graphInfo.Graph.GetOutdegreesStandartDeviation();
             Density = graphInfo.Density;
 
-            //graphInfo.Graph.FindCyclesAsync(new Progress<int[]>(ints => CyclesCount++), CancellationToken.None);
+            graphInfo.Graph.FindCyclesAsync(new Progress<int[]>(ints => CyclesCount++), CancellationToken.None);
         }
 
         public GraphInfo GraphInfo
@@ -58,8 +58,8 @@ namespace UI.ViewModels
 
         public int CyclesCount
         {
-            get { return GraphInfo.CyclesCount; }
-            set { Set(value); }
+            get { return Get<int>(); }
+            private set { Set(value); }
         }
 
         public double FirstReciprocity

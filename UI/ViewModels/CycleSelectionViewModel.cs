@@ -7,10 +7,15 @@ namespace UI.ViewModels
 {
     public class CycleSelectionViewModel : PropertyNotifier
     {
+        private GraphInfo info;
+
         public IEnumerable<string> Cycles
         {
-            get { return Get<IEnumerable<string>>(); }
-            set { Set(value); }
+            get
+            {
+                return info.Cycles
+                    .Select(c => string.Join(",", c));
+            }
         }
 
         public int SelectedCycleIndex
@@ -19,11 +24,13 @@ namespace UI.ViewModels
             set { Set(value); }
         }
 
-        public CycleSelectionViewModel() { }
+        public CycleSelectionViewModel()
+        {
+        }
 
         public CycleSelectionViewModel(GraphInfo graphInfo)
         {
-            Cycles = graphInfo.Cycles.Select(c => string.Join(",", c.Select(v => graphInfo.Graph[v])));
+            info = graphInfo;
         }
     }
 }

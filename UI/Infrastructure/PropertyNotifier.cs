@@ -8,7 +8,12 @@ namespace UI.Infrastructure
 {
     public abstract class PropertyNotifier : INotifyPropertyChanged, INotifyPropertyChanging
     {
-        private readonly Dictionary<string, object> propertyValues = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> propertyValues;
+
+        protected PropertyNotifier()
+        {
+            propertyValues = new Dictionary<string, object>();
+        }
 
         private object this[string name]
         {

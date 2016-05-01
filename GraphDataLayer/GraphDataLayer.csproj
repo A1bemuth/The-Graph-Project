@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="AdjacencyGraph.cs" />
     <Compile Include="AdjacencyListGraph.cs" />
+    <Compile Include="ConcurrentHashSet.cs" />
     <Compile Include="ExcelImport\ExcelImporter.cs" />
     <Compile Include="ExcelImport\ExcelGraphInfo.cs" />
     <Compile Include="ExcelImport\NamedExcelImporter.cs" />

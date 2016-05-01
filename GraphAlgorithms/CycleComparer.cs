@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace GraphAlgorithms
 {
     public class CycleComparer : IEqualityComparer<int[]>
     {
-        private int[] firstCycle;
-        private int[] secondCycle;
-
         public bool Equals(int[] first, int[] second)
         {
             if (ThereAreNullCollection(first, second))
@@ -15,17 +13,14 @@ namespace GraphAlgorithms
             if (ReferenceEquals(first, second))
                 return true;
 
-            firstCycle = first;
-            secondCycle = second;
-
-            if (firstCycle.Length != secondCycle.Length)
+            if (first.Length != second.Length)
                 return false;
 
-            var startIndex = FindFirstCycleStartIndexInSecondCycle();
+            var startIndex = FindFirstCycleStartIndexInSecondCycle(first, second);
             if (startIndex == -1)
                 return false;
 
-            return IsCyclesEqual(startIndex);
+            return IsCyclesEqual(first, second, startIndex);
         }
 
         private bool ThereAreNullCollection(IEnumerable<int> first, IEnumerable<int> second)
@@ -33,12 +28,12 @@ namespace GraphAlgorithms
             return first == null || second == null;
         }
 
-        private int FindFirstCycleStartIndexInSecondCycle()
+        private int FindFirstCycleStartIndexInSecondCycle(int[] firstCycle, int[] secondCycle)
         {
             return secondCycle.IndexOf(v => v == firstCycle[0]);
         }
 
-        private bool IsCyclesEqual(int startIndex)
+        private bool IsCyclesEqual(int[] firstCycle, int[] secondCycle, int startIndex)
         {
             var cyclesLength = firstCycle.Length;
             for (int i = 0, j = startIndex; i < cyclesLength; i++)
@@ -54,12 +49,7 @@ namespace GraphAlgorithms
         {
             unchecked
             {
-                var hash = 0;
-                for (var i = 0; i < cycle.Length; i++)
-                {
-                    hash += cycle[i] ^ (i + 1);
-                }
-                return hash;
+                return cycle.Sum() + cycle.Length;
             }
         }
     }

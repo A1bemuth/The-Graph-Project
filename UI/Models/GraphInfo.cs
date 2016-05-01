@@ -10,8 +10,6 @@ namespace UI.Models
 {
     public class GraphInfo : PropertyNotifier
     {
-        private Task searchingTask;
-
         public NamedGraph Graph { get; }
         public int VerticeCount { get; set; }
         public int ArrowCount { get; set; }
@@ -48,7 +46,7 @@ namespace UI.Models
 
         public void StartSearching()
         {
-            searchingTask = Task.Run(async () =>
+            Task.Run(async () =>
             {
                 IsCycleSearchingComplete = false;
                 Cycles = await Graph.FindCyclesAsync(new Progress<int[]>(ints => CyclesCount++), CancellationToken.None);
