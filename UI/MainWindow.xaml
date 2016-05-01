@@ -37,7 +37,7 @@
             <TextBlock Text="Нажмите на правую кнопку мыши" HorizontalAlignment="Center" VerticalAlignment="Center"
                        Foreground="{StaticResource RadialMenuGray}" FontSize="20" TextAlignment="Center" FontWeight="Bold"/>
         </Border>
-        <controls:GraphCanvas Grid.Column="0" Grid.Row="0" Graph="{Binding GraphInfo.Graph}" Background="Transparent"
+        <controls:GraphCanvas Grid.Column="0" Grid.Row="0" Graph="{Binding Graph}" Background="Transparent"
                                   VisitedPath="{Binding VisitedPath}"
                                   SelectedVerticeIndex="{Binding SelectedVerticeIndex, Mode=OneWayToSource}"
                                   IsOpenedCustomMeun="{Binding IsMenuOpened, Mode=TwoWay}"/>
@@ -140,6 +140,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -150,25 +151,30 @@
                                Text="Индекс выбранной вершины"/>
                     <TextBlock Grid.Row="0" Grid.Column="1"
                                Text="{Binding VerticeInformationModel.Index}" />
-
+                    
                     <TextBlock Grid.Row="1" Grid.Column="0"
-                               Text="Коэффициент кластеризации вершины" />
+                               Text="Название вершины"/>
                     <TextBlock Grid.Row="1" Grid.Column="1"
-                               Text="{Binding VerticeInformationModel.ClusteringCoefficient}" />
+                               Text="{Binding VerticeInformationModel.VerticeName}" />
 
                     <TextBlock Grid.Row="2" Grid.Column="0"
-                               Text="Количество циклов с вершиной" />
+                               Text="Коэффициент кластеризации вершины" />
                     <TextBlock Grid.Row="2" Grid.Column="1"
+                               Text="{Binding VerticeInformationModel.ClusteringCoefficient}" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0"
+                               Text="Количество циклов с вершиной" />
+                    <TextBlock Grid.Row="3" Grid.Column="1"
                                Text="{Binding VerticeInformationModel.IncludedInCyclesCount}" />
                     
-                    <TextBlock Grid.Row="3" Grid.Column="0"
+                    <TextBlock Grid.Row="4" Grid.Column="0"
                                Text="Престиж вершины"/>
-                    <TextBlock Grid.Row="3" Grid.Column="1"
+                    <TextBlock Grid.Row="4" Grid.Column="1"
                                Text="{Binding VerticeInformationModel.VerticePerstige}"/>
                     
-                    <TextBlock Grid.Row="4" Grid.Column="0"
+                    <TextBlock Grid.Row="5" Grid.Column="0"
                                Text="Влияние вершины"/>
-                    <TextBlock Grid.Row="4" Grid.Column="1"
+                    <TextBlock Grid.Row="5" Grid.Column="1"
                                Text="{Binding VerticeInformationModel.VerticeInfluence}"/>
                 </Grid>
             </Border>

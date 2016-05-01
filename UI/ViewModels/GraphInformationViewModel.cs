@@ -1,40 +1,50 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using GraphAlgorithms;
+using GraphDataLayer;
 using UI.Infrastructure;
-using UI.Models;
 
 namespace UI.ViewModels
 {
     public class GraphInformationViewModel : PropertyNotifier
     {
+        private readonly CancellationTokenSource tokenSource;
+
         public GraphInformationViewModel()
         {
-            GraphInfo = new GraphInfo();
         }
 
-        public GraphInformationViewModel(GraphInfo graphInfo)
+        public GraphInformationViewModel(Graph graph)
         {
-            if (graphInfo == null)
+            if (graph == null)
                 return;
-            GraphInfo = graphInfo;
-            VerticeCount = graphInfo.VerticeCount;
-            ArrowCount = graphInfo.ArrowCount;
-            ClusteringCoefficient = graphInfo.ClusteringCoef;
-            FirstReciprocity = graphInfo.Graph.CalcFirstReciprocity();
-            SecondReciprocity = graphInfo.Graph.CalcSecondReciprocity();
-            Prestige = graphInfo.Graph.GetGraphPrestige();
-            Influence = graphInfo.Graph.GetGraphInfluence();
-            IndegreeStandartDeviation = graphInfo.Graph.GetIndegreesStandartDeviation();
-            OutdegreeStandartDeviation = graphInfo.Graph.GetOutdegreesStandartDeviation();
-            Density = graphInfo.Density;
+            tokenSource = new CancellationTokenSource();
+            
+            Graph = graph;
+            VerticeCount = graph.VerticesCount;
+            ArrowCount = graph.ArrowsCount;
+            ClusteringCoefficient = graph.ClusteringCoefficient();
+            FirstReciprocity = graph.CalcFirstReciprocity();
+            SecondReciprocity = graph.CalcSecondReciprocity();
+            Prestige = graph.GetGraphPrestige();
+            Influence = graph.GetGraphInfluence();
+            IndegreeStandartDeviation = graph.GetIndegreesStandartDeviation();
+            OutdegreeStandartDeviation = graph.GetOutdegreesStandartDeviation();
+            Density = graph.GetDensity();
 
-            graphInfo.Graph.FindCyclesAsync(new Progress<int[]>(ints => CyclesCount++), CancellationToken.None);
+            graph.FindCyclesAsync(new Progress<int[]>(ints => CyclesCount++), tokenSource.Token)
+                .ContinueWith(task => Cycles = task.Result);
         }
 
-        public GraphInfo GraphInfo
+        public void StopSearch()
         {
-            get { return Get<GraphInfo>(); }
+            tokenSource?.Cancel();
+        }
+
+        public Graph Graph
+        {
+            get { return Get<Graph>(); }
             private set { Set(value); }
         }
 
@@ -59,6 +69,12 @@ namespace UI.ViewModels
         public int CyclesCount
         {
             get { return Get<int>(); }
+            private set { Set(value); }
+        }
+
+        public List<int[]> Cycles
+        {
+            get { return Get<List<int[]>>(); }
             private set { Set(value); }
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GraphAlgorithms;
+using GraphDataLayer;
 using UI.Infrastructure;
 using UI.Models;
 
@@ -8,6 +9,17 @@ namespace UI.ViewModels
 {
     public class AppViewModel : PropertyNotifier
     {
+        public NamedGraph Graph
+        {
+            get { return Get<NamedGraph>(); }
+            private set
+            {
+                Set(value);
+                IsGraphLoaded = value != null;
+                GraphInformationModel = new GraphInformationViewModel(value);
+                SelectedVerticeIndex = -1;
+            }
+        }
         public GraphInformationViewModel GraphInformationModel
         {
             get { return Get<GraphInformationViewModel>(); }
@@ -18,17 +30,6 @@ namespace UI.ViewModels
         {
             get { return Get<VerticeInformationViewModel>(); }
             private set { Set(value); }
-        }
-
-        public GraphInfo GraphInfo
-        {
-            get { return Get<GraphInfo>(); }
-            set
-            {
-                Set(value);
-                IsGraphLoaded = GraphInfo != null;
-                GraphInformationModel = new GraphInformationViewModel(GraphInfo);
-            }
         }
 
         public int SelectedVerticeIndex
@@ -45,7 +46,7 @@ namespace UI.ViewModels
         {
             IsVerticeSelected = SelectedVerticeIndex != -1;
             VerticeInformationModel = IsVerticeSelected
-                ? new VerticeInformationViewModel(SelectedVerticeIndex, GraphInfo)
+                ? new VerticeInformationViewModel(SelectedVerticeIndex, Graph)
                 : new VerticeInformationViewModel();
         }
 
@@ -115,13 +116,6 @@ namespace UI.ViewModels
             CommandEventBinder.CloseCyclesModalCommand.OnExecute += CloseModal;
             CommandEventBinder.ShowPathModalCommand.OnExecute += ShowPath;
             CommandEventBinder.ClosePathModalCommand.OnExecute += CloseModal;
-            GraphLoader.Instance.PropertyChanged += (sender, args) =>
-            {
-                if (args.PropertyName.Equals("IsLoadStarted"))
-                    IsGraphLoading = GraphLoader.Instance.IsLoadStarted;
-                if (args.PropertyName.Equals("LoadStatus"))
-                    LoadingStatus = GraphLoader.Instance.LoadStatus;
-            };
         }
 
         private void LoadGraph(object parameter)
@@ -129,22 +123,26 @@ namespace UI.ViewModels
             CommandEventBinder.CloseMenuCommand.Execute();
             IsModalOpened = true;
             IsGraphLoading = true;
+            LoadingStatus = "Импорт из файла";
             var fileName = Navigator.OpenFile();
             if (fileName == null)
             {
                 IsModalOpened = false;
+                IsGraphLoading = true;
                 return;
             }
+            GraphInformationModel.StopSearch();
+            LoadingStatus = "Импорт из файла";
             GraphLoader.Instance.LoadGraph(fileName);
         }
 
         private void GraphLoadedHandling(object result)
         {
-            GraphInfo = result as GraphInfo;
+            Graph = result as NamedGraph;
             Status = "Граф успешно загружен";
             IsModalOpened = false;
             IsGraphLoading = true;
-
+            LoadingStatus = "";
         }
 
         private void CloseMenu(object parameter)
@@ -155,7 +153,7 @@ namespace UI.ViewModels
         private void ShowCycles(object parameter)
         {
             IsModalOpened = true;
-            var model = new CycleSelectionViewModel(GraphInfo);
+            var model = new CycleSelectionViewModel(Graph, GraphInformationModel.Cycles);
             CommandEventBinder.CloseMenuCommand.Execute();
             Navigator.OpenCycleModal(model);
         }
@@ -174,10 +172,11 @@ namespace UI.ViewModels
                 Status = "Цикл не был выбран.";
                 return;
             }
-            if (GraphInfo != null)
+            if (GraphInformationModel.Cycles != null)
             {
-                var cycle = new List<int>(GraphInfo.Cycles[selectedCycleIndex]);
+                var cycle = new List<int>(GraphInformationModel.Cycles[selectedCycleIndex]);
                 cycle.Add(cycle[0]);
+                SelectedVerticeIndex = -1;
                 VisitedPath = cycle.ToArray();
                 Status = "Цикл успешно отображен";
             }
@@ -186,7 +185,7 @@ namespace UI.ViewModels
         private void ShowPath(object o)
         {
             IsModalOpened = true;
-            var modal = new PathSelectionViewModel(GraphInfo);
+            var modal = new PathSelectionViewModel(Graph);
             CommandEventBinder.CloseMenuCommand.Execute();
             Navigator.OpenPathModal(modal);
         }
@@ -205,16 +204,14 @@ namespace UI.ViewModels
                 Status = "Начальная и конечная вершины совпадают";
                 return;
             }
-            VisitedPath = GraphInfo.Graph.FindPath(selectedIndexes.Item1, selectedIndexes.Item2);
+            VisitedPath = Graph.FindPath(selectedIndexes.Item1, selectedIndexes.Item2);
+            SelectedVerticeIndex = -1;
             Status = VisitedPath != null ? "Путь успешно построен" : "Между вершинами нет пути";
         }
 
         private void RefreshGraph(object o)
         {
             CommandEventBinder.CloseMenuCommand.Execute();
-            var graph = GraphInfo.Graph;
-            GraphInfo = null;
-            GraphInfo = new GraphInfo(graph);
             Status = "Граф обновлен.";
         }
     }

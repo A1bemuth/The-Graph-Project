@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using GraphAlgorithms;
+﻿using GraphAlgorithms;
+using GraphDataLayer;
 using UI.Infrastructure;
-using UI.Models;
 
 namespace UI.ViewModels
 {
@@ -9,19 +8,26 @@ namespace UI.ViewModels
     {
         public VerticeInformationViewModel() { }
 
-        public VerticeInformationViewModel(int selectedIndex, GraphInfo graphInfo)
+        public VerticeInformationViewModel(int selectedIndex, NamedGraph graph)
         {
             Index = selectedIndex;
-            ClusteringCoefficient = graphInfo.Graph.ClusteringCoefficientFor(Index);
-            //IncludedInCyclesCount = graphInfo.Cycles.Count(c => c.Contains(Index));
-            VerticePerstige = graphInfo.Graph.GetPrestigeFor(Index);
-            VerticeInfluence = graphInfo.Graph.GetInfluenceFor(Index);
+            VerticeName = graph[Index];
+            ClusteringCoefficient = graph.ClusteringCoefficientFor(Index);
+            //IncludedInCyclesCount = graph.Cycles.Count(c => c.Contains(Index));
+            VerticePerstige = graph.GetPrestigeFor(Index);
+            VerticeInfluence = graph.GetInfluenceFor(Index);
         }
 
         public int Index
         {
             get { return Get<int>(); }
             set { Set(value); }
+        }
+
+        public string VerticeName
+        {
+            get { return Get<string>(); }
+            private set { Set(value); }
         }
 
         public int IncludedInCyclesCount

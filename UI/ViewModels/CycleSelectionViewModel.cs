@@ -1,21 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GraphDataLayer;
 using UI.Infrastructure;
-using UI.Models;
 
 namespace UI.ViewModels
 {
     public class CycleSelectionViewModel : PropertyNotifier
     {
-        private GraphInfo info;
-
         public IEnumerable<string> Cycles
         {
-            get
-            {
-                return info.Cycles
-                    .Select(c => string.Join(",", c));
-            }
+            get { return Get<IEnumerable<string>>(); }
+            private set { Set(value); }
         }
 
         public int SelectedCycleIndex
@@ -28,9 +23,11 @@ namespace UI.ViewModels
         {
         }
 
-        public CycleSelectionViewModel(GraphInfo graphInfo)
+        public CycleSelectionViewModel(NamedGraph graph, List<int[]> cycles)
         {
-            info = graphInfo;
+            if (cycles != null)
+                Cycles = cycles
+                    .Select(c => string.Join(",", c.Select(v => graph[v])));
         }
     }
 }

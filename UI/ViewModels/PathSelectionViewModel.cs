@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GraphDataLayer;
 using UI.Infrastructure;
-using UI.Models;
 
 namespace UI.ViewModels
 {
@@ -33,10 +33,10 @@ namespace UI.ViewModels
             VerticePair = new Tuple<int, int>(0,0);
         }
 
-        public PathSelectionViewModel(GraphInfo graphInfo) : this()
+        public PathSelectionViewModel(NamedGraph graph) : this()
         {
-            VerticeNames = Enumerable.Range(0, graphInfo.VerticeCount)
-                .Select(v => graphInfo.Graph[v])
+            VerticeNames = Enumerable.Range(0, graph.VerticesCount)
+                .Select(v => graph[v])
                 .ToList();
         }
     }
