@@ -6,7 +6,7 @@
         xmlns:models="clr-namespace:UI.ViewModels"
         xmlns:infra="clr-namespace:UI.Infrastructure"
         mc:Ignorable="d" ResizeMode="NoResize"
-        Title="" Height="400" Width="350" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner">
+        Title="" Height="400" Width="600" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner">
     <Window.DataContext>
         <models:CycleSelectionViewModel/>
     </Window.DataContext>
@@ -60,17 +60,40 @@
         </Style>
     </Window.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Выберите цикл:" Margin="15,15" VerticalAlignment="Top" HorizontalAlignment="Left" FontWeight="SemiBold" FontSize="16"
+        <TextBlock Grid.Row="0" Grid.Column="0" 
+                   Text="Выберите группу циклов:" 
+                   Margin="15,15,0,0" 
+                   VerticalAlignment="Top" 
+                   HorizontalAlignment="Left"
+                   FontWeight="SemiBold" FontSize="16"
                    Foreground="DarkGray"/>
-        <ListBox Grid.Row="1" ItemsSource="{Binding Cycles}" Margin="15,0" SelectedIndex="{Binding SelectedCycleIndex}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ScrollViewer.CanContentScroll="False"/>
-        <Button Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" 
+        <TextBlock Grid.Row="0" Grid.Column="1" 
+                   Text="Выберите цикл:" 
+                   Margin="15,15,0,0" 
+                   VerticalAlignment="Top" HorizontalAlignment="Left" 
+                   FontWeight="SemiBold" FontSize="16"
+                   Foreground="DarkGray"/>
+        <ListBox Grid.Row="1" Grid.Column="0" 
+                 ItemsSource="{Binding Groups}" SelectedItem="{Binding SelectedGroup}"
+                 Margin="15,0" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False"
+                 HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+        <ListBox Grid.Row="1" Grid.Column="1"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False"
+                 ItemsSource="{Binding GroupCycles}" SelectedIndex="{Binding SelectedCycleIndex}"/>
+        <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
+                HorizontalAlignment="Center" VerticalAlignment="Stretch" 
                 Command="{Binding Source={x:Static infra:CommandEventBinder.SelectCycleCommand}}"
-                CommandParameter="{Binding SelectedCycleIndex}"
+                CommandParameter="{Binding SelectedCycle}"
                 >Показать цикл</Button>
     </Grid>
 </Window>

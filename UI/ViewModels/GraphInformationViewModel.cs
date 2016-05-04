@@ -32,9 +32,14 @@ namespace UI.ViewModels
             IndegreeStandartDeviation = graph.GetIndegreesStandartDeviation();
             OutdegreeStandartDeviation = graph.GetOutdegreesStandartDeviation();
             Density = graph.GetDensity();
+            CommandEventBinder.AllCycleFound.OnExecute += o => CyclesCount = Cycles.Count;
 
             graph.FindCyclesAsync(new Progress<int[]>(ints => CyclesCount++), tokenSource.Token)
-                .ContinueWith(task => Cycles = task.Result);
+                .ContinueWith(task =>
+                {
+                    Cycles = task.Result;
+                    CommandEventBinder.AllCycleFound.Execute();
+                });
         }
 
         public void StopSearch()

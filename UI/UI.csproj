@@ -71,7 +71,6 @@
     <Compile Include="Infrastructure\GraphLoader.cs" />
     <Compile Include="Infrastructure\Navigator.cs" />
     <Compile Include="Infrastructure\PropertyNotifier.cs" />
-    <Compile Include="Models\GraphInfo.cs" />
     <Compile Include="PathModalView.xaml.cs">
       <DependentUpon>PathModalView.xaml</DependentUpon>
     </Compile>
@@ -188,6 +187,9 @@
     <Resource Include="Resources\Images\excel_w.png" />
     <Resource Include="Resources\Images\path_w.png" />
     <Resource Include="Resources\Images\refresh_w.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

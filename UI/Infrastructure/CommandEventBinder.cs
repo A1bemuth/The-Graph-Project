@@ -17,5 +17,6 @@
         public static Command ClosePathModalCommand = new Command();
 
         public static Command CathedExcaptionCommand = new Command();
+        public static Command AllCycleFound = new Command();
     }
 }

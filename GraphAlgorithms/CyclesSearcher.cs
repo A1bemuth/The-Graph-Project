@@ -42,7 +42,7 @@ namespace GraphAlgorithms
                         progress.Report(cycle);
                     }                    
                 };
-                iterator.Iterate();
+                iterator.Iterate(ct);
                 return cycles.ToList();
             }, ct);
         }

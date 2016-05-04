@@ -18,6 +18,7 @@ namespace UI
         {
             e.Handled = true;
             CommandEventBinder.CathedExcaptionCommand.Execute(e.Exception);
+            MessageBox.Show(e.Exception.Message, e.Exception.Source, MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

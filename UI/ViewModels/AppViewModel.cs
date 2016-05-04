@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GraphAlgorithms;
 using GraphDataLayer;
 using UI.Infrastructure;
-using UI.Models;
 
 namespace UI.ViewModels
 {
@@ -80,6 +80,12 @@ namespace UI.ViewModels
             set { Set(value); }
         }
 
+        public bool IsAllCycleFound
+        {
+            get { return Get<bool>(); }
+            private set { Set(value); }
+        }
+
         public string LoadingStatus
         {
             get { return Get<string>(); }
@@ -116,6 +122,7 @@ namespace UI.ViewModels
             CommandEventBinder.CloseCyclesModalCommand.OnExecute += CloseModal;
             CommandEventBinder.ShowPathModalCommand.OnExecute += ShowPath;
             CommandEventBinder.ClosePathModalCommand.OnExecute += CloseModal;
+            CommandEventBinder.AllCycleFound.OnExecute += o => IsAllCycleFound = true;
         }
 
         private void LoadGraph(object parameter)
@@ -131,6 +138,7 @@ namespace UI.ViewModels
                 IsGraphLoading = true;
                 return;
             }
+            IsAllCycleFound = false;
             GraphInformationModel.StopSearch();
             LoadingStatus = "Импорт из файла";
             GraphLoader.Instance.LoadGraph(fileName);
@@ -166,20 +174,17 @@ namespace UI.ViewModels
         private void SelectCycle(object index)
         {
             Navigator.CloseCycleModal();
-            var selectedCycleIndex = (int) index;
-            if (selectedCycleIndex == -1)
+            var selectedCycle = index as int[];
+            if (selectedCycle == null)
             {
                 Status = "Цикл не был выбран.";
                 return;
             }
-            if (GraphInformationModel.Cycles != null)
-            {
-                var cycle = new List<int>(GraphInformationModel.Cycles[selectedCycleIndex]);
-                cycle.Add(cycle[0]);
-                SelectedVerticeIndex = -1;
-                VisitedPath = cycle.ToArray();
-                Status = "Цикл успешно отображен";
-            }
+            var cycle = selectedCycle.ToList();
+            cycle.Add(cycle[0]);
+            SelectedVerticeIndex = -1;
+            VisitedPath = cycle.ToArray();
+            Status = "Цикл успешно отображен";
         }
 
         private void ShowPath(object o)

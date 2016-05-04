@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using GraphDataLayer;
 
@@ -11,27 +11,23 @@ namespace GraphAlgorithms
     {
         private readonly Graph graph;
         private readonly bool[] visitedVertices;
-        //private readonly bool[] verticesInSequence;
-        //private readonly LinkedList<int> currentSequence;
-
         internal event Action<int[]> CycleDetected;
 
         internal GraphIterator(Graph graph)
         {
             this.graph = graph;
             visitedVertices = new bool[graph.VerticesCount];
-            //verticesInSequence = new bool[graph.VerticesCount];
-            //currentSequence = new LinkedList<int>();
         }
 
-        internal void Iterate()
+        internal void Iterate(CancellationToken? token = null)
         {
+            var ct = token ?? CancellationToken.None;
             while (ThereAreNotVisitedVertices())
             {
                 var vertex = visitedVertices.IndexOf(v => !v);
                 var currentSequence = ImmutableList<int>.Empty;
                 var verticeInSequence = new bool[graph.VerticesCount].ToImmutableArray();
-                InspectVertex(vertex, currentSequence, verticeInSequence);
+                InspectVertex(vertex, currentSequence, verticeInSequence, ct);
             }
         }
 
@@ -40,7 +36,7 @@ namespace GraphAlgorithms
             return visitedVertices.Any(v => !v);
         }
 
-        private void InspectVertex(int vertex, ImmutableList<int> currentSequence, ImmutableArray<bool> verticesInSequence)
+        private void InspectVertex(int vertex, ImmutableList<int> currentSequence, ImmutableArray<bool> verticesInSequence, CancellationToken ct)
         {
             if (verticesInSequence[vertex])
             {
@@ -54,46 +50,27 @@ namespace GraphAlgorithms
                 var currentSequenceWithVertex = currentSequence.Add(vertex);
                 verticesInSequence = verticesInSequence.SetItem(vertex, true);
                 visitedVertices[vertex] = true;
-//                foreach (var neighbor in graph.GetNeighbours(vertex))
-//                {
-//                    InspectVertex(neighbor);
-//                }
 
                 var tasks = graph
                     .GetNeighbours(vertex)
-                    .Select(n => Task.Run(() => InspectVertex(n, currentSequenceWithVertex, verticesInSequence)))
+                    .Select(n => Task.Run(() => InspectVertex(n, currentSequenceWithVertex, verticesInSequence, ct), ct))
                     .ToArray();
-                Task.WaitAll(tasks);
+                try
+                {
+                    Task.WaitAll(tasks);
+                }
+                catch (OperationCanceledException)
+                {
+                }
+                catch (AggregateException)
+                {
+                }
             }
         }
-
-//        private bool IsVertexInSequence(int vertex)
-//        {
-//            return verticesInSequence[vertex];
-//        }
-
-//        private void IncludeVertexInSequence(int vertex)
-//        {
-//            visitedVertices[vertex] = true;
-//            verticesInSequence[vertex] = true;
-//            currentSequence.AddLast(vertex);
-//        }
-
-//        private int FindPreviousIndex(int vertex)
-//        {
-//            return currentSequence
-//                .IndexOf(v => v == vertex);
-//        }
 
         private void OnCycleDetected(int[] cycle)
         {
             CycleDetected?.Invoke(cycle);
         }
-
-//        private void ExcludeVertexFromSequence(int vertex)
-//        {
-//            currentSequence.RemoveLast();
-//            verticesInSequence[vertex] = false;
-//        }
     }
 }

@@ -241,7 +241,7 @@
                     </TextBlock>
                 </StackPanel>
             </rm:RadialMenuItem>
-            <rm:RadialMenuItem Command="{Binding Source={x:Static infra:CommandEventBinder.ShowCyclesModalCommand}}" IsEnabled="{Binding IsGraphLoaded}">
+            <rm:RadialMenuItem Command="{Binding Source={x:Static infra:CommandEventBinder.ShowCyclesModalCommand}}" IsEnabled="{Binding IsAllCycleFound}">
                 <StackPanel>
                     <Rectangle Width="50" Height="50">
                         <Rectangle.Style>
