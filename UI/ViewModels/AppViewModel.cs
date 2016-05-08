@@ -46,7 +46,7 @@ namespace UI.ViewModels
         {
             IsVerticeSelected = SelectedVerticeIndex != -1;
             VerticeInformationModel = IsVerticeSelected
-                ? new VerticeInformationViewModel(SelectedVerticeIndex, Graph)
+                ? new VerticeInformationViewModel(SelectedVerticeIndex, Graph, GraphInformationModel.Cycles)
                 : new VerticeInformationViewModel();
         }
 

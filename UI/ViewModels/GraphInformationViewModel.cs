@@ -24,7 +24,8 @@ namespace UI.ViewModels
             Graph = graph;
             VerticeCount = graph.VerticesCount;
             ArrowCount = graph.ArrowsCount;
-            ClusteringCoefficient = graph.ClusteringCoefficient();
+            var caf = graph.ClusteringCoefficient();
+            ClusteringCoefficient = double.IsNaN(caf) ? 0 : caf;
             FirstReciprocity = graph.CalcFirstReciprocity();
             SecondReciprocity = graph.CalcSecondReciprocity();
             Prestige = graph.GetGraphPrestige();
