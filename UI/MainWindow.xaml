@@ -297,21 +297,21 @@
                         </TextBlock.Style></TextBlock>
                 </StackPanel>
             </rm:RadialMenuItem>
-            <rm:RadialMenuItem Command="{Binding Source={x:Static infra:CommandEventBinder.RefreshCommand}}" IsEnabled="{Binding IsGraphLoaded}">
+            <rm:RadialMenuItem Command="{Binding Source={x:Static infra:CommandEventBinder.SaveCycleToFile}}" IsEnabled="{Binding IsAllCycleFound}">
                 <StackPanel>
                     <Rectangle Width="50" Height="50">
                         <Rectangle.Style>
                             <Style TargetType="Rectangle">
-                                <Setter Property="Fill" Value="{StaticResource RefreshImage}"></Setter>
+                                <Setter Property="Fill" Value="{StaticResource SaveImage}"></Setter>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=rm:RadialMenuItem}, Path=IsMouseOver}" Value="True">
-                                        <Setter Property="Fill" Value="{StaticResource RefreshImageWhite}"/>
+                                        <Setter Property="Fill" Value="{StaticResource SaveImageWhite}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </Rectangle.Style>
                     </Rectangle>
-                    <TextBlock HorizontalAlignment="Center" FontSize="13.333">Обновить
+                    <TextBlock HorizontalAlignment="Center" FontSize="13.333">Сохранить циклы
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
                                 <Style.Triggers>

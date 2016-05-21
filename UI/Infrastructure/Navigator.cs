@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using Microsoft.Win32;
 using UI.ViewModels;
@@ -35,6 +36,21 @@ namespace UI.Infrastructure
             if (fileDailog.ShowDialog(mainWindow) == true)
             {
                 return fileDailog.FileName;
+            }
+            return null;
+        }
+
+        public static string SaveFile()
+        {
+            var saveDialog = new SaveFileDialog
+            {
+                FileName = "Cycles.txt",
+                DefaultExt = ".txt",
+                Filter = "Текстовый файл (.txt)|*.txt"
+            };
+            if (saveDialog.ShowDialog(mainWindow).Value)
+            {
+                return saveDialog.FileName;
             }
             return null;
         }

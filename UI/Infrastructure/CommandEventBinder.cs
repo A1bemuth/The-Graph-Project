@@ -18,5 +18,7 @@
 
         public static Command CathedExcaptionCommand = new Command();
         public static Command AllCycleFound = new Command();
+
+        public static Command SaveCycleToFile = new Command();
     }
 }

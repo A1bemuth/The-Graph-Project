@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using GraphAlgorithms;
 using GraphDataLayer;
@@ -123,6 +124,35 @@ namespace UI.ViewModels
             CommandEventBinder.ShowPathModalCommand.OnExecute += ShowPath;
             CommandEventBinder.ClosePathModalCommand.OnExecute += CloseModal;
             CommandEventBinder.AllCycleFound.OnExecute += o => IsAllCycleFound = true;
+            CommandEventBinder.SaveCycleToFile.OnExecute += SaveCycles;
+        }
+
+        private void SaveCycles(object o)
+        {
+            CommandEventBinder.CloseMenuCommand.Execute();
+            if(!IsAllCycleFound)
+                return;
+            var fileName = Navigator.SaveFile();
+            if(fileName == null)
+                return;
+            File.Delete(fileName);
+            using (var writeStream = new StreamWriter(File.OpenWrite(fileName)))
+            {
+                var groups = GraphInformationModel.Cycles
+                    .GroupBy(cycle => cycle.Length)
+                    .OrderBy(g => g.Key)
+                    .ToDictionary(g => g.Key, g => g.ToList());
+                foreach (var cycles in groups)
+                {
+                    writeStream.WriteLine(
+                        $"------------------->>>>> Циклы из {cycles.Key} актаторов (всего {cycles.Value.Count}):");
+                    foreach (var cycle in cycles.Value)
+                    {
+                        writeStream.WriteLine(string.Join(",", cycle.Select(i => Graph[i])));
+                    }
+                }
+            }
+            Status = "Циклы успешно сохранены!";
         }
 
         private void LoadGraph(object parameter)

@@ -14,4 +14,6 @@
     <ImageBrush x:Key="PathImageWihte" ImageSource="Images/path_w.png"/>
     <ImageBrush x:Key="RefreshImage" ImageSource="Images/refresh.png"/>
     <ImageBrush x:Key="RefreshImageWhite" ImageSource="Images/refresh_w.png"/>
+    <ImageBrush x:Key="SaveImage" ImageSource="Images/save.png"/>
+    <ImageBrush x:Key="SaveImageWhite" ImageSource="Images/save_w.png"/>
 </ResourceDictionary>
